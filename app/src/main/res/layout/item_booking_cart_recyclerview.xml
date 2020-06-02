@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crdview_booking_cart_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        android:layout_weight="1"
+        android:elevation="@dimen/_20sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_mainlayout"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:weightSum="2"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:id="@+id/checkbox_cartitem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/_20sdp"
+                       />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/crdview_caregiver"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/checkbox_cartitem"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        app:cardCornerRadius="@dimen/_7sdp"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/img_doctor_photo"
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:orientation="vertical">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <com.customview.MyTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txt_booked_doctor_name"
+                                android:layout_alignParentStart="true"
+                                android:textColor="@color/txt_color"
+                                android:textStyle="bold"
+                                android:layout_toStartOf="@+id/img_remove"
+                                android:textSize="@dimen/_14ssp"/>
+                            <ImageView
+                                android:id="@+id/img_remove"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/remove" />
+                        </RelativeLayout>
+
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txt_booked_doctor_qualification"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10ssp"/>
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txt_booked_doctor_description"
+                            android:maxLines="2"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_8ssp"/>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_alignParentStart="true">
+                                <com.customview.MyTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/txt_booked_doctor_appointmentdate"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:textColor="@color/txt_color"
+                                    android:textSize="@dimen/_10ssp"/>
+                                <com.customview.MyTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textStyle="bold"
+                                    android:id="@+id/txt_booked_doctor_time"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:textColor="@color/txt_color"
+                                    android:textSize="@dimen/_10ssp"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:orientation="horizontal">
+                                <com.customview.MyTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Fees : "
+                                    android:textColor="@color/txt_color"
+                                    android:textSize="@dimen/_10ssp"/>
+                                <com.customview.MyTextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/txt_booked_doctor_fees"
+                                    android:layout_marginStart="@dimen/_3sdp"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textSize="@dimen/_10ssp"/>
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

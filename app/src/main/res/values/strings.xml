@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Roots Care Application</string>
+    <string name="api_base">http://166.62.54.122/rootscare/</string>
+    <string name="roots_care">Roots Care</string>
+    <string name="home">Home</string>
+    <string name="no_data">No data found</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="your_string_here"> <u>Write Your Review</u></string>
+    <string name="more"><u>More..</u></string>
+</resources>

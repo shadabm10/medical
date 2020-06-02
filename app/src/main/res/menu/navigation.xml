@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home_select"
+        android:title="Home"
+       />
+
+    <item
+        android:id="@+id/navigation_booking"
+        android:icon="@drawable/booking_select"
+        android:title="Booking" />
+
+    <item
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/cart_select"
+        android:title="Cart" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/profile_select"
+        android:title="Profile" />
+
+</menu>

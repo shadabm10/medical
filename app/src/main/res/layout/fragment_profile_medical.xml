@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_bg"
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+        <com.customview.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Allergies"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+         android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/white_rectangle"
+            android:orientation="vertical">
+            <com.customview.MyTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/txt_color"
+                android:text="Are you allergic to anything? "
+                android:textSize="@dimen/_10ssp"
+                />
+
+            <RadioGroup
+                android:id="@+id/radioYesOrNo"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_allergies_yes"
+                    android:checked="true"
+                    android:text="Yes"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/_10sdp"
+                    />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_allergies_no"
+                    android:text="No"
+                    android:checked="true"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/_10sdp"
+                    />
+
+
+
+
+            </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_add_allergies"
+                android:visibility="visible"
+                android:background="@color/common_bg"
+                android:orientation="vertical">
+                <com.customview.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Allergies"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    />
+                <com.customview.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableEnd="@drawable/add_icon"
+                    android:hint="Enter Allergies"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColorHint="@color/modified_black_1"
+                    android:background="@drawable/white_rectangle"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <com.customview.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Medication"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/white_rectangle"
+            android:orientation="vertical">
+            <com.customview.MyTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/txt_color"
+                android:text="Are you taking any medicines at the moment? "
+                android:textSize="@dimen/_10ssp"
+                />
+
+            <RadioGroup
+                android:id="@+id/radioCurrentMedicationYesOrNo"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_current_medication_yes"
+                    android:checked="true"
+                    android:text="Yes"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/_10sdp"
+                    />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_current_medication_no"
+                    android:text="No"
+                    android:checked="true"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/_10sdp"
+                    />
+
+
+
+
+            </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_add_current_medication"
+                android:visibility="gone"
+                android:background="@color/common_bg"
+                android:orientation="vertical">
+                <com.customview.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Current Medication"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    />
+                <com.customview.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawableEnd="@drawable/add_icon"
+                    android:hint="Enter Current Medication"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColorHint="@color/modified_black_1"
+                    android:background="@drawable/white_rectangle"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+<!--add past medication-->
+                <com.customview.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Past Medication"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/white_rectangle"
+                    android:orientation="vertical">
+                    <com.customview.MyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/txt_color"
+                        android:text="Have you been on medications in the past? "
+                        android:textSize="@dimen/_10ssp"
+                        />
+
+                    <RadioGroup
+                        android:id="@+id/radioPastMedicationYesOrNo"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radio_past_medication_yes"
+                            android:checked="true"
+                            android:text="Yes"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10sdp"
+                            />
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radio_past_medication_no"
+                            android:text="No"
+                            android:checked="true"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10sdp"
+                            />
+
+
+
+
+                    </RadioGroup>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ll_add_past_medication"
+                        android:visibility="gone"
+                        android:background="@color/common_bg"
+                        android:orientation="vertical">
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add Past Medication"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            />
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_7sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:drawableEnd="@drawable/add_icon"
+                            android:hint="Enter Current Medication"
+                            android:textSize="@dimen/_12ssp"
+                            android:textColorHint="@color/modified_black_1"
+                            android:background="@drawable/white_rectangle"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+<!--                end past mwdication-->
+
+
+<!--add Injuries-->
+                <com.customview.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Injuries"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/white_rectangle"
+                    android:orientation="vertical">
+                    <com.customview.MyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/txt_color"
+                        android:text="Have you had any injuries in the past? "
+                        android:textSize="@dimen/_10ssp"
+                        />
+
+                    <RadioGroup
+                        android:id="@+id/radioInjuriesYesOrNo"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radio_injuries_yes"
+                            android:checked="true"
+                            android:text="Yes"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10sdp"
+                            />
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radio_injuries_no"
+                            android:text="No"
+                            android:checked="true"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10sdp"
+                            />
+
+
+
+
+                    </RadioGroup>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ll_add_injuries"
+                        android:visibility="gone"
+                        android:background="@color/common_bg"
+                        android:orientation="vertical">
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add Injuries"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            />
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_7sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:drawableEnd="@drawable/add_icon"
+                            android:hint="Enter Current Medication"
+                            android:textSize="@dimen/_12ssp"
+                            android:textColorHint="@color/modified_black_1"
+                            android:background="@drawable/white_rectangle"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <!--End Injuries-->
+
+                <!--               Start surgeries-->
+
+                <com.customview.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Surgeries"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/white_rectangle"
+                    android:orientation="vertical">
+                    <com.customview.MyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/txt_color"
+                        android:text="Have you had any surgeries in the past? "
+                        android:textSize="@dimen/_10ssp"
+                        />
+
+                    <RadioGroup
+                        android:id="@+id/radioSurgeriesYesOrNo"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <RadioButton
+                            android:id="@+id/radio_surgeries_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:checked="true"
+                            android:text="Yes"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10sdp" />
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radio_surgeries_no"
+                            android:text="No"
+                            android:checked="true"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10sdp"
+                            />
+
+
+
+
+                    </RadioGroup>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ll_add_surgeries"
+                        android:visibility="gone"
+                        android:background="@color/common_bg"
+                        android:orientation="vertical">
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add surgeries"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            />
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_7sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:drawableEnd="@drawable/add_icon"
+                            android:hint="Enter Surgeries"
+                            android:textSize="@dimen/_12ssp"
+                            android:textColorHint="@color/modified_black_1"
+                            android:background="@drawable/white_rectangle"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+<!--                end surgeries-->
+
+<!--                start Chronic Disesses -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chronic Diseses"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/white_rectangle"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/txt_color"
+                        android:text="Have you had any chronic disesses in the past? "
+                        android:textSize="@dimen/_10ssp"
+                        />
+
+                    <RadioGroup
+                        android:id="@+id/radioChronicDisessesYesOrNo"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radio_chronicdisesses_yes"
+                            android:checked="true"
+                            android:text="Yes"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10sdp"
+                            />
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radio_chronicdisesses_no"
+                            android:text="No"
+                            android:checked="true"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10sdp"
+                            />
+                    </RadioGroup>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/ll_add_chronicdisesses"
+                        android:visibility="visible"
+                        android:background="@color/common_bg"
+                        android:orientation="vertical">
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add chronic disesses"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            />
+                        <com.customview.MyEditTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_7sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:drawableEnd="@drawable/add_icon"
+                            android:hint="Enter chronic disesses"
+                            android:textSize="@dimen/_12ssp"
+                            android:textColorHint="@color/modified_black_1"
+                            android:background="@drawable/white_rectangle"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+<!--              end  Chronic Disesses-->
+
+                <com.customview.MyCustomButton
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:id="@+id/btn_patient_profile_medical"
+                    android:layout_marginEnd="@dimen/_50sdp"
+                    android:layout_marginStart="@dimen/_50sdp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:drawableEnd="@drawable/white_arrow_circle"
+                    android:textSize="@dimen/_12ssp"
+                    android:background="@drawable/booking_new_bg"
+                    android:text="Save"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

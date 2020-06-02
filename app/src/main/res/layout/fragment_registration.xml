@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/common_bg"
+        android:orientation="vertical" >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:src="@drawable/logo_with_name"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:id="@+id/ll_reg_main_contain"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp">
+                <com.customview.MyEditTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edt_rootscare_reg_fname"
+                    android:hint="First Name"
+                    android:inputType="text"
+                    android:maxLength="20"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/text_hint_color"
+                    android:textColorHint="@color/text_hint_color"
+                    android:background="@drawable/login_edit_bg"/>
+                <com.customview.MyEditTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edt_rootscare_reg_lname"
+                    android:hint="Last Name"
+                    android:inputType="text"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:maxLength="20"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/text_hint_color"
+                    android:textColorHint="@color/text_hint_color"
+                    android:background="@drawable/login_edit_bg"/>
+                <com.customview.MyEditTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edt_rootscare_reg_mobilenumber"
+                    android:hint="Mobile Number"
+                    android:inputType="phone"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:maxLength="10"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/text_hint_color"
+                    android:textColorHint="@color/text_hint_color"
+                    android:background="@drawable/login_edit_bg"/>
+                <com.customview.MyEditTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                    android:id="@+id/edt_rootscare_reg_email"
+                android:hint="Email Address"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:maxLines="1"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/text_hint_color"
+                android:textColorHint="@color/text_hint_color"
+                android:background="@drawable/login_edit_bg"/>
+                <com.customview.MyEditTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edt_rootscare_reg_idNumber"
+                    android:hint="Id Number"
+                    android:inputType="text"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:maxLines="1"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/text_hint_color"
+                    android:textColorHint="@color/text_hint_color"
+                    android:background="@drawable/login_edit_bg"/>
+                <com.customview.MyEditTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edt_rootscare_reg_password"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:maxLines="1"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/text_hint_color"
+                    android:textColorHint="@color/text_hint_color"
+                    android:background="@drawable/login_edit_bg"/>
+                <com.customview.MyEditTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edt_rootscare_reg_confirmPassword"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:maxLines="1"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/text_hint_color"
+                    android:textColorHint="@color/text_hint_color"
+                    android:background="@drawable/login_edit_bg"/>
+                <com.customview.MyCustomButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_rootscare_send_otp"
+                    android:text="Send OTP"
+                    android:textSize="@dimen/_14sdp"
+                    android:textColor="@color/text_hint_color"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:drawableEnd="@drawable/btn"
+                    android:padding="@dimen/_10sdp"
+                    android:background="@drawable/square_bg"
+                    android:layout_marginTop="@dimen/_20sdp"/>
+                <com.customview.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_hint_color"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="By creating an account, you agree to our"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <com.customview.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_green_color"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:text="Terms of service "/>
+                    <com.customview.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_hint_color"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:text=" and "/>
+                    <com.customview.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_green_color"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold"
+                        android:text=" Privacy Policy"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crdview_doctor_category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        android:layout_weight="1"
+        android:elevation="@dimen/_20sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_mainlayout"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:weightSum="2"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/no_image"
+                        android:gravity="center"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:orientation="vertical">
+                        <RatingBar
+                            android:id="@+id/ratingBarteacherFeedback"
+                            style="@style/customRatingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_alignParentEnd="true"
+                            android:numStars="7"
+                            android:isIndicator="false"
+                            android:progressTint="@color/orange"
+                            android:stepSize="1.0" />
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_10ssp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="49 Reviews"/>
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_8ssp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="Available Today"/>
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_8ssp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="4:30PM-7:30PM"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Dr.Maya Grey"
+                            android:textColor="@color/txt_color"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_14ssp"/>
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="MBBS General Physician"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_10ssp"/>
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_8ssp"/>
+
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_8ssp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal">
+                            <com.customview.MyTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Fees : "
+
+                                android:textColor="@color/txt_color"
+                                android:textSize="@dimen/_12ssp"/>
+                            <com.customview.MyTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Rs.600"
+                                android:layout_marginStart="@dimen/_3sdp"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="@dimen/_12ssp"/>
+                        </LinearLayout>
+                        <com.customview.MyTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="orem Ipsum has been the industry's standard"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/_8ssp"/>
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:weightSum="2">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="Video Consultation"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_rootscare_booking_doctor"
+                    android:layout_weight="1"
+                    android:padding="@dimen/_5sdp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:drawableEnd="@drawable/white_arrow_circle"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:textSize="@dimen/_10ssp"
+                    android:text="Book Appiontment"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,0 +1,8 @@
+package com.rootscare.ui.nurses.nursesbookingappointment
+
+import com.rootscare.ui.base.BaseViewModel
+import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
+import com.rootscare.ui.nurses.nursesappointmentbookingdetails.FragmentNursesAppointmentBookingDetailsNavigator
+
+class FragmentNursesBookingAppointmentViewModel: BaseViewModel<FragmentNursesBookingAppointmentNavigator>()  {
+}

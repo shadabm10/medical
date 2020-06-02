@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crdview_appoitment_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        android:layout_weight="1"
+        android:elevation="@dimen/_20sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_mainlayout"
+            android:orientation="vertical">
+
+            <com.customview.MyTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_appointment_id"
+                android:text="Appointment 1"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:textColor="@color/txt_color"
+                android:textStyle="bold"
+                android:textSize="@dimen/_12ssp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/txt_color"
+                    android:text="Patient Name : "/>
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/txt_patient_name"
+                    android:textSize="@dimen/_10ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textColor="@color/txt_color"
+                    android:text="Mr. Singh"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/txt_color"
+                    android:text="Doctor Name : "/>
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/txt_doctor_name"
+                    android:textSize="@dimen/_10ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textColor="@color/txt_color"
+                    android:text="Mark Pierce"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/txt_color"
+                    android:text="Booking Date : "/>
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/txt_booking_date"
+                    android:textSize="@dimen/_10ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textColor="@color/txt_color"
+                    android:text="15 Feb 2020"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/txt_color"
+                    android:text="Phone No : "/>
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/txt_phone_no"
+                    android:textSize="@dimen/_10ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textColor="@color/txt_color"
+                    android:text="7874587895"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/txt_color"
+                    android:text="Appointment Date : "/>
+                <com.customview.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/txt_appointment_date"
+                    android:textSize="@dimen/_10ssp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textColor="@color/txt_color"
+                    android:text="19 Feb 2020"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/appiontment_bg">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:weightSum="4">
+                    <com.customview.MyTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Upcoming"
+                        android:gravity="center"
+                        android:padding="@dimen/_8sdp"
+                        android:drawableStart="@drawable/upcoming_icon"
+                        android:textSize="@dimen/_8sdp"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+                    <com.customview.MyTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Completed"
+                        android:padding="@dimen/_6sdp"
+                        android:drawableStart="@drawable/completed_icon"
+                        android:gravity="center"
+                        android:textSize="@dimen/_8sdp"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+                    <com.customview.MyTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cancelled"
+                        android:padding="@dimen/_6sdp"
+                        android:drawableStart="@drawable/cancelled_icon"
+                        android:gravity="center"
+                        android:textSize="@dimen/_8sdp"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+                    <com.customview.MyTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Rescheduled"
+                        android:drawableStart="@drawable/rescheduled_icon"
+                        android:gravity="center"
+                        android:textSize="@dimen/_8sdp"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+</layout>
