@@ -519,15 +519,22 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         if(doctorPrivateSlotResponse?.code.equals("200")){
             Toast.makeText(activity, doctorPrivateSlotResponse?.message, Toast.LENGTH_SHORT).show()
             if (doctorPrivateSlotResponse?.result!=null && doctorPrivateSlotResponse?.result?.size>0){
+
+                fragmentBookingBinding?.btnAppointmentBooking?.visibility=View.VISIBLE
                 fragmentBookingBinding?.recyclerViewDoctorslot?.visibility=View.VISIBLE
                 fragmentBookingBinding?.tvSelectDoctorSlotNoDate?.visibility=View.GONE
+                clinicId= doctorPrivateSlotResponse?.result?.get(0)?.clinicId!!
+                clinicFromTime= doctorPrivateSlotResponse?.result?.get(0)?.timeFrom!!
+                clinicToTime= doctorPrivateSlotResponse?.result?.get(0)?.timeTo!!
                 setUpDoctorSloytListingRecyclerview(doctorPrivateSlotResponse?.result)
             }else{
+                fragmentBookingBinding?.btnAppointmentBooking?.visibility=View.GONE
                 fragmentBookingBinding?.recyclerViewDoctorslot?.visibility=View.GONE
                 fragmentBookingBinding?.tvSelectDoctorSlotNoDate?.visibility=View.VISIBLE
                 fragmentBookingBinding?.tvSelectDoctorSlotNoDate?.setText("No Doctor Slot Found")
             }
         }else{
+            fragmentBookingBinding?.btnAppointmentBooking?.visibility=View.GONE
             fragmentBookingBinding?.recyclerViewDoctorslot?.visibility=View.GONE
             fragmentBookingBinding?.tvSelectDoctorSlotNoDate?.visibility=View.VISIBLE
             fragmentBookingBinding?.tvSelectDoctorSlotNoDate?.setText("No Doctor Slot Found")

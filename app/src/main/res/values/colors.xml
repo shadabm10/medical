@@ -61,6 +61,7 @@
     <color name="home_page_view_color">#CCE3E0</color>
     <color name="home_page_seealltext_color">#02484D</color>
     <color name="review_star">#ffa800</color>
+    <color name="transparentBlack">#66000000</color>
 
 
 

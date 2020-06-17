@@ -73,6 +73,7 @@ class AdapterDoctordetailsReviewListRecyclerview  (val reviewRatingList: ArrayLi
 
             itemView?.rootView?.txt_review_provider_name?.setText("Review By:"+" "+reviewRatingList?.get(pos)?.reviewBy)
             itemView?.rootView?.txt_review?.setText(reviewRatingList?.get(pos)?.review)
+            itemView?.rootView?.ratingBardoctordetailseview?.rating= reviewRatingList?.get(pos)?.rating?.toFloat()!!
 //            itemView?.rootView?.txt_home_babysitter_qualification?.setText(babysitterList?.get(pos)?.qualification)
 //            Glide.with(context)
 //                .load(context.getString(R.string.api_base)+"uploads/images/" + (babysitterList?.get(pos)?.image))

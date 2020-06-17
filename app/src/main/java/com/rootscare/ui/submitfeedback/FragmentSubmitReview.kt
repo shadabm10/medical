@@ -12,6 +12,7 @@ import com.rootscare.data.model.api.request.insertdoctorreviewratingrequest.Inse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorreviewsubmitresponse.DoctorReviewRatingSubmiteResponse
 import com.rootscare.databinding.FragmentSubmitFeedbackBinding
 import com.rootscare.interfaces.DialogClickCallback
+import com.rootscare.ui.appointment.FragmentAppointment
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.doctorbookingdetails.FragmentDoctorBookingDetails
 import com.rootscare.ui.doctorlistingdetails.FragmentDoctorListingDetails
@@ -76,8 +77,10 @@ class FragmentSubmitReview : BaseFragment<FragmentSubmitFeedbackBinding, Fragmen
         baseActivity?.hideLoading()
         if(doctorReviewRatingSubmiteResponse?.code.equals("200")){
             Toast.makeText(activity, doctorReviewRatingSubmiteResponse?.message, Toast.LENGTH_SHORT).show()
+//            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+//                FragmentDoctorListingDetails.newInstance(doctorId))
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentDoctorListingDetails.newInstance(doctorId))
+                FragmentAppointment.newInstance())
         }else{
             Toast.makeText(activity, doctorReviewRatingSubmiteResponse?.message, Toast.LENGTH_SHORT).show()
         }

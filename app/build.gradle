@@ -126,6 +126,11 @@ dependencies {
 
     implementation 'com.chaos.view:pinview:1.4.3'
 
+    implementation('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
+        transitive = true
+    }
+
+
 
 }
 

@@ -1,9 +1,15 @@
 package com.rootscare.ui.settingprofile
 
+import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import com.rootscare.BR
 import com.rootscare.R
+import com.rootscare.data.model.api.response.deactivateaccountresponse.DeactivateAccountResponse
 import com.rootscare.databinding.FragmentSettingProfileBinding
 import com.rootscare.ui.base.BaseFragment
+import com.rootscare.ui.profile.FragmentProfile
+import com.rootscare.ui.viewprescription.FragmnetViewPresprictionViewModel
 
 class FragmentSettingProfile : BaseFragment<FragmentSettingProfileBinding, FragmentSettingProfileViewModel>(),
     FragmentSettingProfileNavigator {
@@ -14,5 +20,10 @@ class FragmentSettingProfile : BaseFragment<FragmentSettingProfileBinding, Fragm
     override val layoutId: Int
         get() = R.layout.fragment_patient_profile_setting
     override val viewModel: FragmentSettingProfileViewModel
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() {
+            fragmentSettingProfileViewModel =
+                ViewModelProviders.of(this).get(FragmentSettingProfileViewModel::class.java!!)
+            return fragmentSettingProfileViewModel as FragmentSettingProfileViewModel
+        }
+
 }

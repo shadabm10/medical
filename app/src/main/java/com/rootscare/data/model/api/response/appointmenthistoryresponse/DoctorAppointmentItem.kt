@@ -53,6 +53,10 @@ data class DoctorAppointmentItem(
 	@field:JsonProperty("id")
 	@field:SerializedName("id")
 	val id: String? = null,
+	@field:JsonProperty("doctor_id")
+	@field:SerializedName("doctor_id")
+	val doctorId: String? = null,
+
 	@field:JsonProperty("to_time")
 	@field:SerializedName("to_time")
 	val toTime: String? = null,

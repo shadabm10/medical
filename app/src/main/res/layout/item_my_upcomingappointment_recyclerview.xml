@@ -26,6 +26,7 @@
             <com.customview.MyTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/txt_upcomming_appointment"
                 android:text="Appointment 1"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_12sdp"
@@ -84,7 +85,7 @@
                     android:textSize="@dimen/_10ssp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:textColor="@color/txt_color"
-                    android:text="Mark Pierce"/>
+                    android:text=""/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -170,53 +171,39 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/appiontment_bg">
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:weightSum="4">
-                    <com.customview.MyTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Upcoming"
-                        android:gravity="center"
-                        android:padding="@dimen/_8sdp"
-                        android:drawableStart="@drawable/upcoming_icon"
-                        android:textSize="@dimen/_8sdp"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-                    <com.customview.MyTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Completed"
-                        android:padding="@dimen/_6sdp"
-                        android:drawableStart="@drawable/completed_icon"
-                        android:gravity="center"
-                        android:textSize="@dimen/_8sdp"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-                    <com.customview.MyTextView
-                        android:layout_width="0dp"
+                    android:layout_margin="@dimen/_8sdp">
+                    <Button
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cancelled"
-                        android:padding="@dimen/_6sdp"
                         android:drawableStart="@drawable/cancelled_icon"
                         android:gravity="center"
+                        android:padding="@dimen/_5sdp"
+                        android:background="@drawable/rounded_red_btn_bg"
                         android:textSize="@dimen/_8sdp"
                         android:textColor="@color/white"
-                        android:layout_weight="1"/>
-                    <com.customview.MyTextView
-                        android:layout_width="0dp"
+                        android:layout_alignParentStart="true"/>
+                    <Button
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rescheduled"
+                        android:padding="@dimen/_5sdp"
                         android:drawableStart="@drawable/rescheduled_icon"
                         android:gravity="center"
+                        android:background="@drawable/rounded_green_btn"
                         android:textSize="@dimen/_8sdp"
                         android:textColor="@color/white"
-                        android:layout_weight="1"/>
+                       android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
 
-                </LinearLayout>
+
+
+
+
+
 
             </LinearLayout>
         </LinearLayout>

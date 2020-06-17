@@ -35,7 +35,8 @@
                 <com.customview.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Mr. Singh"
+                    android:id="@+id/txt_userName"
+                    android:text=""
                     android:textColor="@color/txt_color"
                     android:textSize="@dimen/_13ssp"
                     android:textStyle="bold" />
@@ -43,8 +44,9 @@
                 <com.customview.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/txt_user_email"
                     android:layout_marginTop="@dimen/_2sdp"
-                    android:text="singh@gmail.com"
+                    android:text=""
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold" />
             </LinearLayout>

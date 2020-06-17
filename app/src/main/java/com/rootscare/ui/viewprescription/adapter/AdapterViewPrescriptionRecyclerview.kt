@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rootscare.R
+import com.rootscare.data.model.api.response.patientprescription.ResultItem
 import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
 import com.rootscare.databinding.ItemViewPresprictionRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
 import com.rootscare.ui.myupcomingappointment.adapter.AdapteMyUpComingAppointment
+import kotlinx.android.synthetic.main.item_view_prespriction_recyclerview.view.*
 
-class AdapterViewPrescriptionRecyclerview ( internal var context: Context) : RecyclerView.Adapter<AdapterViewPrescriptionRecyclerview.ViewHolder>() {
+class AdapterViewPrescriptionRecyclerview (val prescriptionList: ArrayList<ResultItem?>?,internal var context: Context) : RecyclerView.Adapter<AdapterViewPrescriptionRecyclerview.ViewHolder>() {
     //    val trainerList: ArrayList<TrainerListItem?>?,
     companion object {
         val TAG: String = AdapterHospitalRecyclerviw::class.java.simpleName
@@ -32,7 +34,7 @@ class AdapterViewPrescriptionRecyclerview ( internal var context: Context) : Rec
 
     override fun getItemCount(): Int {
 //        return trainerList!!.size
-        return 10
+        return prescriptionList?.size!!
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,24 +49,7 @@ class AdapterViewPrescriptionRecyclerview ( internal var context: Context) : Rec
 //            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
 //                recyclerViewItemClickWithView?.onItemClick(1)
 //            })
-//            itemView?.root?.btn_view_trainner_profile?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(trainerList?.get(local_position)?.id?.toInt()!!)
-//            })
-
-//            itemView.root?.img_bid?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_bid,local_position)
-//                    //serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_bid,it1) }
-//                }
-//            }
 //
-//            itemView.root?.img_details?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_details,local_position)
-//                    // serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_details,it1) }
-//                }
-//            }
-
 
         }
 
@@ -72,19 +57,12 @@ class AdapterViewPrescriptionRecyclerview ( internal var context: Context) : Rec
             Log.d(TAG, " true")
             local_position = pos
 
-//            itemView?.rootView?.txt_teacher_name?.text= trainerList?.get(pos)?.name
-//            itemView?.rootView?.txt_teacher_qualification?.text= "Qualification : "+" "+trainerList?.get(pos)?.qualification
-//            if(trainerList?.get(pos)?.avgRating!=null && !trainerList?.get(pos)?.avgRating.equals("")){
-//                itemView?.rootView?.ratingBarteacher?.rating= trainerList?.get(pos)?.avgRating?.toFloat()!!
-//            }
+            if (prescriptionList?.get(pos)?.prescriptionNumber!=null && !prescriptionList?.get(pos)?.prescriptionNumber.equals("")){
+                itemView?.txt_description?.setText(prescriptionList?.get(pos)?.prescriptionNumber)
+            }else{
+                itemView?.txt_description?.setText("")
+            }
 
-
-
-
-
-//            itemView?.rootView?.txt_rating_count?.text="("+contactListItem?.get(pos)?.contactRating+")"
-//            (contactListItem?.get(pos)?.contactRating)?.toFloat()?.let { itemView?.rootView?.ratingBar?.setRating(it) }
-////            itemView?.rootView?.ratingBar?.rating=1.5f
 
 
         }

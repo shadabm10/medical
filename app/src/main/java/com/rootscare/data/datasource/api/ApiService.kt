@@ -4,6 +4,7 @@ package com.rootscare.data.datasource.api
 
 
 
+import com.rootscare.data.model.api.request.appointmentdetailsrequest.AppointmentDetailsRequest
 import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
 import com.rootscare.data.model.api.request.cartitemdeleterequest.CartItemDeleteRequest
 import com.rootscare.data.model.api.request.checkoutdoctorbookingrequest.CheckoutDoctorBookingRequest
@@ -11,6 +12,7 @@ import com.rootscare.data.model.api.request.doctorrequest.bookingcartrequests.Bo
 import com.rootscare.data.model.api.request.doctorrequest.doctordetailsrequest.DoctorDetailsRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctorlistbydepartmentrequest.DoctorListByDepartmentIdRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctorprivatesotrequest.DoctorPrivateSlotRequest
+import com.rootscare.data.model.api.request.doctorrequest.doctorsearchrequest.SeeAllDoctorSearch
 import com.rootscare.data.model.api.request.doctorrequest.getpatientfamilymemberrequest.GetPatientFamilyMemberRequest
 import com.rootscare.data.model.api.request.forgotpassword.forgotpasswordchangerequest.ForgotPasswordChangeRequest
 import com.rootscare.data.model.api.request.forgotpassword.forgotpasswordemailrequest.ForgotPasswordSendEmailRequest
@@ -23,7 +25,9 @@ import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilem
 import com.rootscare.data.model.api.request.patientreviewandratingrequest.PatientReviewAndRatingRequest
 import com.rootscare.data.model.api.request.registrationrequest.registrationotpcheckrequest.RegistrationCheckOTPRequest
 import com.rootscare.data.model.api.request.registrationrequest.registrationotpsendrequest.RegistrationSendOTPRequest
+import com.rootscare.data.model.api.response.appointmentdetails.DoctorAppointmentResponse
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.AppointmentHistoryResponse
+import com.rootscare.data.model.api.response.deactivateaccountresponse.DeactivateAccountResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.alldoctorlistingresponse.AllDoctorListingResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.checkoutdoctorbookingresponse.CheckoutDoctorBookingResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.addpatientresponse.AddPatientResponse
@@ -39,6 +43,7 @@ import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswo
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordsendmailresponse.ForgotPasswordSendMailResponse
 import com.rootscare.data.model.api.response.loginresponse.LoginResponse
 import com.rootscare.data.model.api.response.patienthome.PatientHomeApiResponse
+import com.rootscare.data.model.api.response.patientprescription.PatientPrescriptionResponse
 import com.rootscare.data.model.api.response.patientprofileresponse.PatientProfileResponse
 import com.rootscare.data.model.api.response.patientreviewandratingresponse.PatientReviewAndRatingResponse
 import com.rootscare.data.model.api.response.paymenthistoryresponse.PatientPaymentHistoryResponse
@@ -164,4 +169,22 @@ interface ApiService {
 
     @POST("api-patient-appointment-history")
     fun apipatientappointmenthistory(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>
+
+    @POST("api-search-doctor")
+    fun apisearchdoctor(@Body seeAllDoctorSearchRequestBody: SeeAllDoctorSearch): Single<AllDoctorListingResponse>
+
+    @POST("api-appointment-details")
+    fun apiappointmentdetails(@Body appointmentDetailsRequestBody: AppointmentDetailsRequest): Single<DoctorAppointmentResponse>
+
+    @POST("api-patient-upcoming-appointment")
+    fun apipatientupcomingappointment(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>
+
+    @POST("api-patient-upcoming-cancel-appointment")
+    fun apipatientupcomingcancelappointment(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>
+
+    @POST("api-patient-prescription")
+    fun apipatientprescription(@Body appointmentRequestBody: AppointmentRequest): Single<PatientPrescriptionResponse>
+
+    @POST("api-deactivate-user")
+    fun apideactivateuser(@Body appointmentRequestBody: AppointmentRequest): Single<DeactivateAccountResponse>
 }

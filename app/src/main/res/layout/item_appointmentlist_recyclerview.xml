@@ -171,53 +171,34 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/appiontment_bg">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:weightSum="4">
-                    <com.customview.MyTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Upcoming"
-                        android:gravity="center"
-                        android:padding="@dimen/_8sdp"
-                        android:drawableStart="@drawable/upcoming_icon"
-                        android:textSize="@dimen/_8sdp"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-                    <com.customview.MyTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Completed"
-                        android:padding="@dimen/_6sdp"
-                        android:drawableStart="@drawable/completed_icon"
-                        android:gravity="center"
-                        android:textSize="@dimen/_8sdp"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-                    <com.customview.MyTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Cancelled"
-                        android:padding="@dimen/_6sdp"
-                        android:drawableStart="@drawable/cancelled_icon"
-                        android:gravity="center"
-                        android:textSize="@dimen/_8sdp"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-                    <com.customview.MyTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Rescheduled"
-                        android:drawableStart="@drawable/rescheduled_icon"
-                        android:gravity="center"
-                        android:textSize="@dimen/_8sdp"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
 
-                </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen_10dp">
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_30sdp"
+                            android:id="@+id/btn_appointment_view_details"
+                            android:text="View Details"
+                            android:textSize="@dimen/_10ssp"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:background="@drawable/rounded_green_btn"
+                            android:layout_alignParentStart="true"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_30sdp"
+                            android:text="Review"
+                            android:id="@+id/btn_appointment_add_review"
+                            android:textColor="@color/colorPrimary"
+                            android:background="@drawable/rounded_white_btn"
+                            android:textSize="@dimen/_10ssp"
+                            android:textAllCaps="false"
+                            android:layout_alignParentEnd="true"/>
+                    </RelativeLayout>
+
 
             </LinearLayout>
         </LinearLayout>

@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayout
+import com.interfaces.OnClickWithTwoButton
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
@@ -25,6 +26,7 @@ import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
 import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.profile.FragmentProfileNavigator
 import com.rootscare.ui.profile.FragmentProfileViewModel
+import com.rootscare.ui.submitfeedback.FragmentSubmitReview
 import java.util.*
 
 class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentAppointmentViewModel>(), FragmentAppointmentNavigator {
@@ -213,13 +215,16 @@ class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentApp
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = gridLayoutManager
         recyclerView?.setHasFixedSize(true)
-//        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-//        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
         val contactListAdapter = AdapterAppointmentListRecyclerView(doctorAppointmentList,context!!)
         recyclerView?.adapter = contactListAdapter
-        contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
-            override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance())
+        contactListAdapter?.recyclerViewItemClick= object : OnClickWithTwoButton {
+            override fun onFirstItemClick(id: Int) {
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance(id.toString()))
+            }
+
+            override fun onSecondItemClick(id: Int) {
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentSubmitReview.newInstance(id.toString()))
             }
 
         }
@@ -240,7 +245,7 @@ class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentApp
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance())
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance("1"))
             }
 
         }
@@ -261,7 +266,7 @@ class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentApp
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance())
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance("1"))
             }
 
         }
@@ -282,7 +287,7 @@ class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentApp
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance())
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance("1"))
             }
 
         }
@@ -303,7 +308,7 @@ class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentApp
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance())
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance("1"))
             }
 
         }
@@ -324,7 +329,7 @@ class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentApp
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance())
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance("1"))
             }
 
         }
@@ -372,6 +377,18 @@ class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentApp
 
 
         }else{
+            doctorAppointmentItemarrayList = ArrayList<DoctorAppointmentItem?>()
+            nursesAppointmentItemarrayList = ArrayList<NurseAppointmentItem?>()
+            physiotherapyAppointmentItemarrayList= ArrayList<PhysiotherapyAppointmentItem?>()
+            caregiverAppointmentItemArrayList = ArrayList<CaregiverAppointmentItem?>()
+            babysitterAppointmentItemArrayList = ArrayList<BabysitterAppointmentItem?>()
+            pathologyAppointmentItemArrayList = ArrayList<PathologyAppointmentItem?>()
+            defaultDoctorListSetup(doctorAppointmentItemarrayList)
+            defaultNursesListSetup(nursesAppointmentItemarrayList)
+            defaultPhysitherapyListSetup(physiotherapyAppointmentItemarrayList)
+            defaultCaregiverListSetup(caregiverAppointmentItemArrayList)
+            defaultBabysitterListSetup(babysitterAppointmentItemArrayList)
+            defaultPathologyListSetup(pathologyAppointmentItemArrayList)
 
         }
 

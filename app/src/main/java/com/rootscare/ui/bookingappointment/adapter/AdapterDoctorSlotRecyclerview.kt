@@ -29,7 +29,7 @@ class AdapterDoctorSlotRecyclerview (val doctorprivateList: ArrayList<ResultItem
 //    internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
     internal lateinit var recyclerViewItemClick: OnDoctorPrivateSlotClickListner
 
-    var selectedPosition = -1
+    var selectedPosition =0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemDoctorSlotsRecyclerviewBinding>(

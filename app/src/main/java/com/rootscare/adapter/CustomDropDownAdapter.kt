@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.rootscare.R
 import com.rootscare.model.RowItem
 
-class CustomDropDownAdapter (val context: Context, var listItemsTxt: ArrayList<RowItem>) : BaseAdapter() {
+class CustomDropDownAdapter (val context: Context, var listItemsTxt: ArrayList<RowItem?>) : BaseAdapter() {
 
 
     val mInflater: LayoutInflater = LayoutInflater.from(context)

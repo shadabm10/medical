@@ -67,6 +67,7 @@ class FragmentDoctorListingDetails : BaseFragment<FragmentDoctorListingDetailsBi
             if(isNetworkConnected){
                 baseActivity?.showLoading()
                 var doctorDetailsRequest= DoctorDetailsRequest()
+                doctorDetailsRequest?.userId=fragmentDoctorListingDetailsViewModel?.appSharedPref?.userId
                 doctorDetailsRequest?.id=doctorId
                 fragmentDoctorListingDetailsViewModel?.apidoctordetails(doctorDetailsRequest)
 
@@ -107,6 +108,17 @@ class FragmentDoctorListingDetails : BaseFragment<FragmentDoctorListingDetailsBi
         baseActivity?.hideLoading()
         if(doctorDetailsResponse?.code.equals("200")){
             Toast.makeText(activity, doctorDetailsResponse?.message, Toast.LENGTH_SHORT).show()
+
+            if(doctorDetailsResponse?.result?.avgRating!=null && !doctorDetailsResponse?.result?.avgRating.equals("")){
+                fragmentDoctorListingDetailsBinding?.ratingBardoctordetailseview?.rating=doctorDetailsResponse?.result?.avgRating.toFloat()
+            }else{
+
+            }
+            if(doctorDetailsResponse?.result?.address!=null && !doctorDetailsResponse?.result?.address.equals("")){
+                fragmentDoctorListingDetailsBinding?.txtDoctorAddress?.setText(doctorDetailsResponse?.result?.address)
+            }else{
+                fragmentDoctorListingDetailsBinding?.txtDoctorAddress?.setText("")
+            }
             fragmentDoctorListingDetailsBinding?.txtDoctordetailsDoctorname?.setText(doctorDetailsResponse?.result?.firstName+" "+doctorDetailsResponse?.result?.lastName)
             if(!doctorDetailsResponse?.result?.qualification.equals("") || doctorDetailsResponse?.result?.qualification!=null){
                 fragmentDoctorListingDetailsBinding?.txtDoctordetailsQualification?.setText(doctorDetailsResponse?.result?.qualification)
@@ -121,6 +133,17 @@ class FragmentDoctorListingDetails : BaseFragment<FragmentDoctorListingDetailsBi
             }
             if(doctorDetailsResponse?.result?.reviewRating!=null && doctorDetailsResponse?.result?.reviewRating.size>0){
                 fragmentDoctorListingDetailsBinding?.txtDoctordetailsNoofreview?.setText(doctorDetailsResponse?.result?.reviewRating?.size.toString()+" "+"reviews")
+            }
+
+            if(doctorDetailsResponse?.result?.reviewAbility!=null && !doctorDetailsResponse?.result?.reviewAbility.equals("")){
+                if(doctorDetailsResponse?.result?.reviewAbility.equals("yes")){
+                    fragmentDoctorListingDetailsBinding?.txtHeaderDoctorWriteYourReview?.visibility=View.VISIBLE
+                    fragmentDoctorListingDetailsBinding?.txtDoctorSubmitReview?.visibility=View.VISIBLE
+
+                }else if(doctorDetailsResponse?.result?.reviewAbility.equals("no")){
+                    fragmentDoctorListingDetailsBinding?.txtHeaderDoctorWriteYourReview?.visibility=View.GONE
+                    fragmentDoctorListingDetailsBinding?.txtDoctorSubmitReview?.visibility=View.GONE
+                }
             }
 
             if(doctorDetailsResponse?.result?.qualificationData!=null && doctorDetailsResponse?.result?.qualificationData.size>0){

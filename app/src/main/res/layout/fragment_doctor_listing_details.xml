@@ -113,7 +113,6 @@
                                     android:isIndicator="true"
                                     android:numStars="5"
                                     android:progressTint="@color/review_star"
-                                    android:rating="5.0"
                                     android:stepSize="1.0" />
 
                                 <com.customview.MyTextView
@@ -201,6 +200,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_centerInParent="true"
+                                            android:visibility="gone"
                                             android:layout_marginStart="@dimen/_5sdp"
                                             android:drawableStart="@drawable/review"
                                             android:drawablePadding="@dimen/_5sdp"
@@ -278,10 +278,11 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:maxLines="2"
+                                        android:id="@+id/txt_doctor_address"
                                         android:padding="@dimen/_10sdp"
                                         android:textColor="@color/txt_color"
                                         android:textSize="@dimen/_11ssp"
-                                        android:text="5835 LEHMAN DR,Colorado Springs Kolkata 700156"/>
+                                        android:text=""/>
 
 
 
@@ -661,6 +662,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
                         android:id="@+id/txt_doctor_submit_review"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_gravity="center"

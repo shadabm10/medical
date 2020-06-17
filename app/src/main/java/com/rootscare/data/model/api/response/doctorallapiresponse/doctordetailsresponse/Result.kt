@@ -88,5 +88,13 @@ data class Result(
 	val age: String? = null,
 	@field:JsonProperty("qualification_certificate")
 	@field:SerializedName("qualification_certificate")
-	val qualificationCertificate: String? = null
+	val qualificationCertificate: String? = null,
+	@field:JsonProperty("review_ability")
+	@field:SerializedName("review_ability")
+	val reviewAbility: String? = null,
+
+	@field:JsonProperty("avg_rating")
+	@field:SerializedName("avg_rating")
+	val avgRating: String? = null
+
 )
