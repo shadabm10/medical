@@ -10,6 +10,7 @@ import com.rootscare.ui.login.LoginNavigator
 import io.reactivex.disposables.Disposable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Part
 
 class FragmentProfileViewModel : BaseViewModel<FragmentProfileNavigator>() {
 
@@ -95,12 +96,14 @@ class FragmentProfileViewModel : BaseViewModel<FragmentProfileNavigator>() {
     }
 
 
-    fun apieditpatientprofilepersonal(userId: RequestBody,first_name: RequestBody,last_name: RequestBody,id_number: RequestBody,image: MultipartBody.Part? = null) {
+    fun apieditpatientprofilepersonal(userId: RequestBody,first_name: RequestBody,last_name: RequestBody,id_number: RequestBody,image: MultipartBody.Part? = null,age: RequestBody,address: RequestBody,gender: RequestBody
+    ,nationality: RequestBody,height: RequestBody,weight: RequestBody,marital_status: RequestBody) {
+
 //        userId: RequestBody,first_name: RequestBody,last_name: RequestBody,id_number: RequestBody,status: RequestBody,image: MultipartBody.Part? = null
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
         var disposable: Disposable? = null
         if (image != null) {
-            disposable = apiServiceWithGsonFactory.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,image)
+            disposable = apiServiceWithGsonFactory.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,image,age,address,gender,nationality,height,weight,marital_status)
                 .subscribeOn(_scheduler_io)
                 .observeOn(_scheduler_ui)
                 .subscribe({ response ->

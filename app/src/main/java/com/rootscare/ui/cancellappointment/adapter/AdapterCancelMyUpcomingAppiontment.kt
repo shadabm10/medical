@@ -77,15 +77,15 @@ class AdapterCancelMyUpcomingAppiontment (val doctorAppointmentList: ArrayList<D
                 itemView?.rootView?.txt_cancelappointment_patient_name?.setText("")
             }
             if(doctorAppointmentList?.get(pos)?.doctorName!=null && !doctorAppointmentList?.get(pos)?.doctorName.equals("")){
-                itemView?.rootView?.txt_cancelappointment_patient_name?.setText(doctorAppointmentList?.get(pos)?.doctorName)
-            }else{
-                itemView?.rootView?.txt_cancelappointment_patient_name?.setText("")
-            }
-            if(doctorAppointmentList?.get(pos)?.doctorName!=null && !doctorAppointmentList?.get(pos)?.doctorName.equals("")){
                 itemView?.rootView?.txt_cancelappointment_doctor_name?.setText(doctorAppointmentList?.get(pos)?.doctorName)
             }else{
                 itemView?.rootView?.txt_cancelappointment_doctor_name?.setText("")
             }
+//            if(doctorAppointmentList?.get(pos)?.doctorName!=null && !doctorAppointmentList?.get(pos)?.doctorName.equals("")){
+//                itemView?.rootView?.txt_cancelappointment_booking_date?.setText(doctorAppointmentList?.get(pos)?.doctorName)
+//            }else{
+//                itemView?.rootView?.txt_cancelappointment_booking_date?.setText("")
+//            }
             if(doctorAppointmentList?.get(pos)?.bookingDate!=null && !doctorAppointmentList?.get(pos)?.bookingDate.equals("")){
                 itemView?.rootView?.txt_cancelappointment_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.bookingDate))
             }else{

@@ -49,6 +49,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
     var monthstr: String=""
     var dayStr: String=""
     var imagefilename=""
+    var selectGender="Female"
 
     private val GALLERY = 1
     private val CAMERA = 2
@@ -150,6 +151,14 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
 
         fragmentProfileBinding?.edtProfileImage?.setOnClickListener({
             showPictureDialog()
+        })
+
+        fragmentProfileBinding?.layoutProfilePersonal?.radioMaleOrFemale?.setOnClickListener(View.OnClickListener {
+            selectGender="Male"
+        })
+
+        fragmentProfileBinding?.layoutProfilePersonal?.radioProfileFemale?.setOnClickListener(View.OnClickListener {
+            selectGender="Female"
         })
 
         fragmentProfileBinding?.layoutProfileMedical?.btnPatientProfileMedical?.setOnClickListener(
@@ -393,6 +402,28 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
 
         if(!patientProfileResponse?.result?.address.equals("") || patientProfileResponse?.result?.address!=null){
             fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalAddress?.setText(patientProfileResponse?.result?.address)
+        }
+
+        if(patientProfileResponse?.result?.gender!=null){
+            if(!patientProfileResponse?.result?.gender.equals("")){
+                if(patientProfileResponse?.result?.gender.equals("Female")){
+                    fragmentProfileBinding?.layoutProfilePersonal?.radioProfileFemale?.isChecked=true
+                }else if(patientProfileResponse?.result?.gender.equals("Male")){
+                    fragmentProfileBinding?.layoutProfilePersonal?.radioProfileMale?.isChecked=true
+                }
+            }
+        }
+
+        if(patientProfileResponse?.result?.nationality!=null && !patientProfileResponse?.result?.nationality.equals("")){
+            fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalNationality?.setText(patientProfileResponse?.result?.nationality)
+        }
+
+        if (patientProfileResponse?.result?.maritalStatus!=null && !patientProfileResponse?.result?.maritalStatus.equals("")){
+           fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalMaterialStatus?.setText(patientProfileResponse?.result?.maritalStatus)
+        }
+
+        if (patientProfileResponse?.result?.height!=null && !patientProfileResponse?.result?.height.equals("")){
+            fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalHeight?.setText(patientProfileResponse?.result?.height)
         }
 
         if(!patientProfileResponse?.result?.idNumber.equals("") || patientProfileResponse?.result?.idNumber!=null){
@@ -776,6 +807,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             Toast.makeText(activity, "Please select your accout status", Toast.LENGTH_SHORT).show()
             return false
         }
+
         return true
     }
 
@@ -786,19 +818,27 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         val first_name = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalFname?.text?.toString())
         val last_name = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalLname?.text?.toString())
         val id_number = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalIdnumber?.text?.toString())
+        val age = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalAge?.text?.toString())
+        val address = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalAddress?.text?.toString())
+        val gender = RequestBody.create(MediaType.parse("multipart/form-data"), selectGender)
+        val nationality = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalNationality?.text?.toString())
+        val height = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalHeight?.text?.toString())
+        val weight = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalWeight?.text?.toString())
+        val marital_status = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalMaterialStatus?.text?.toString())
 //        val status = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.txtProfilePersonalStatus?.text?.toString())
 //        val status = RequestBody.create(MediaType.parse("multipart/form-data"),"1")
+
         if (imageFile != null) {
             val image = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
             var multipartBody = MultipartBody.Part.createFormData("image", imageFile?.name, image)
 //            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)
-            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,multipartBody)
+            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,multipartBody,age,address,gender,nationality,height,weight,marital_status)
 
         } else{
             val image = RequestBody.create(MediaType.parse("multipart/form-data"), "")
             var multipartBody = MultipartBody.Part.createFormData("image", imagefilename, image)
 //            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)
-            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,multipartBody)
+            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,multipartBody,age,address,gender,nationality,height,weight,marital_status)
             //Toast.makeText(activity, "Image can not be blank", Toast.LENGTH_SHORT).show()
         }
     }

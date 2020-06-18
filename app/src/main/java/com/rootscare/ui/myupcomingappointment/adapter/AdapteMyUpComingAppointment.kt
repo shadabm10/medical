@@ -79,15 +79,15 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
             }
 
             if(doctorAppointmentList?.get(pos)?.bookingDate!=null && !doctorAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_doctor_name?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.bookingDate))
+                itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.bookingDate))
             }else{
-                itemView?.rootView?.txt_doctor_name?.setText("")
+                itemView?.rootView?.txt_booking_date?.setText("")
             }
 
             if(doctorAppointmentList?.get(pos)?.appointmentDate!=null && !doctorAppointmentList?.get(pos)?.appointmentDate.equals("")){
-                itemView?.rootView?.txt_doctor_name?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.appointmentDate))
+                itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.appointmentDate))
             }else{
-                itemView?.rootView?.txt_doctor_name?.setText("")
+                itemView?.rootView?.txt_appointment_date?.setText("")
             }
 
 
