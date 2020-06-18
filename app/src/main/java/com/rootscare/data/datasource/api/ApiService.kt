@@ -8,6 +8,7 @@ import com.rootscare.data.model.api.request.appointmentdetailsrequest.Appointmen
 import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
 import com.rootscare.data.model.api.request.cartitemdeleterequest.CartItemDeleteRequest
 import com.rootscare.data.model.api.request.checkoutdoctorbookingrequest.CheckoutDoctorBookingRequest
+import com.rootscare.data.model.api.request.deletepatientfamilymemberrequest.DeletePatientFamilyMemberRequest
 import com.rootscare.data.model.api.request.doctorrequest.bookingcartrequests.BookingCartRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctordetailsrequest.DoctorDetailsRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctorlistbydepartmentrequest.DoctorListByDepartmentIdRequest
@@ -39,6 +40,7 @@ import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctordepartmentlistingresponse.DoctorDepartmentListingResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctordetailsresponse.DoctorDetailsResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorreviewsubmitresponse.DoctorReviewRatingSubmiteResponse
+import com.rootscare.data.model.api.response.editpatientfamilymemberresponse.EditFamilyMemberResponse
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordchangepassword.ForgotPasswordChangePasswordResponse
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordsendmailresponse.ForgotPasswordSendMailResponse
 import com.rootscare.data.model.api.response.loginresponse.LoginResponse
@@ -194,4 +196,18 @@ interface ApiService {
 
     @POST("api-deactivate-user")
     fun apideactivateuser(@Body appointmentRequestBody: AppointmentRequest): Single<DeactivateAccountResponse>
+
+    @POST("api-delete-patient-family-member")
+    fun apideletepatientfamilymember(@Body deletePatientFamilyMemberRequestBody: DeletePatientFamilyMemberRequest): Single<GetPatientFamilyListResponse>
+
+    @Multipart
+    @POST("api-edit-patient-family")
+    fun apieditpatientfamily(@Part("id") id: RequestBody,
+                               @Part("first_name") first_name: RequestBody,
+                               @Part("last_name") last_name: RequestBody,
+                               @Part image: MultipartBody.Part,
+                               @Part("email") email: RequestBody,
+                               @Part("phone_number") phone_number: RequestBody,
+                               @Part("gender") gender: RequestBody,
+                               @Part("age") age: RequestBody): Single<EditFamilyMemberResponse>
 }

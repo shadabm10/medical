@@ -70,10 +70,11 @@ class AdapterPhysitherapyCancelMyUpcomingAppiontment(val pathologyAppointmentLis
             }else{
                 itemView?.rootView?.txt_cancelappointment_patient_name?.setText("")
             }
+            itemView?.rootView?.txt_header?.setText("Physiotherapist Name :")
             if(pathologyAppointmentList?.get(pos)?.physiotherapistName!=null && !pathologyAppointmentList?.get(pos)?.physiotherapistName.equals("")){
-                itemView?.rootView?.txt_cancelappointment_patient_name?.setText(pathologyAppointmentList?.get(pos)?.physiotherapistName)
+                itemView?.rootView?.txt_cancelappointment_doctor_name?.setText(pathologyAppointmentList?.get(pos)?.physiotherapistName)
             }else{
-                itemView?.rootView?.txt_cancelappointment_patient_name?.setText("")
+                itemView?.rootView?.txt_cancelappointment_doctor_name?.setText("")
             }
 
             if(pathologyAppointmentList?.get(pos)?.bookingDate!=null && !pathologyAppointmentList?.get(pos)?.bookingDate.equals("")){

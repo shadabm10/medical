@@ -29,8 +29,10 @@ import com.bumptech.glide.Glide
 import com.dialog.CommonDialog
 import com.interfaces.OnAddPatientListClick
 import com.interfaces.OnDoctorPrivateSlotClickListner
+import com.interfaces.OnPatientFamilyMemberListener
 import com.rootscare.BR
 import com.rootscare.R
+import com.rootscare.data.model.api.request.deletepatientfamilymemberrequest.DeletePatientFamilyMemberRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctordetailsrequest.DoctorDetailsRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctorprivatesotrequest.DoctorPrivateSlotRequest
 import com.rootscare.data.model.api.request.doctorrequest.getpatientfamilymemberrequest.GetPatientFamilyMemberRequest
@@ -47,9 +49,11 @@ import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotRecyclerview
 import com.rootscare.ui.bookingappointment.adapter.AdapterFromTimeRecyclerview
 import com.rootscare.ui.bookingappointment.adapter.AdapterToTimeRecyclerView
 import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBooking
+import com.rootscare.ui.bookingappointment.subfragment.editpatient.FragmentEditPatientFamilyMember
 import com.rootscare.ui.bookingcart.FragmentBookingCart
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
+import com.rootscare.ui.login.LoginActivity
 import com.rootscare.utils.ManagePermissions
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -434,9 +438,64 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         recyclerView.setHasFixedSize(true)
         val contactListAdapter = AdapterAddPatientListRecyclerview(patientfamilymemberList,context!!)
         recyclerView.adapter = contactListAdapter
-        contactListAdapter?.recyclerViewOnAddPatientListClick= object : OnAddPatientListClick {
-            override fun onItemClick(modelOfGetAddPatientList: ResultItem?) {
+        contactListAdapter?.recyclerViewOnAddPatientListClick= object :
+            OnPatientFamilyMemberListener {
+            override fun onItemClick(modelOfGetAddPatientList: ResultItem) {
                 familymemberid= modelOfGetAddPatientList?.id!!
+            }
+
+
+
+            override fun onEditButtonClick(modelOfGetAddPatientList: ResultItem) {
+                var id=modelOfGetAddPatientList?.id
+                var imagename=modelOfGetAddPatientList?.image
+                var firstname=modelOfGetAddPatientList?.firstName
+                var lastname=modelOfGetAddPatientList?.lastName
+                var email=modelOfGetAddPatientList?.email
+                var phoneno=modelOfGetAddPatientList?.phoneNumber
+                var age=modelOfGetAddPatientList?.age
+                var gender=modelOfGetAddPatientList?.gender
+
+
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+
+                        (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                            FragmentEditPatientFamilyMember.newInstance(doctorId, id!!, imagename!!,
+                                firstname!!, lastname!!, email!!, phoneno!!, age!!, gender!!))
+
+                    }
+
+                }, "Edit Member", "Are you sure to edit this family member?")
+            }
+
+            override fun onDeleteButtonClick(id: String) {
+
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+//            patientProfileRequest?.userId="11"
+                            var deletePatientFamilyMemberRequest= DeletePatientFamilyMemberRequest()
+                            deletePatientFamilyMemberRequest?.id=id
+//            getPatientFamilyMemberRequest?.userId="11"
+                            fragmentBookingAppointmentViewModel?.apideletepatientfamilymember(deletePatientFamilyMemberRequest)
+
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Delete Member", "Are you sure to delete this family member?")
             }
 
 

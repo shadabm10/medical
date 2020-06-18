@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.rootscare.BR
 import com.rootscare.R
+import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
 import com.rootscare.data.model.api.response.deactivateaccountresponse.DeactivateAccountResponse
 import com.rootscare.databinding.FragmentPatientProfileSettingBinding
 import com.rootscare.ui.base.BaseFragment
@@ -94,6 +95,23 @@ class FragmentPatientProfileSetting  : BaseFragment<FragmentPatientProfileSettin
                 FragmentProfile.newInstance())
 
         })
+
+        fragmentPatientProfileSettingBinding?.txtPatientsettingDeactivateAccount?.setOnClickListener(
+            View.OnClickListener {
+                if(isNetworkConnected){
+                    baseActivity?.showLoading()
+                    var appointmentRequest= AppointmentRequest()
+                    appointmentRequest?.userId=fragmentPatientProfileSettingViewModel?.appSharedPref?.userId
+//            appointmentRequest?.userId="11"
+
+                    fragmentPatientProfileSettingViewModel?.apideactivateuser(appointmentRequest)
+
+                }else{
+                    Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+
     }
 
     override fun successDeactivateAccountResponse(deactivateAccountResponse: DeactivateAccountResponse?) {

@@ -87,7 +87,7 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
             }else{
                 itemView?.rootView?.txt_patient_name?.setText("")
             }
-
+            itemView?.rootView?.txt_name_header?.setText("Nurse Name :")
             if(pathologyAppointmentList?.get(pos)?.nurseName!=null && !pathologyAppointmentList?.get(pos)?.nurseName.equals("")){
                 itemView?.rootView?.txt_doctor_name?.setText(pathologyAppointmentList?.get(pos)?.nurseName)
             }else{
@@ -95,15 +95,15 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
             }
 
             if(pathologyAppointmentList?.get(pos)?.bookingDate!=null && !pathologyAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_doctor_name?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.bookingDate))
+                itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.bookingDate))
             }else{
-                itemView?.rootView?.txt_doctor_name?.setText("")
+                itemView?.rootView?.txt_booking_date?.setText("")
             }
 
             if(pathologyAppointmentList?.get(pos)?.bookingDate!=null && !pathologyAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_doctor_name?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.bookingDate))
+                itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.bookingDate))
             }else{
-                itemView?.rootView?.txt_doctor_name?.setText("")
+                itemView?.rootView?.txt_appointment_date?.setText("")
             }
 
 

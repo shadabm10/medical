@@ -1,6 +1,7 @@
 package com.rootscare.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
@@ -40,27 +41,39 @@ class DrawerAdapter(private val context: Context, drawerDatatypes: LinkedList<Dr
         holder.item_tv.width = layoutManager!!.width
 
         holder.item_parent_ll.setOnClickListener {
-            if (expandedPosition >= 0) {
-                val prev = expandedPosition
-                notifyItemChanged(prev)
-            }
 
-            if (position == expandedPosition) {
-                /*expandedPosition = -1;
-                    notifyDataSetChanged();*/
+            expandedPosition=position
+            notifyDataSetChanged()
+            onItemClickListener!!.onItemClick(position, holder.item_tv)
+//            if (expandedPosition >= 0) {
+//                val prev = expandedPosition
+////                notifyItemChanged(prev)
+//               // notifyDataSetChanged()
+//            }
+//
+//            if (position == expandedPosition) {
+//                /*expandedPosition = -1;
+//                    notifyDataSetChanged();*/
+//
+//                // For Multitple click on last item
+//                if (position == drawerDatatypes.size - 1) {
+//                    if (onItemClickListener != null) {
+//                        notifyDataSetChanged()
+//                        onItemClickListener!!.onItemClick(position, holder.item_tv)
+//                    }
+//                }
+//            } else {
+//                expandedPosition = position
+//
+//                if (onItemClickListener != null){
+//                    notifyDataSetChanged()
+//                    onItemClickListener!!.onItemClick(position, holder.item_tv)
+//
+//                }
+//
+//            }
 
-                // For Multitple click on last item
-                if (position == drawerDatatypes.size - 1) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener!!.onItemClick(position, holder.item_tv)
-                    }
-                }
-            } else {
-                expandedPosition = position
-                notifyDataSetChanged()
-                if (onItemClickListener != null)
-                    onItemClickListener!!.onItemClick(position, holder.item_tv)
-            }
+
         }
 
         holder.item_tv.text = drawerDatatypes[position].string_item
@@ -75,14 +88,15 @@ class DrawerAdapter(private val context: Context, drawerDatatypes: LinkedList<Dr
         /*SpannableString spannableString = new SpannableString(strings.get(position).getString_item());
         spannableString.setSpan(new UnderlineSpan(), 0, strings.get(position).getString_item().length(), 0);
         holder.item_tv.setText(spannableString);*/
-        if (position == expandedPosition) {
-            holder.item_parent_ll?.setBackgroundColor(context.resources.getColor(R.color.colorPrimaryDark))
+        if (expandedPosition == position) {
+            holder.item_parent_ll?.setBackgroundColor(Color.parseColor("#0168B3"))
+//            holder.item_parent_ll?.setBackgroundColor(context.resources.getColor(R.color.colorPrimaryDark))
             holder.item_tv.setTypeface(null, Typeface.BOLD)
             //            holder.item_tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.more,
             //                    0);
             // holder.view1.setVisibility(View.VISIBLE);
         } else {
-
+            holder.item_parent_ll?.setBackgroundColor(Color.parseColor("#00000000"))
             holder.item_tv.setTypeface(null, Typeface.NORMAL)
             //            holder.item_tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
             //  holder.view1.setVisibility(View.INVISIBLE);

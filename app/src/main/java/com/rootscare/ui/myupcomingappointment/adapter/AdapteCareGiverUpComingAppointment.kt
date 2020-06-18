@@ -88,7 +88,7 @@ class AdapteCareGiverUpComingAppointment (val caregiverAppointmentList: ArrayLis
             }else{
                 itemView?.rootView?.txt_patient_name?.setText("")
             }
-
+            itemView?.rootView?.txt_name_header?.setText("Caregiver Name :")
             if(caregiverAppointmentList?.get(pos)?.caregiverName!=null && !caregiverAppointmentList?.get(pos)?.caregiverName.equals("")){
                 itemView?.rootView?.txt_doctor_name?.setText(caregiverAppointmentList?.get(pos)?.caregiverName)
             }else{
@@ -96,15 +96,15 @@ class AdapteCareGiverUpComingAppointment (val caregiverAppointmentList: ArrayLis
             }
 
             if(caregiverAppointmentList?.get(pos)?.bookingDate!=null && !caregiverAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_doctor_name?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.bookingDate))
+                itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.bookingDate))
             }else{
-                itemView?.rootView?.txt_doctor_name?.setText("")
+                itemView?.rootView?.txt_booking_date?.setText("")
             }
 
             if(caregiverAppointmentList?.get(pos)?.bookingDate!=null && !caregiverAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_doctor_name?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.bookingDate))
+                itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.bookingDate))
             }else{
-                itemView?.rootView?.txt_doctor_name?.setText("")
+                itemView?.rootView?.txt_appointment_date?.setText("")
             }
 
         }

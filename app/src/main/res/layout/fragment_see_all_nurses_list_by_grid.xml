@@ -42,7 +42,7 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/search_for_common_bg"
                             android:drawableEnd="@drawable/search"
-                            android:hint="Nurses"
+                            android:hint="Search by nurse name"
                             android:maxLines="1"
                             android:paddingStart="@dimen/_10sdp"
                             android:paddingEnd="@dimen/_8sdp"

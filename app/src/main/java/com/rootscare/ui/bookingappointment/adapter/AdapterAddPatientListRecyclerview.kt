@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.interfaces.OnAddPatientListClick
+import com.interfaces.OnPatientFamilyMemberListener
 import com.rootscare.R
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.ResultItem
 import com.rootscare.databinding.ItemAddPatientBinding
@@ -27,7 +28,7 @@ class AdapterAddPatientListRecyclerview (val patientfamilymemberList: ArrayList<
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
     internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
-    internal lateinit var recyclerViewOnAddPatientListClick: OnAddPatientListClick
+    internal lateinit var recyclerViewOnAddPatientListClick: OnPatientFamilyMemberListener
 
     var selectedPosition = -1
 
@@ -56,7 +57,14 @@ class AdapterAddPatientListRecyclerview (val patientfamilymemberList: ArrayList<
             itemView?.root?.ll_add_patient?.setOnClickListener(View.OnClickListener {
                 selectedPosition = local_position
                 notifyDataSetChanged()
-                recyclerViewOnAddPatientListClick?.onItemClick(patientfamilymemberList?.get(local_position))
+                recyclerViewOnAddPatientListClick?.onItemClick(patientfamilymemberList?.get(local_position)!!)
+            })
+            itemView?.root?.img_edit?.setOnClickListener(View.OnClickListener {
+                recyclerViewOnAddPatientListClick?.onEditButtonClick(patientfamilymemberList?.get(local_position)!!)
+            })
+
+            itemView?.root?.img_remove?.setOnClickListener(View.OnClickListener {
+                recyclerViewOnAddPatientListClick?.onDeleteButtonClick(patientfamilymemberList?.get(local_position)?.id!!)
             })
 
 

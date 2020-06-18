@@ -266,7 +266,7 @@
                             android:drawableEnd="@drawable/white_arrow_circle"
                             android:drawablePadding="@dimen/_10sdp"
                             android:padding="@dimen/_5sdp"
-                            android:text="Add Patient"
+                            android:text="Edit Patient"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_10ssp" />
 

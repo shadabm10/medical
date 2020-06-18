@@ -426,6 +426,10 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalHeight?.setText(patientProfileResponse?.result?.height)
         }
 
+        if (patientProfileResponse?.result?.weight!=null && !patientProfileResponse?.result?.weight.equals("")){
+            fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalWeight?.setText(patientProfileResponse?.result?.weight)
+        }
+
         if(!patientProfileResponse?.result?.idNumber.equals("") || patientProfileResponse?.result?.idNumber!=null){
             fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalIdnumber?.setText(patientProfileResponse?.result?.idNumber)
         }

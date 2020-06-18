@@ -70,10 +70,11 @@ class AdapterHospitalCancelMyUpcomingAppiontment(val pathologyAppointmentList: A
             }else{
                 itemView?.rootView?.txt_cancelappointment_patient_name?.setText("")
             }
+            itemView?.rootView?.txt_header?.setText("Hospital Name :")
             if(pathologyAppointmentList?.get(pos)?.pathologyName!=null && !pathologyAppointmentList?.get(pos)?.pathologyName.equals("")){
-                itemView?.rootView?.txt_cancelappointment_patient_name?.setText(pathologyAppointmentList?.get(pos)?.pathologyName)
+                itemView?.rootView?.txt_cancelappointment_doctor_name?.setText(pathologyAppointmentList?.get(pos)?.pathologyName)
             }else{
-                itemView?.rootView?.txt_cancelappointment_patient_name?.setText("")
+                itemView?.rootView?.txt_cancelappointment_doctor_name?.setText("")
             }
 
             if(pathologyAppointmentList?.get(pos)?.bookingDate!=null && !pathologyAppointmentList?.get(pos)?.bookingDate.equals("")){

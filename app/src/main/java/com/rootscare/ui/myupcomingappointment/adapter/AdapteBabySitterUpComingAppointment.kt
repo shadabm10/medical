@@ -11,6 +11,7 @@ import com.rootscare.data.model.api.response.appointmenthistoryresponse.Babysitt
 import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
+import kotlinx.android.synthetic.main.item_cancell_appointment.view.*
 import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -87,7 +88,7 @@ class AdapteBabySitterUpComingAppointment  (val babysitterAppointmentList: Array
             }else{
                 itemView?.rootView?.txt_patient_name?.setText("")
             }
-
+            itemView?.rootView?.txt_name_header?.setText("Babysitter Name :")
             if(babysitterAppointmentList?.get(pos)?.babysitterName!=null && !babysitterAppointmentList?.get(pos)?.babysitterName.equals("")){
                 itemView?.rootView?.txt_doctor_name?.setText(babysitterAppointmentList?.get(pos)?.babysitterName)
             }else{
@@ -95,15 +96,15 @@ class AdapteBabySitterUpComingAppointment  (val babysitterAppointmentList: Array
             }
 
             if(babysitterAppointmentList?.get(pos)?.bookingDate!=null && !babysitterAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_doctor_name?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.bookingDate))
+                itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.bookingDate))
             }else{
-                itemView?.rootView?.txt_doctor_name?.setText("")
+                itemView?.rootView?.txt_booking_date?.setText("")
             }
 
             if(babysitterAppointmentList?.get(pos)?.bookingDate!=null && !babysitterAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_doctor_name?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.bookingDate))
+                itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.bookingDate))
             }else{
-                itemView?.rootView?.txt_doctor_name?.setText("")
+                itemView?.rootView?.txt_appointment_date?.setText("")
             }
 
         }

@@ -87,10 +87,11 @@ class AdapterBabySitterCancelMyUpcomingAppiontment(val babysitterAppointmentList
             }else{
                 itemView?.rootView?.txt_cancelappointment_patient_name?.setText("")
             }
+            itemView?.rootView?.txt_header?.setText("Babysitter Name :")
             if(babysitterAppointmentList?.get(pos)?.babysitterName!=null && !babysitterAppointmentList?.get(pos)?.babysitterName.equals("")){
-                itemView?.rootView?.txt_cancelappointment_patient_name?.setText(babysitterAppointmentList?.get(pos)?.babysitterName)
+                itemView?.rootView?.txt_cancelappointment_doctor_name?.setText(babysitterAppointmentList?.get(pos)?.babysitterName)
             }else{
-                itemView?.rootView?.txt_cancelappointment_patient_name?.setText("")
+                itemView?.rootView?.txt_cancelappointment_doctor_name?.setText("")
             }
 
             if(babysitterAppointmentList?.get(pos)?.bookingDate!=null && !babysitterAppointmentList?.get(pos)?.bookingDate.equals("")){
