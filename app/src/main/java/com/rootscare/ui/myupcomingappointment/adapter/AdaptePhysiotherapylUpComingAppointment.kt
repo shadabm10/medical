@@ -3,6 +3,7 @@ package com.rootscare.ui.myupcomingappointment.adapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +49,9 @@ class AdaptePhysiotherapylUpComingAppointment  (val pathologyAppointmentList: Ar
 
         private var local_position:Int = 0
         init {
+            itemView?.root?.btn_appointment_cancel?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClickWithView?.onItemClick(pathologyAppointmentList?.get(local_position)?.id?.toInt()!!)
+            })
 //            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
 //                recyclerViewItemClickWithView?.onItemClick(1)
 //            })
@@ -100,10 +104,16 @@ class AdaptePhysiotherapylUpComingAppointment  (val pathologyAppointmentList: Ar
                 itemView?.rootView?.txt_booking_date?.setText("")
             }
 
-            if(pathologyAppointmentList?.get(pos)?.bookingDate!=null && !pathologyAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.bookingDate))
+            if(pathologyAppointmentList?.get(pos)?.fromDate!=null && !pathologyAppointmentList?.get(pos)?.fromDate.equals("")){
+                itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.fromDate))
             }else{
                 itemView?.rootView?.txt_appointment_date?.setText("")
+            }
+
+            if (pathologyAppointmentList?.get(pos)?.patientContact!=null && !pathologyAppointmentList?.get(pos)?.patientContact.equals("")){
+                itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText(pathologyAppointmentList?.get(pos)?.patientContact)
+            }else{
+                itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText("")
             }
 
         }

@@ -97,6 +97,12 @@ class AdapterCancelMyUpcomingAppiontment (val doctorAppointmentList: ArrayList<D
                 itemView?.rootView?.txt_cancelappointment_appointment_date?.setText("")
             }
 
+            if (doctorAppointmentList?.get(pos)?.patientContact!=null && !doctorAppointmentList?.get(pos)?.patientContact.equals("")){
+                itemView?.rootView?.txt_cancelappointment_phone_no?.setText(doctorAppointmentList?.get(pos)?.patientContact)
+            }else{
+                itemView?.rootView?.txt_cancelappointment_phone_no?.setText("")
+            }
+
 
         }
 

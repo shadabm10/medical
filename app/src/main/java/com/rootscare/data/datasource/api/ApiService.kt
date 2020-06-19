@@ -6,6 +6,7 @@ package com.rootscare.data.datasource.api
 
 import com.rootscare.data.model.api.request.appointmentdetailsrequest.AppointmentDetailsRequest
 import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
+import com.rootscare.data.model.api.request.cancelappointmentrequest.CancelAppointmentRequest
 import com.rootscare.data.model.api.request.cartitemdeleterequest.CartItemDeleteRequest
 import com.rootscare.data.model.api.request.checkoutdoctorbookingrequest.CheckoutDoctorBookingRequest
 import com.rootscare.data.model.api.request.deletepatientfamilymemberrequest.DeletePatientFamilyMemberRequest
@@ -26,6 +27,8 @@ import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilem
 import com.rootscare.data.model.api.request.patientreviewandratingrequest.PatientReviewAndRatingRequest
 import com.rootscare.data.model.api.request.registrationrequest.registrationotpcheckrequest.RegistrationCheckOTPRequest
 import com.rootscare.data.model.api.request.registrationrequest.registrationotpsendrequest.RegistrationSendOTPRequest
+import com.rootscare.data.model.api.request.reschedule.DoctorAppointmentRescheduleRequest
+import com.rootscare.data.model.api.response.appointcancelresponse.AppointmentCancelResponse
 import com.rootscare.data.model.api.response.appointmentdetails.DoctorAppointmentResponse
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.AppointmentHistoryResponse
 import com.rootscare.data.model.api.response.deactivateaccountresponse.DeactivateAccountResponse
@@ -44,6 +47,7 @@ import com.rootscare.data.model.api.response.editpatientfamilymemberresponse.Edi
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordchangepassword.ForgotPasswordChangePasswordResponse
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordsendmailresponse.ForgotPasswordSendMailResponse
 import com.rootscare.data.model.api.response.loginresponse.LoginResponse
+import com.rootscare.data.model.api.response.nationalityresponse.NationalityResponse
 import com.rootscare.data.model.api.response.patienthome.PatientHomeApiResponse
 import com.rootscare.data.model.api.response.patientprescription.PatientPrescriptionResponse
 import com.rootscare.data.model.api.response.patientprofileresponse.PatientProfileResponse
@@ -51,6 +55,7 @@ import com.rootscare.data.model.api.response.patientreviewandratingresponse.Pati
 import com.rootscare.data.model.api.response.paymenthistoryresponse.PatientPaymentHistoryResponse
 import com.rootscare.data.model.api.response.registrationresponse.registrationcheckotpresponse.RegistrationCheckOTPResponse
 import com.rootscare.data.model.api.response.registrationresponse.registrationsendotpresponse.RegistrationSendOTPResponse
+import com.rootscare.data.model.api.response.reschedule.doctorreschedule.DoctorRescheduleResponse
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -137,12 +142,11 @@ interface ApiService {
                                       @Part("first_name") first_name: RequestBody,
                                       @Part("last_name") last_name: RequestBody,
                                       @Part image: MultipartBody.Part,
-                                      @Part("email") email: RequestBody,
-                                      @Part("phone_number") phone_number: RequestBody,
                                       @Part("gender") gender: RequestBody,
                                       @Part("age") age: RequestBody): Single<AddPatientResponse>
 
-
+//    @Part("email") email: RequestBody,
+//    @Part("phone_number") phone_number: RequestBody,
     @Multipart
     @POST("api-book-cart-private-doctor")
     fun apibookcartprivatedoctor(@Part("patient_id") patient_id: RequestBody,
@@ -206,8 +210,18 @@ interface ApiService {
                                @Part("first_name") first_name: RequestBody,
                                @Part("last_name") last_name: RequestBody,
                                @Part image: MultipartBody.Part,
-                               @Part("email") email: RequestBody,
-                               @Part("phone_number") phone_number: RequestBody,
                                @Part("gender") gender: RequestBody,
                                @Part("age") age: RequestBody): Single<EditFamilyMemberResponse>
+
+    @POST("api-nationality")
+    fun apinationality(): Single<NationalityResponse>
+
+    @POST("api-cancel-appointment")
+    fun apicancelappointment(@Body cancelAppointmentRequestBody: CancelAppointmentRequest): Single<AppointmentCancelResponse>
+
+    @POST("api-reschedule-appointment")
+    fun apirescheduleappointment(@Body doctorAppointmentRescheduleRequestBody: DoctorAppointmentRescheduleRequest): Single<DoctorRescheduleResponse>
+
+//    @Part("email") email: RequestBody,
+//    @Part("phone_number") phone_number: RequestBody,
 }

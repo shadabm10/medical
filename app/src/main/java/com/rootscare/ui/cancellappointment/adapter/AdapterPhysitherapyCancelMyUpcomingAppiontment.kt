@@ -82,10 +82,16 @@ class AdapterPhysitherapyCancelMyUpcomingAppiontment(val pathologyAppointmentLis
             }else{
                 itemView?.rootView?.txt_cancelappointment_booking_date?.setText("")
             }
-            if(pathologyAppointmentList?.get(pos)?.bookingDate!=null && !pathologyAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_cancelappointment_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.bookingDate))
+            if(pathologyAppointmentList?.get(pos)?.fromDate!=null && !pathologyAppointmentList?.get(pos)?.fromDate.equals("")){
+                itemView?.rootView?.txt_cancelappointment_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.fromDate))
             }else{
                 itemView?.rootView?.txt_cancelappointment_appointment_date?.setText("")
+            }
+
+            if (pathologyAppointmentList?.get(pos)?.patientContact!=null && !pathologyAppointmentList?.get(pos)?.patientContact.equals("")){
+                itemView?.rootView?.txt_cancelappointment_phone_no?.setText(pathologyAppointmentList?.get(pos)?.patientContact)
+            }else{
+                itemView?.rootView?.txt_cancelappointment_phone_no?.setText("")
             }
         }
 

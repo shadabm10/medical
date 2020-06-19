@@ -10,12 +10,12 @@ import okhttp3.RequestBody
 
 class FragmentEditPatientFamilyMemberViewModel: BaseViewModel<FragmentEditPatientFamilyMemberNavigator>() {
 
-    fun apieditpatientfamily(id: RequestBody, first_name: RequestBody, last_name: RequestBody, image: MultipartBody.Part? = null, email: RequestBody, phone_number: RequestBody, gender: RequestBody, age: RequestBody) {
+    fun apieditpatientfamily(id: RequestBody, first_name: RequestBody, last_name: RequestBody, image: MultipartBody.Part? = null, gender: RequestBody, age: RequestBody) {
 //        userId: RequestBody,first_name: RequestBody,last_name: RequestBody,id_number: RequestBody,status: RequestBody,image: MultipartBody.Part? = null
-//        val body = RequestBody.create(MediaType.parse("application/json"), "")
+//        val body = RequestBody.create(MediaType.parse("application/json"), "") \email: RequestBody, phone_number: RequestBody,email,phone_number,
         var disposable: Disposable? = null
         if (image != null) {
-            disposable = apiServiceWithGsonFactory.apieditpatientfamily(id,first_name,last_name,image,email,phone_number,gender,age)
+            disposable = apiServiceWithGsonFactory.apieditpatientfamily(id,first_name,last_name,image,gender,age)
                 .subscribeOn(_scheduler_io)
                 .observeOn(_scheduler_ui)
                 .subscribe({ response ->

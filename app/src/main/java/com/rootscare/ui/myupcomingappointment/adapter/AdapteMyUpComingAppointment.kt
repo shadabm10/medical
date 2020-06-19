@@ -3,9 +3,11 @@ package com.rootscare.ui.myupcomingappointment.adapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.interfaces.OnUpcommingAppointmentBtnClickListner
 import com.rootscare.R
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.DoctorAppointmentItem
 import com.rootscare.databinding.ItemCancellAppointmentBinding
@@ -27,7 +29,7 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
 
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
-    internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
+    internal lateinit var recyclerViewItemClickWithView: OnUpcommingAppointmentBtnClickListner
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemMyUpcomingappointmentRecyclerviewBinding>(
@@ -50,9 +52,13 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
 
         private var local_position:Int = 0
         init {
-//            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(1)
-//            })
+            itemView?.root?.btn_appointment_cancel?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClickWithView?.onCancelBtnClick(doctorAppointmentList?.get(local_position)?.id!!)
+            })
+
+            itemView?.root?.btn_appointment_reschedule?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClickWithView?.onRescheduleBtnClick(doctorAppointmentList?.get(local_position)!!)
+            })
 //
 
         }
@@ -89,7 +95,11 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
             }else{
                 itemView?.rootView?.txt_appointment_date?.setText("")
             }
-
+            if (doctorAppointmentList?.get(pos)?.patientContact!=null && !doctorAppointmentList?.get(pos)?.patientContact.equals("")){
+                itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText(doctorAppointmentList?.get(pos)?.patientContact)
+            }else{
+                itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText("")
+            }
 
 
 

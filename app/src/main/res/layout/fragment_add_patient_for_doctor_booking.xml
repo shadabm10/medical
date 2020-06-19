@@ -120,6 +120,7 @@
                             android:layout_marginStart="@dimen/_12sdp"
                             android:layout_marginEnd="@dimen/_12sdp"
                             android:layout_marginTop="@dimen/_15sdp"
+                            android:visibility="gone"
                             android:weightSum="2">
                             <com.customview.MyTextView
                                 android:layout_width="0dp"
@@ -149,6 +150,7 @@
                             android:orientation="horizontal"
                             android:layout_marginStart="@dimen/_12sdp"
                             android:layout_marginEnd="@dimen/_12sdp"
+                            android:visibility="gone"
                             android:layout_marginTop="@dimen/_15sdp"
                             android:weightSum="2">
                             <com.customview.MyTextView

@@ -3,6 +3,7 @@ package com.rootscare.ui.myupcomingappointment.adapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +49,12 @@ class AdapteCareGiverUpComingAppointment (val caregiverAppointmentList: ArrayLis
 
         private var local_position:Int = 0
         init {
+            itemView?.root?.btn_appointment_cancel?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClickWithView?.onItemClick(caregiverAppointmentList?.get(local_position)?.id?.toInt()!!)
+            })
+
+
+
 //            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
 //                recyclerViewItemClickWithView?.onItemClick(1)
 //            })
@@ -101,10 +108,16 @@ class AdapteCareGiverUpComingAppointment (val caregiverAppointmentList: ArrayLis
                 itemView?.rootView?.txt_booking_date?.setText("")
             }
 
-            if(caregiverAppointmentList?.get(pos)?.bookingDate!=null && !caregiverAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.bookingDate))
+            if(caregiverAppointmentList?.get(pos)?.fromDate!=null && !caregiverAppointmentList?.get(pos)?.fromDate.equals("")){
+                itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.fromDate))
             }else{
                 itemView?.rootView?.txt_appointment_date?.setText("")
+            }
+
+            if (caregiverAppointmentList?.get(pos)?.patientContact!=null && !caregiverAppointmentList?.get(pos)?.patientContact.equals("")){
+                itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText(caregiverAppointmentList?.get(pos)?.patientContact)
+            }else{
+                itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText("")
             }
 
         }

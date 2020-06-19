@@ -134,7 +134,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:id="@+id/txt_phone_no"
+                    android:id="@+id/txt_upcoming_appointmentphone_no"
                     android:textSize="@dimen/_10ssp"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:textColor="@color/txt_color"
@@ -179,6 +179,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/btn_appointment_cancel"
                         android:text="Cancelled"
                         android:drawableStart="@drawable/cancelled_icon"
                         android:gravity="center"
@@ -190,6 +191,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/btn_appointment_reschedule"
                         android:text="Rescheduled"
                         android:padding="@dimen/_5sdp"
                         android:drawableStart="@drawable/rescheduled_icon"

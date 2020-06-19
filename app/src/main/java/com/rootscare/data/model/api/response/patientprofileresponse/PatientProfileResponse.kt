@@ -44,6 +44,9 @@ data class Result(
 	@field:JsonProperty("description")
 	@field:SerializedName("description")
 	val description: String? = null,
+	@field:JsonProperty("chronic_diseases_data")
+	@field:SerializedName("chronic_diseases_data")
+	val chronicDiseasesData: String? = null,
 	@field:JsonProperty("experience")
 	@field:SerializedName("experience")
 	val experience: String? = null,
@@ -77,6 +80,9 @@ data class Result(
 	@field:JsonProperty("email")
 	@field:SerializedName("email")
 	val email: String? = null,
+	@field:JsonProperty("current_medication_data")
+	@field:SerializedName("current_medication_data")
+	val currentMedicationData: String? = null,
 	@field:JsonProperty("height")
 	@field:SerializedName("height")
 	val height: String? = null,
@@ -86,6 +92,9 @@ data class Result(
 	@field:JsonProperty("image")
 	@field:SerializedName("image")
 	val image: String? = null,
+	@field:JsonProperty("past_medication_data")
+	@field:SerializedName("past_medication_data")
+	val pastMedicationData: String? = null,
 	@field:JsonProperty("id_number")
 	@field:SerializedName("id_number")
 	val idNumber: String? = null,
@@ -107,6 +116,9 @@ data class Result(
 	@field:JsonProperty("marital_status")
 	@field:SerializedName("marital_status")
 	val maritalStatus: String? = null,
+	@field:JsonProperty("injuries_data")
+	@field:SerializedName("injuries_data")
+	val injuriesData: String? = null,
 	@field:JsonProperty("nationality")
 	@field:SerializedName("nationality")
 	val nationality: String? = null,
@@ -128,6 +140,9 @@ data class Result(
 	@field:JsonProperty("institute")
 	@field:SerializedName("institute")
 	val institute: String? = null,
+	@field:JsonProperty("allergies_data")
+	@field:SerializedName("allergies_data")
+	val allergiesData: String? = null,
 	@field:JsonProperty("past_medication")
 	@field:SerializedName("past_medication")
 	val pastMedication: String? = null,
@@ -137,6 +152,9 @@ data class Result(
 	@field:JsonProperty("updated_date")
 	@field:SerializedName("updated_date")
 	val updatedDate: String? = null,
+	@field:JsonProperty("surgeries_data")
+	@field:SerializedName("surgeries_data")
+	val surgeriesData: String? = null,
 	@field:JsonProperty("age")
 	@field:SerializedName("age")
 	val age: String? = null,

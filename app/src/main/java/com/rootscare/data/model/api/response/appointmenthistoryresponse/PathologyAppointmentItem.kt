@@ -49,5 +49,8 @@ data class PathologyAppointmentItem(
 	val paymentStatus: String? = null,
 	@field:JsonProperty("hospital_name")
 	@field:SerializedName("hospital_name")
-	val hospitalName: String? = null
+	val hospitalName: String? = null,
+	@field:JsonProperty("patient_contact")
+	@field:SerializedName("patient_contact")
+	val patientContact: String? = null
 )

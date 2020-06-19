@@ -6,6 +6,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -31,11 +32,14 @@ import com.rootscare.R
 import com.rootscare.data.model.api.request.patientprofilerequest.PatientProfileRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilelifestylerequest.ProfileLifestyleUpdateRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilemedicalrequest.ProfileMedicalUpdateRequest
+import com.rootscare.data.model.api.response.nationalityresponse.NationalityResponse
 import com.rootscare.data.model.api.response.patientprofileresponse.PatientProfileResponse
 import com.rootscare.databinding.FragmentProfileBinding
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.login.subfragment.registrationfragment.FragmentRegistration
 import com.rootscare.utils.ManagePermissions
+import com.squareup.picasso.Picasso
+import com.theartofdev.edmodo.cropper.CropImage
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -46,6 +50,9 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
     FragmentProfileNavigator {
     private var fragmentProfileBinding: FragmentProfileBinding? = null
     private var fragmentProfileViewModel: FragmentProfileViewModel? = null
+
+    var nationalityDropdownlist:ArrayList<String?>?=null
+
     var monthstr: String=""
     var dayStr: String=""
     var imagefilename=""
@@ -57,6 +64,17 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
     private val PermissionsRequestCode = 123
     private lateinit var managePermissions: ManagePermissions
     var imageFile: File? = null
+
+
+    private val PICK_IMAGE_REQUEST = 1
+
+    var thumbnail: Bitmap? = null
+    var bytes: ByteArrayOutputStream? = null
+
+    private val REQUEST_CAMERA = 3
+    var SELECT_FILE:Int = 4
+    var REQUEST_ID_MULTIPLE_PERMISSIONS = 123
+    var requested = false
 
     override val bindingVariable: Int
         get() = BR.viewModel
@@ -110,6 +128,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
 
 //            patientProfileRequest?.userId="11"
             fragmentProfileViewModel?.apipatientprofile(patientProfileRequest)
+            fragmentProfileViewModel?.apinationality()
 
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
@@ -150,16 +169,30 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         radioButtonClickEvenOfMedical()
 
         fragmentProfileBinding?.edtProfileImage?.setOnClickListener({
-            showPictureDialog()
+//            showPictureDialog()
+            captureImage()
         })
 
-        fragmentProfileBinding?.layoutProfilePersonal?.radioMaleOrFemale?.setOnClickListener(View.OnClickListener {
+        fragmentProfileBinding?.layoutProfilePersonal?.radioProfileMale?.setOnClickListener(View.OnClickListener {
             selectGender="Male"
         })
 
         fragmentProfileBinding?.layoutProfilePersonal?.radioProfileFemale?.setOnClickListener(View.OnClickListener {
             selectGender="Female"
         })
+
+
+    fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalNationality?.setOnClickListener(View.OnClickListener {
+        CommonDialog.showDialogForDropDownList(this!!.activity!!,"Nationality",nationalityDropdownlist,object:
+            DropDownDialogCallBack {
+            override fun onConfirm(text: String) {
+                fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalNationality?.setText(text)
+            }
+
+        })
+    })
+
+
 
         fragmentProfileBinding?.layoutProfileMedical?.btnPatientProfileMedical?.setOnClickListener(
             View.OnClickListener {
@@ -171,38 +204,53 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
                         profileMedicalUpdateRequest?.allergies="yes"
                     }else if(fragmentProfileBinding?.layoutProfileMedical?.radioAllergiesNo?.isChecked!!){
                         profileMedicalUpdateRequest?.allergies="no"
+                        fragmentProfileBinding?.layoutProfileMedical?.edtAllergiesData?.setText("")
                     }
+
+                    profileMedicalUpdateRequest?.allergiesData=fragmentProfileBinding?.layoutProfileMedical?.edtAllergiesData?.text?.toString()
 
                     if (fragmentProfileBinding?.layoutProfileMedical?.radioCurrentMedicationYes?.isChecked!!){
                         profileMedicalUpdateRequest?.currentMedication="yes"
                     }else if(fragmentProfileBinding?.layoutProfileMedical?.radioCurrentMedicationNo?.isChecked!!){
                         profileMedicalUpdateRequest?.currentMedication="no"
+                        fragmentProfileBinding?.layoutProfileMedical?.edtCurrentMedicationData?.setText("")
                     }
+                    profileMedicalUpdateRequest?.currentMedicationData=fragmentProfileBinding?.layoutProfileMedical?.edtCurrentMedicationData?.text?.toString()
 
                     if (fragmentProfileBinding?.layoutProfileMedical?.radioPastMedicationYes?.isChecked!!){
                         profileMedicalUpdateRequest?.pastMedication="yes"
                     }else if(fragmentProfileBinding?.layoutProfileMedical?.radioPastMedicationNo?.isChecked!!){
                         profileMedicalUpdateRequest?.pastMedication="no"
+                        fragmentProfileBinding?.layoutProfileMedical?.edtPastmedicationData?.setText("")
                     }
+                    profileMedicalUpdateRequest?.pastMedicationData=fragmentProfileBinding?.layoutProfileMedical?.edtPastmedicationData?.text?.toString()
 
                     if (fragmentProfileBinding?.layoutProfileMedical?.radioInjuriesYes?.isChecked!!){
                         profileMedicalUpdateRequest?.injuries="yes"
                     }else if(fragmentProfileBinding?.layoutProfileMedical?.radioInjuriesNo?.isChecked!!){
                         profileMedicalUpdateRequest?.injuries="no"
+                        fragmentProfileBinding?.layoutProfileMedical?.edtInjuriesData?.setText("")
                     }
+
+                    profileMedicalUpdateRequest?.injuriesData=fragmentProfileBinding?.layoutProfileMedical?.edtInjuriesData?.text?.toString()
 
                     if (fragmentProfileBinding?.layoutProfileMedical?.radioSurgeriesYes?.isChecked!!){
                         profileMedicalUpdateRequest?.surgeries="yes"
                     }else if(fragmentProfileBinding?.layoutProfileMedical?.radioSurgeriesNo?.isChecked!!){
                         profileMedicalUpdateRequest?.surgeries="no"
+                        fragmentProfileBinding?.layoutProfileMedical?.edtSurgeriesData?.setText("")
                     }
+                    profileMedicalUpdateRequest?.surgeriesData=fragmentProfileBinding?.layoutProfileMedical?.edtSurgeriesData?.text?.toString()
 
                     if (fragmentProfileBinding?.layoutProfileMedical?.radioChronicdisessesYes?.isChecked!!){
                         profileMedicalUpdateRequest?.chronicDiseases="yes"
                     }else if(fragmentProfileBinding?.layoutProfileMedical?.radioChronicdisessesNo?.isChecked!!){
                         profileMedicalUpdateRequest?.chronicDiseases="no"
+                        fragmentProfileBinding?.layoutProfileMedical?.edtChronicdisessesData?.setText("")
                     }
+                    profileMedicalUpdateRequest?.chronicDiseasesData=fragmentProfileBinding?.layoutProfileMedical?.edtChronicdisessesData?.text?.toString()
                     profileMedicalUpdateRequest?.userId=fragmentProfileViewModel?.appSharedPref?.userId
+
                     fragmentProfileViewModel?.apieditpatientprofilemedical(profileMedicalUpdateRequest)
 
                 }else{
@@ -362,6 +410,22 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
 
     }
 
+    override fun successNationalityResponse(nationalityResponse: NationalityResponse?) {
+        baseActivity?.hideLoading()
+        if (nationalityResponse?.code.equals("200")){
+            nationalityDropdownlist=ArrayList<String?>()
+            if (nationalityResponse?.result!=null && nationalityResponse?.result.size>0){
+                for (i in 0 until nationalityResponse?.result?.size!!) {
+                    nationalityDropdownlist?.add(nationalityResponse?.result?.get(i)?.nationality)
+                }
+
+            }
+
+        }else{
+
+        }
+    }
+
     override fun errorPatientProfileResponse(throwable: Throwable?) {
         baseActivity?.hideLoading()
         if (throwable?.message != null) {
@@ -455,8 +519,12 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             if(patientProfileResponse?.result?.allergies.equals("yes")){
                 fragmentProfileBinding?.layoutProfileMedical?.radioAllergiesYes?.isChecked=true
             }else if(patientProfileResponse?.result?.allergies.equals("no")){
-                fragmentProfileBinding?.layoutProfileMedical?.radioAllergiesYes?.isChecked=true
+                fragmentProfileBinding?.layoutProfileMedical?.radioAllergiesNo?.isChecked=true
             }
+        }
+
+        if (patientProfileResponse?.result?.allergiesData!=null && !patientProfileResponse?.result?.allergiesData.equals("")){
+            fragmentProfileBinding?.layoutProfileMedical?.edtAllergiesData?.setText(patientProfileResponse?.result?.allergiesData)
         }
 
         if(patientProfileResponse?.result?.currentMedication.equals("") || patientProfileResponse?.result?.currentMedication!=null){
@@ -466,6 +534,10 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
                 fragmentProfileBinding?.layoutProfileMedical?.radioCurrentMedicationNo?.isChecked=true
             }
         }
+        if (patientProfileResponse?.result?.currentMedicationData!=null && !patientProfileResponse?.result?.currentMedicationData.equals("")){
+            fragmentProfileBinding?.layoutProfileMedical?.edtCurrentMedicationData?.setText(patientProfileResponse?.result?.currentMedicationData)
+        }
+
 
         if(patientProfileResponse?.result?.pastMedication.equals("") || patientProfileResponse?.result?.pastMedication!=null){
             if(patientProfileResponse?.result?.pastMedication.equals("yes")){
@@ -475,6 +547,11 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             }
         }
 
+        if (patientProfileResponse?.result?.pastMedicationData!=null && !patientProfileResponse?.result?.pastMedicationData.equals("")){
+            fragmentProfileBinding?.layoutProfileMedical?.edtPastmedicationData?.setText(patientProfileResponse?.result?.pastMedicationData)
+        }
+
+
         if(patientProfileResponse?.result?.injuries.equals("") || patientProfileResponse?.result?.injuries!=null){
             if(patientProfileResponse?.result?.injuries.equals("yes")){
                 fragmentProfileBinding?.layoutProfileMedical?.radioInjuriesYes?.isChecked=true
@@ -483,12 +560,22 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             }
         }
 
+        if (patientProfileResponse?.result?.injuriesData!=null && !patientProfileResponse?.result?.injuriesData.equals("")){
+            fragmentProfileBinding?.layoutProfileMedical?.edtInjuriesData?.setText(patientProfileResponse?.result?.injuriesData)
+        }
+
+
+
         if(patientProfileResponse?.result?.surgeries.equals("") || patientProfileResponse?.result?.surgeries!=null){
             if(patientProfileResponse?.result?.surgeries.equals("yes")){
                 fragmentProfileBinding?.layoutProfileMedical?.radioSurgeriesYes?.isChecked=true
             }else if(patientProfileResponse?.result?.surgeries.equals("no")){
                 fragmentProfileBinding?.layoutProfileMedical?.radioSurgeriesNo?.isChecked=true
             }
+        }
+
+        if (patientProfileResponse?.result?.surgeriesData!=null && !patientProfileResponse?.result?.surgeriesData.equals("")){
+            fragmentProfileBinding?.layoutProfileMedical?.edtSurgeriesData?.setText(patientProfileResponse?.result?.surgeriesData)
         }
 
         if(patientProfileResponse?.result?.chronicDiseases.equals("") || patientProfileResponse?.result?.chronicDiseases!=null){
@@ -499,6 +586,9 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             }
         }
 
+        if (patientProfileResponse?.result?.chronicDiseasesData!=null && !patientProfileResponse?.result?.chronicDiseasesData.equals("")){
+            fragmentProfileBinding?.layoutProfileMedical?.edtChronicdisessesData?.setText(patientProfileResponse?.result?.chronicDiseasesData)
+        }
 
     }
 
@@ -669,6 +759,17 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             bitmapToFile(thumbnail)
             Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
         }
+
+
+        if (requestCode == REQUEST_CAMERA) onCaptureImageResult(data!!) else if (requestCode == SELECT_FILE) {
+            onSelectFromGalleryResult(data)
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            val resultUri = result.uri
+            Picasso.get().load(resultUri).into(fragmentProfileBinding?.imgRootscareProfileImage)
+            imageFile = File(result.uri.path)
+            println("resultUri===>$resultUri")
+        }
     }
 
     fun saveImage(myBitmap: Bitmap): String {
@@ -722,6 +823,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
 
                 if (isPermissionsGranted) {
                     // Do the task now
+                    goToImageIntent()
                     Toast.makeText(activity, "Permissions granted.", Toast.LENGTH_SHORT).show()
                     //  toast("Permissions granted.")
                 } else {
@@ -955,50 +1057,6 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         })
     }
     private fun personalDropdownClick(){
-        var nationalityDropdownlist= ArrayList<String?>()
-        nationalityDropdownlist.add("British")
-        nationalityDropdownlist.add("Scottish")
-        nationalityDropdownlist.add("Irish")
-        nationalityDropdownlist.add("Welsh")
-        nationalityDropdownlist.add("Danish")
-        nationalityDropdownlist.add("Finnish")
-        nationalityDropdownlist.add("Norwegian")
-        nationalityDropdownlist.add("Swedish")
-        nationalityDropdownlist.add("Swiss")
-        nationalityDropdownlist.add("Estonian")
-        nationalityDropdownlist.add("Latvian")
-        nationalityDropdownlist.add("Lithuanian")
-        nationalityDropdownlist.add("Austrian")
-        nationalityDropdownlist.add("Belgian")
-        nationalityDropdownlist.add("French")
-        nationalityDropdownlist.add("German")
-        nationalityDropdownlist.add("Italian")
-        nationalityDropdownlist.add("Dutch")
-        nationalityDropdownlist.add("American")
-        nationalityDropdownlist.add("Indian")
-        nationalityDropdownlist.add("Canadian")
-        nationalityDropdownlist.add("Mexican")
-        nationalityDropdownlist.add("Ukrainian")
-        nationalityDropdownlist.add("Russian")
-        nationalityDropdownlist.add("Belarusian")
-        nationalityDropdownlist.add("Polish")
-        nationalityDropdownlist.add("Czech")
-        nationalityDropdownlist.add("Slovak / Slovakian")
-        nationalityDropdownlist.add("Hungarian")
-        nationalityDropdownlist.add("Romanian")
-        nationalityDropdownlist.add("Bulgarian")
-        nationalityDropdownlist.add("Greek")
-        nationalityDropdownlist.add("Spanish")
-
-        fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalNationality?.setOnClickListener(View.OnClickListener {
-            CommonDialog.showDialogForDropDownList(this!!.activity!!,"Nationality",nationalityDropdownlist,object:
-                DropDownDialogCallBack {
-                override fun onConfirm(text: String) {
-                    fragmentProfileBinding?.layoutProfilePersonal?.edtProfilePersonalNationality?.setText(text)
-                }
-
-            })
-        })
 
         var materialStatusDropdownlist= ArrayList<String?>()
         materialStatusDropdownlist.add("Married")
@@ -1021,6 +1079,146 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
     }
 
 
+
+    ///New Image Upload Section
+
+
+    //image upload*********************************************************************************************************************************************
+    private fun checkAndRequestPermissionsTest(): Boolean {
+        return if (Build.VERSION.SDK_INT >= 23) {
+            val permissionText = " "
+            val permissioncamera = ContextCompat.checkSelfPermission(
+                this!!.activity!!,
+                Manifest.permission.CAMERA
+            )
+            val permissionwriteexternalstorage = ContextCompat.checkSelfPermission(
+                this!!.activity!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            val listPermissionsNeeded: MutableList<String> =
+                ArrayList()
+            if (permissioncamera != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.CAMERA)
+            }
+            if (permissionwriteexternalstorage != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            if (!listPermissionsNeeded.isEmpty()) {
+                requested = true
+                /*ActivityCompat.requestPermissions(getActivity(),
+                                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
+                                    REQUEST_ID_MULTIPLE_PERMISSIONS);*/requestPermissions(
+                    listPermissionsNeeded.toTypedArray(),
+                    REQUEST_ID_MULTIPLE_PERMISSIONS
+                )
+                false
+            } else {
+                true
+            }
+        } else {
+            requested = false
+            true
+        }
+    }
+
+
+    private fun captureImage() {
+        val options =
+            arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
+        val builder =
+            AlertDialog.Builder(context)
+        builder.setTitle("Add Photo!")
+        builder.setItems(options) { dialog, item ->
+            if (options[item] == "Take Photo") {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, REQUEST_CAMERA)
+            } else if (options[item] == "Choose from Gallery") {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT //
+                startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE)
+            } else if (options[item] == "Cancel") {
+                dialog.dismiss()
+            }
+        }
+        builder.show()
+    }
+
+
+    private fun OpenPictureEditActivity() {
+        if (!TextUtils.isEmpty(imageFile?.getPath()) && File(imageFile?.getPath())
+                .exists()
+        ) {
+            CropImage.activity(Uri.fromFile(File(imageFile?.getPath())))
+                .start(this!!.activity!!)
+        }
+    }
+
+    private fun onCaptureImageResult(data: Intent) {
+        thumbnail = data.extras!!["data"] as Bitmap?
+        bytes = ByteArrayOutputStream()
+        thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        imageFile = File(
+            Environment.getExternalStorageDirectory(),
+            System.currentTimeMillis().toString() + ".jpg"
+        )
+        val fo: FileOutputStream
+        try {
+            imageFile?.createNewFile()
+            fo = FileOutputStream(imageFile)
+            fo.write(bytes?.toByteArray())
+            fo.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        OpenPictureEditActivity()
+
+        /*      im_upload.setImageBitmap(thumbnail);
+        im_editbutton.setVisibility(View.GONE);
+        im_holder.setVisibility(View.GONE);*/
+    }
+
+    private fun onSelectFromGalleryResult(data: Intent?) {
+        if (data != null) {
+            try {
+                thumbnail = MediaStore.Images.Media.getBitmap(activity?.contentResolver, data.data)
+                bytes = ByteArrayOutputStream()
+                thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        imageFile = File(
+            Environment.getExternalStorageDirectory(),
+            System.currentTimeMillis().toString() + ".jpg"
+        )
+        val fo: FileOutputStream
+        try {
+            imageFile?.createNewFile()
+            fo = FileOutputStream(imageFile)
+            fo.write(bytes?.toByteArray())
+            fo.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        OpenPictureEditActivity()
+        /*     im_upload.setImageBitmap(thumbnail);
+        im_editbutton.setVisibility(View.GONE);
+        im_holder.setVisibility(View.GONE);*/
+    }
+
+
+    fun goToImageIntent() {
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
 
 
 }

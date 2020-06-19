@@ -4,12 +4,9 @@ import android.util.Log
 import com.google.gson.Gson
 import com.rootscare.data.model.api.request.deletepatientfamilymemberrequest.DeletePatientFamilyMemberRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctordetailsrequest.DoctorDetailsRequest
-import com.rootscare.data.model.api.request.doctorrequest.doctorlistbydepartmentrequest.DoctorListByDepartmentIdRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctorprivatesotrequest.DoctorPrivateSlotRequest
 import com.rootscare.data.model.api.request.doctorrequest.getpatientfamilymemberrequest.GetPatientFamilyMemberRequest
-import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilemedicalrequest.ProfileMedicalUpdateRequest
 import com.rootscare.ui.base.BaseViewModel
-import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointmentNavigator
 import io.reactivex.disposables.Disposable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -16,6 +17,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.rootscare.BR
@@ -28,6 +30,8 @@ import com.rootscare.ui.bookingappointment.FragmentBookingAppointment
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.utils.ManagePermissions
+import com.squareup.picasso.Picasso
+import com.theartofdev.edmodo.cropper.CropImage
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -53,6 +57,18 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
     private var patientEmail:String=""
     private var patientPhonenumber:String=""
     private var patientAge:String=""
+
+
+    private val PICK_IMAGE_REQUEST = 1
+
+    var thumbnail: Bitmap? = null
+    var bytes: ByteArrayOutputStream? = null
+
+    private val REQUEST_CAMERA = 4
+    var SELECT_FILE:Int = 5
+    var REQUEST_ID_MULTIPLE_PERMISSIONS = 123
+    var requested = false
+
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -66,15 +82,17 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
 
     companion object {
         private val IMAGE_DIRECTORY = "/demonuts"
-        fun newInstance(doctorid: String,id:String,imagename: String,firstname: String,lastname: String,email:String,phoneno:String,age:String,gender:String): FragmentEditPatientFamilyMember {
+        fun newInstance(doctorid: String,id:String,imagename: String,firstname: String,lastname: String,age:String,gender:String): FragmentEditPatientFamilyMember {
+
+//            email:String,phoneno:String,
             val args = Bundle()
             args.putString("doctorid",doctorid)
             args.putString("id",id)
             args.putString("imagename",imagename)
             args.putString("firstname",firstname)
             args.putString("lastname",lastname)
-            args.putString("email",email)
-            args.putString("phoneno",phoneno)
+//            args.putString("email",email)
+//            args.putString("phoneno",phoneno)
             args.putString("age",age)
             args.putString("gender",gender)
 
@@ -100,7 +118,6 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
 
         // Initialize a new instance of ManagePermissions class
         managePermissions = ManagePermissions(this!!.activity!!, list, PermissionsRequestCode)
-
         //check permissions states
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -129,25 +146,26 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
             patientLastname = arguments?.getString("lastname")!!
             Log.d("patientLastname", ": " + patientLastname )
         }
-        if (arguments!=null && arguments?.getString("email")!=null){
-            patientEmail = arguments?.getString("email")!!
-            Log.d("patientEmail", ": " + patientEmail )
-        }
-        if (arguments!=null && arguments?.getString("phoneno")!=null){
-            patientPhonenumber = arguments?.getString("phoneno")!!
-            Log.d("patientPhonenumber", ": " + patientPhonenumber )
-        }
+//        if (arguments!=null && arguments?.getString("email")!=null){
+//            patientEmail = arguments?.getString("email")!!
+//            Log.d("patientEmail", ": " + patientEmail )
+//        }
+//        if (arguments!=null && arguments?.getString("phoneno")!=null){
+//            patientPhonenumber = arguments?.getString("phoneno")!!
+//            Log.d("patientPhonenumber", ": " + patientPhonenumber )
+//        }
         if (arguments!=null && arguments?.getString("age")!=null){
             patientAge = arguments?.getString("age")!!
-            Log.d("Doctor Id", ": " + patientAge )
+            Log.d("age", ": " + patientAge )
         }
         if (arguments!=null && arguments?.getString("gender")!=null){
             selectedGender = arguments?.getString("gender")!!
-            Log.d("Doctor Id", ": " + selectedGender )
+            Log.d("gender", ": " + selectedGender )
         }
 
         fragmentEditPatientFamilyMemberBinding?.edtPatientProfileImage?.setOnClickListener(View.OnClickListener {
-            showPictureDialog()
+          //  showPictureDialog()
+            captureImage()
         })
         fragmentEditPatientFamilyMemberBinding?.radioPatientGenderFemale?.setOnClickListener(View.OnClickListener {
             selectedGender="Female"
@@ -177,17 +195,17 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
         }else{
             patientLastname=""
         }
-        if (patientEmail!=null && !patientEmail.equals("")){
-            fragmentEditPatientFamilyMemberBinding?.edtAddpatientEmail?.setText(patientEmail)
-        }else{
-            patientEmail=""
-        }
-
-        if (patientPhonenumber!=null && !patientPhonenumber.equals("")){
-            fragmentEditPatientFamilyMemberBinding?.edtAddpatientPhonenumber?.setText(patientPhonenumber)
-        }else{
-            patientPhonenumber=""
-        }
+//        if (patientEmail!=null && !patientEmail.equals("")){
+//            fragmentEditPatientFamilyMemberBinding?.edtAddpatientEmail?.setText(patientEmail)
+//        }else{
+//            patientEmail=""
+//        }
+//
+//        if (patientPhonenumber!=null && !patientPhonenumber.equals("")){
+//            fragmentEditPatientFamilyMemberBinding?.edtAddpatientPhonenumber?.setText(patientPhonenumber)
+//        }else{
+//            patientPhonenumber=""
+//        }
 
         if (patientAge!=null && !patientAge.equals("")){
             fragmentEditPatientFamilyMemberBinding?.edtAddpatientAge?.setText(patientAge)
@@ -281,6 +299,16 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
             bitmapToFile(thumbnail)
             Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
         }
+
+        if (requestCode == REQUEST_CAMERA) onCaptureImageResult(data!!) else if (requestCode == SELECT_FILE) {
+            onSelectFromGalleryResult(data)
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            val resultUri = result.uri
+            Picasso.get().load(resultUri).into(fragmentEditPatientFamilyMemberBinding?.imgRootscarePatientProfileImage)
+            imageFile = File(result.uri.path)
+            println("resultUri===>$resultUri")
+        }
     }
 
     fun saveImage(myBitmap: Bitmap): String {
@@ -334,6 +362,7 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
 
                 if (isPermissionsGranted) {
                     // Do the task now
+                    goToImageIntent()
                     Toast.makeText(activity, "Permissions granted.", Toast.LENGTH_SHORT).show()
                     //  toast("Permissions granted.")
                 } else {
@@ -381,14 +410,14 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
             return false
         }
 
-        if (TextUtils.isEmpty(fragmentEditPatientFamilyMemberBinding?.edtAddpatientEmail?.text?.toString())) {
-            Toast.makeText(activity, "Please enter patient email", Toast.LENGTH_SHORT).show()
-            return false
-        }
-        if (TextUtils.isEmpty(fragmentEditPatientFamilyMemberBinding?.edtAddpatientPhonenumber?.text?.toString())) {
-            Toast.makeText(activity, "Please enter patient phone number", Toast.LENGTH_SHORT).show()
-            return false
-        }
+//        if (TextUtils.isEmpty(fragmentEditPatientFamilyMemberBinding?.edtAddpatientEmail?.text?.toString())) {
+//            Toast.makeText(activity, "Please enter patient email", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
+//        if (TextUtils.isEmpty(fragmentEditPatientFamilyMemberBinding?.edtAddpatientPhonenumber?.text?.toString())) {
+//            Toast.makeText(activity, "Please enter patient phone number", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
 
         if (TextUtils.isEmpty(fragmentEditPatientFamilyMemberBinding?.edtAddpatientAge?.text?.toString())) {
             Toast.makeText(activity, "Please enter patient age", Toast.LENGTH_SHORT).show()
@@ -401,8 +430,8 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
         val patient_id = RequestBody.create(MediaType.parse("multipart/form-data"), patientId)
         val first_name = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentEditPatientFamilyMemberBinding?.edtAddpatientFname?.text?.toString())
         val last_name = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentEditPatientFamilyMemberBinding?.edtAddpatientLname?.text?.toString())
-        val email = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentEditPatientFamilyMemberBinding?.edtAddpatientEmail?.text?.toString())
-        val phone_number = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentEditPatientFamilyMemberBinding?.edtAddpatientPhonenumber?.text?.toString())
+//        val email = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentEditPatientFamilyMemberBinding?.edtAddpatientEmail?.text?.toString())
+//        val phone_number = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentEditPatientFamilyMemberBinding?.edtAddpatientPhonenumber?.text?.toString())
         val gender = RequestBody.create(MediaType.parse("multipart/form-data"), selectedGender)
         val age = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentEditPatientFamilyMemberBinding?.edtAddpatientAge?.text?.toString())
 //        val status = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.txtProfilePersonalStatus?.text?.toString())
@@ -410,14 +439,14 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
         if (imageFile != null) {
             val image = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
             var multipartBody = MultipartBody.Part.createFormData("image", imageFile?.name, image)
-//            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)
-            fragmentEditPatientFamilyMemberViewModel?.apieditpatientfamily(patient_id,first_name,last_name,multipartBody,email,phone_number,gender,age)
+//            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)email,phone_number,
+            fragmentEditPatientFamilyMemberViewModel?.apieditpatientfamily(patient_id,first_name,last_name,multipartBody,gender,age)
 
         } else{
             val image = RequestBody.create(MediaType.parse("multipart/form-data"), patientimage)
             var multipartBody = MultipartBody.Part.createFormData("image", "", image)
-//            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)
-            fragmentEditPatientFamilyMemberViewModel?.apieditpatientfamily(patient_id,first_name,last_name,multipartBody,email,phone_number,gender,age)
+//            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)email,phone_number,
+            fragmentEditPatientFamilyMemberViewModel?.apieditpatientfamily(patient_id,first_name,last_name,multipartBody,gender,age)
             //Toast.makeText(activity, "Image can not be blank", Toast.LENGTH_SHORT).show()
         }
     }
@@ -440,6 +469,147 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
             Log.d(HomeFragment.TAG, "--ERROR-Throwable:-- ${throwable.message}")
             Toast.makeText(activity, "Something went wrong", Toast.LENGTH_SHORT).show()
         }
+    }
+
+
+    ///New Image Upload Section
+
+
+    //image upload*********************************************************************************************************************************************
+    private fun checkAndRequestPermissionsTest(): Boolean {
+        return if (Build.VERSION.SDK_INT >= 23) {
+            val permissionText = " "
+            val permissioncamera = ContextCompat.checkSelfPermission(
+                this!!.activity!!,
+                Manifest.permission.CAMERA
+            )
+            val permissionwriteexternalstorage = ContextCompat.checkSelfPermission(
+                this!!.activity!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            val listPermissionsNeeded: MutableList<String> =
+                ArrayList()
+            if (permissioncamera != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.CAMERA)
+            }
+            if (permissionwriteexternalstorage != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            if (!listPermissionsNeeded.isEmpty()) {
+                requested = true
+                /*ActivityCompat.requestPermissions(getActivity(),
+                                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
+                                    REQUEST_ID_MULTIPLE_PERMISSIONS);*/requestPermissions(
+                    listPermissionsNeeded.toTypedArray(),
+                    REQUEST_ID_MULTIPLE_PERMISSIONS
+                )
+                false
+            } else {
+                true
+            }
+        } else {
+            requested = false
+            true
+        }
+    }
+
+
+    private fun captureImage() {
+        val options =
+            arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
+        val builder =
+            AlertDialog.Builder(context)
+        builder.setTitle("Add Photo!")
+        builder.setItems(options) { dialog, item ->
+            if (options[item] == "Take Photo") {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, REQUEST_CAMERA)
+            } else if (options[item] == "Choose from Gallery") {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT //
+                startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE)
+            } else if (options[item] == "Cancel") {
+                dialog.dismiss()
+            }
+        }
+        builder.show()
+    }
+
+
+    private fun OpenPictureEditActivity() {
+        if (!TextUtils.isEmpty(imageFile?.getPath()) && File(imageFile?.getPath())
+                .exists()
+        ) {
+            CropImage.activity(Uri.fromFile(File(imageFile?.getPath())))
+                .start(this!!.activity!!)
+        }
+    }
+
+    private fun onCaptureImageResult(data: Intent) {
+        thumbnail = data.extras!!["data"] as Bitmap?
+        bytes = ByteArrayOutputStream()
+        thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        imageFile = File(
+            Environment.getExternalStorageDirectory(),
+            System.currentTimeMillis().toString() + ".jpg"
+        )
+        val fo: FileOutputStream
+        try {
+            imageFile?.createNewFile()
+            fo = FileOutputStream(imageFile)
+            fo.write(bytes?.toByteArray())
+            fo.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        OpenPictureEditActivity()
+
+        /*      im_upload.setImageBitmap(thumbnail);
+        im_editbutton.setVisibility(View.GONE);
+        im_holder.setVisibility(View.GONE);*/
+    }
+
+    private fun onSelectFromGalleryResult(data: Intent?) {
+        if (data != null) {
+            try {
+                thumbnail = MediaStore.Images.Media.getBitmap(activity?.contentResolver, data.data)
+                bytes = ByteArrayOutputStream()
+                thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        imageFile = File(
+            Environment.getExternalStorageDirectory(),
+            System.currentTimeMillis().toString() + ".jpg"
+        )
+        val fo: FileOutputStream
+        try {
+            imageFile?.createNewFile()
+            fo = FileOutputStream(imageFile)
+            fo.write(bytes?.toByteArray())
+            fo.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        OpenPictureEditActivity()
+        /*     im_upload.setImageBitmap(thumbnail);
+        im_editbutton.setVisibility(View.GONE);
+        im_holder.setVisibility(View.GONE);*/
+    }
+
+
+    fun goToImageIntent() {
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
 

@@ -32,6 +32,8 @@ import com.rootscare.ui.bookingappointment.FragmentBookingAppointment
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.utils.ManagePermissions
+import com.squareup.picasso.Picasso
+import com.theartofdev.edmodo.cropper.CropImage
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -49,6 +51,18 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
     private var selectedGender="Female"
     var imageFile: File? = null
     private var doctorId:String=""
+
+
+    private val PICK_IMAGE_REQUEST = 1
+
+    var thumbnail: Bitmap? = null
+    var bytes: ByteArrayOutputStream? = null
+
+    private val REQUEST_CAMERA = 3
+    var SELECT_FILE:Int = 4
+    var REQUEST_ID_MULTIPLE_PERMISSIONS = 123
+    var requested = false
+
 
 
     override val bindingVariable: Int
@@ -100,7 +114,8 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
             Log.d("Doctor Id", ": " + doctorId )
         }
         fragmentAddPatientForDoctorBookingBinding?.edtPatientProfileImage?.setOnClickListener(View.OnClickListener {
-            showPictureDialog()
+          //  showPictureDialog()
+            captureImage()
         })
         fragmentAddPatientForDoctorBookingBinding?.radioPatientGenderFemale?.setOnClickListener(View.OnClickListener {
             selectedGender="Female"
@@ -184,6 +199,16 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
             bitmapToFile(thumbnail)
             Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
         }
+
+        if (requestCode == REQUEST_CAMERA) onCaptureImageResult(data!!) else if (requestCode == SELECT_FILE) {
+            onSelectFromGalleryResult(data)
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            val resultUri = result.uri
+            Picasso.get().load(resultUri).into(fragmentAddPatientForDoctorBookingBinding?.imgRootscarePatientProfileImage)
+            imageFile = File(result.uri.path)
+            println("resultUri===>$resultUri")
+        }
     }
 
     fun saveImage(myBitmap: Bitmap): String {
@@ -237,6 +262,7 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
 
                 if (isPermissionsGranted) {
                     // Do the task now
+                    goToImageIntent()
                     Toast.makeText(activity, "Permissions granted.", Toast.LENGTH_SHORT).show()
                     //  toast("Permissions granted.")
                 } else {
@@ -284,14 +310,14 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
             return false
         }
 
-        if (TextUtils.isEmpty(fragmentAddPatientForDoctorBookingBinding?.edtAddpatientEmail?.text?.toString())) {
-            Toast.makeText(activity, "Please enter patient email", Toast.LENGTH_SHORT).show()
-            return false
-        }
-        if (TextUtils.isEmpty(fragmentAddPatientForDoctorBookingBinding?.edtAddpatientPhonenumber?.text?.toString())) {
-            Toast.makeText(activity, "Please enter patient phone number", Toast.LENGTH_SHORT).show()
-            return false
-        }
+//        if (TextUtils.isEmpty(fragmentAddPatientForDoctorBookingBinding?.edtAddpatientEmail?.text?.toString())) {
+//            Toast.makeText(activity, "Please enter patient email", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
+//        if (TextUtils.isEmpty(fragmentAddPatientForDoctorBookingBinding?.edtAddpatientPhonenumber?.text?.toString())) {
+//            Toast.makeText(activity, "Please enter patient phone number", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
 
         if (TextUtils.isEmpty(fragmentAddPatientForDoctorBookingBinding?.edtAddpatientAge?.text?.toString())) {
             Toast.makeText(activity, "Please enter patient age", Toast.LENGTH_SHORT).show()
@@ -316,13 +342,14 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
             val image = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
             var multipartBody = MultipartBody.Part.createFormData("image", imageFile?.name, image)
 //            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)
-            fragmentAddPatientForDoctorBookingViewModel?.apiinsertpatientfamily(patient_id,first_name,last_name,multipartBody,email,phone_number,gender,age)
+//            email,phone_number,
+            fragmentAddPatientForDoctorBookingViewModel?.apiinsertpatientfamily(patient_id,first_name,last_name,multipartBody,gender,age)
 
         } else{
             val image = RequestBody.create(MediaType.parse("multipart/form-data"), "")
             var multipartBody = MultipartBody.Part.createFormData("image", "", image)
-//            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)
-            fragmentAddPatientForDoctorBookingViewModel?.apiinsertpatientfamily(patient_id,first_name,last_name,multipartBody,email,phone_number,gender,age)
+//            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)email,phone_number,
+            fragmentAddPatientForDoctorBookingViewModel?.apiinsertpatientfamily(patient_id,first_name,last_name,multipartBody,gender,age)
             //Toast.makeText(activity, "Image can not be blank", Toast.LENGTH_SHORT).show()
         }
     }
@@ -352,6 +379,145 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
 
 
     // Callback with the request from calling requestPermissions(...)
+    ///New Image Upload Section
+
+
+    //image upload*********************************************************************************************************************************************
+    private fun checkAndRequestPermissionsTest(): Boolean {
+        return if (Build.VERSION.SDK_INT >= 23) {
+            val permissionText = " "
+            val permissioncamera = ContextCompat.checkSelfPermission(
+                this!!.activity!!,
+                Manifest.permission.CAMERA
+            )
+            val permissionwriteexternalstorage = ContextCompat.checkSelfPermission(
+                this!!.activity!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            val listPermissionsNeeded: MutableList<String> =
+                ArrayList()
+            if (permissioncamera != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.CAMERA)
+            }
+            if (permissionwriteexternalstorage != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            if (!listPermissionsNeeded.isEmpty()) {
+                requested = true
+                /*ActivityCompat.requestPermissions(getActivity(),
+                                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
+                                    REQUEST_ID_MULTIPLE_PERMISSIONS);*/requestPermissions(
+                    listPermissionsNeeded.toTypedArray(),
+                    REQUEST_ID_MULTIPLE_PERMISSIONS
+                )
+                false
+            } else {
+                true
+            }
+        } else {
+            requested = false
+            true
+        }
+    }
+
+
+    private fun captureImage() {
+        val options =
+            arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
+        val builder =
+            AlertDialog.Builder(context)
+        builder.setTitle("Add Photo!")
+        builder.setItems(options) { dialog, item ->
+            if (options[item] == "Take Photo") {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, REQUEST_CAMERA)
+            } else if (options[item] == "Choose from Gallery") {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT //
+                startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE)
+            } else if (options[item] == "Cancel") {
+                dialog.dismiss()
+            }
+        }
+        builder.show()
+    }
+
+
+    private fun OpenPictureEditActivity() {
+        if (!TextUtils.isEmpty(imageFile?.getPath()) && File(imageFile?.getPath())
+                .exists()
+        ) {
+            CropImage.activity(Uri.fromFile(File(imageFile?.getPath())))
+                .start(this!!.activity!!)
+        }
+    }
+
+    private fun onCaptureImageResult(data: Intent) {
+        thumbnail = data.extras!!["data"] as Bitmap?
+        bytes = ByteArrayOutputStream()
+        thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        imageFile = File(
+            Environment.getExternalStorageDirectory(),
+            System.currentTimeMillis().toString() + ".jpg"
+        )
+        val fo: FileOutputStream
+        try {
+            imageFile?.createNewFile()
+            fo = FileOutputStream(imageFile)
+            fo.write(bytes?.toByteArray())
+            fo.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        OpenPictureEditActivity()
+
+        /*      im_upload.setImageBitmap(thumbnail);
+        im_editbutton.setVisibility(View.GONE);
+        im_holder.setVisibility(View.GONE);*/
+    }
+
+    private fun onSelectFromGalleryResult(data: Intent?) {
+        if (data != null) {
+            try {
+                thumbnail = MediaStore.Images.Media.getBitmap(activity?.contentResolver, data.data)
+                bytes = ByteArrayOutputStream()
+                thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        imageFile = File(
+            Environment.getExternalStorageDirectory(),
+            System.currentTimeMillis().toString() + ".jpg"
+        )
+        val fo: FileOutputStream
+        try {
+            imageFile?.createNewFile()
+            fo = FileOutputStream(imageFile)
+            fo.write(bytes?.toByteArray())
+            fo.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        OpenPictureEditActivity()
+        /*     im_upload.setImageBitmap(thumbnail);
+        im_editbutton.setVisibility(View.GONE);
+        im_holder.setVisibility(View.GONE);*/
+    }
+
+
+    fun goToImageIntent() {
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
 
 
 

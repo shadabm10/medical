@@ -82,10 +82,16 @@ class AdapterNurseCancelMyUpcomingAppiontment (val nurseAppointmentList: ArrayLi
             }else{
                 itemView?.rootView?.txt_cancelappointment_booking_date?.setText("")
             }
-            if(nurseAppointmentList?.get(pos)?.bookingDate!=null && !nurseAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_cancelappointment_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.bookingDate))
+            if(nurseAppointmentList?.get(pos)?.fromDate!=null && !nurseAppointmentList?.get(pos)?.fromDate.equals("")){
+                itemView?.rootView?.txt_cancelappointment_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.fromDate))
             }else{
                 itemView?.rootView?.txt_cancelappointment_appointment_date?.setText("")
+            }
+
+            if (nurseAppointmentList?.get(pos)?.patientContact!=null && !nurseAppointmentList?.get(pos)?.patientContact.equals("")){
+                itemView?.rootView?.txt_cancelappointment_phone_no?.setText(nurseAppointmentList?.get(pos)?.patientContact)
+            }else{
+                itemView?.rootView?.txt_cancelappointment_phone_no?.setText("")
             }
         }
 

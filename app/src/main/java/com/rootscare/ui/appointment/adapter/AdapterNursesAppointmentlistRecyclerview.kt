@@ -61,7 +61,9 @@ class AdapterNursesAppointmentlistRecyclerview (val nurseAppointmentList: ArrayL
             local_position = pos
             itemView?.rootView?.txt_appointment_id?.setText(nurseAppointmentList?.get(pos)?.orderId)
             itemView?.rootView?.txt_patient_name?.setText(nurseAppointmentList?.get(pos)?.patientName)
+            itemView?.rootView?.txt_appoitment_header?.setText("Nurse Name : ")
             itemView?.rootView?.txt_doctor_name?.setText(nurseAppointmentList?.get(pos)?.nurseName)
+            itemView?.rootView?.txt_phone_no?.setText(nurseAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.bookingDate))
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.fromDate)+" "+"-"+" "+formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.toDate))
         }

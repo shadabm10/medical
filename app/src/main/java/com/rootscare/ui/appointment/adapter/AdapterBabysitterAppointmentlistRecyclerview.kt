@@ -59,9 +59,10 @@ class AdapterBabysitterAppointmentlistRecyclerview  (val babysitterAppointmentLi
 
             itemView?.rootView?.txt_appointment_id?.setText(babysitterAppointmentList?.get(pos)?.orderId)
             itemView?.rootView?.txt_patient_name?.setText(babysitterAppointmentList?.get(pos)?.patientName)
+            itemView?.rootView?.txt_appoitment_header?.setText("Babysitter Name : ")
             itemView?.rootView?.txt_doctor_name?.setText(babysitterAppointmentList?.get(pos)?.babysitterName)
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.bookingDate))
-
+            itemView?.rootView?.txt_phone_no?.setText(babysitterAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.fromDate)+" "+"-"+" "+formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.toDate))
 
         }

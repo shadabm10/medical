@@ -49,5 +49,8 @@ data class PhysiotherapyAppointmentItem(
 	val orderId: String? = null,
 	@field:JsonProperty("paymentStatus")
 	@field:SerializedName("paymentStatus")
-	val paymentStatus: String? = null
+	val paymentStatus: String? = null,
+	@field:JsonProperty("patient_contact")
+	@field:SerializedName("patient_contact")
+	val patientContact: String? = null
 )

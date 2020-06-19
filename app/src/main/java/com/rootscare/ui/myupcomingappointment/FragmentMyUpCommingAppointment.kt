@@ -9,19 +9,25 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dialog.CommonDialog
 import com.google.android.material.tabs.TabLayout
 import com.interfaces.OnClickWithTwoButton
+import com.interfaces.OnUpcommingAppointmentBtnClickListner
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
+import com.rootscare.data.model.api.request.cancelappointmentrequest.CancelAppointmentRequest
+import com.rootscare.data.model.api.response.appointcancelresponse.AppointmentCancelResponse
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.*
 import com.rootscare.databinding.FragmentCancellMyUpcomingAppointmentBinding
 import com.rootscare.databinding.FragmentMyUpcommingAppointmentBinding
 import com.rootscare.databinding.FragmentUpcommingAppointmentNewBinding
+import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.appointment.adapter.*
 import com.rootscare.ui.appointment.subfragment.FragmentAppiontmentDetails
 import com.rootscare.ui.base.BaseFragment
+import com.rootscare.ui.bookingappointment.subfragment.editpatient.FragmentEditPatientFamilyMember
 import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointment
 import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointmentNavigator
 import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointmentViewModel
@@ -29,6 +35,7 @@ import com.rootscare.ui.cancellappointment.adapter.AdapterCancelMyUpcomingAppion
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.myupcomingappointment.adapter.*
 import com.rootscare.ui.profile.FragmentProfile
+import com.rootscare.ui.recedule.doctor.FragmentDoctorAppointmentReschedule
 import com.rootscare.ui.submitfeedback.FragmentSubmitReview
 import java.util.*
 
@@ -222,18 +229,44 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
         recyclerView?.setHasFixedSize(true)
         val contactListAdapter = AdapteMyUpComingAppointment(doctorAppointmentList,context!!)
         recyclerView?.adapter = contactListAdapter
-        contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
-            override fun onItemClick(id: Int) {
-            }
-//            override fun onFirstItemClick(id: Int) {
-////                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-////                    FragmentAppiontmentDetails.newInstance(id.toString()))
-//            }
+        contactListAdapter?.recyclerViewItemClickWithView= object :
+            OnUpcommingAppointmentBtnClickListner {
+            override fun onCancelBtnClick(id: String) {
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
 //
-//            override fun onSecondItemClick(id: Int) {
-////                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-////                    FragmentSubmitReview.newInstance(id.toString()))
-//            }
+
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+                            var cancelAppointmentRequest= CancelAppointmentRequest()
+                            cancelAppointmentRequest?.id=id
+                            cancelAppointmentRequest?.serviceType="doctor"
+                            fragmentMyUpCommingAppointmentViewModel?.apicancelappointment(cancelAppointmentRequest)
+
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Cancel Appointment", "Are you sure to cancel this appointment?")
+
+
+            }
+
+            override fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem) {
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentDoctorAppointmentReschedule.newInstance(modelDoctorAppointmentItem?.id!!,modelDoctorAppointmentItem?.doctorId!!,
+                        modelDoctorAppointmentItem?.doctorName!!,
+                        modelDoctorAppointmentItem?.patientName!!,
+                        modelDoctorAppointmentItem?.appointmentDate!!,
+                        modelDoctorAppointmentItem?.fromTime!!, modelDoctorAppointmentItem?.toTime!!))
+            }
+
 
         }
 
@@ -253,14 +286,34 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                    FragmentAppiontmentDetails.newInstance("1"))
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+//
+
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+                            var cancelAppointmentRequest= CancelAppointmentRequest()
+                            cancelAppointmentRequest?.id=id.toString()
+                            cancelAppointmentRequest?.serviceType="nurse"
+                            fragmentMyUpCommingAppointmentViewModel?.apicancelappointment(cancelAppointmentRequest)
+
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Cancel Appointment", "Are you sure to cancel this appointment?")
             }
 
         }
 
     }
-
+//    "message": "User Type must be from the list. (doctor,hospital,nurse,caregiver,babysitter,physiotherapy,lab-technician)",
     // Set up recycler view for Nurses Appointment listing if available
     private fun setUpHospitalAppointmentlistingRecyclerview(pathologyAppointmentList: ArrayList<PathologyAppointmentItem?>?) {
 //        trainerList: ArrayList<TrainerListItem?>?
@@ -275,8 +328,28 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                    FragmentAppiontmentDetails.newInstance("1"))
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+//
+
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+                            var cancelAppointmentRequest= CancelAppointmentRequest()
+                            cancelAppointmentRequest?.id=id.toString()
+                            cancelAppointmentRequest?.serviceType="hospital"
+                            fragmentMyUpCommingAppointmentViewModel?.apicancelappointment(cancelAppointmentRequest)
+
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Cancel Appointment", "Are you sure to cancel this appointment?")
             }
 
         }
@@ -297,8 +370,28 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                    FragmentAppiontmentDetails.newInstance("1"))
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+//
+
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+                            var cancelAppointmentRequest= CancelAppointmentRequest()
+                            cancelAppointmentRequest?.id=id.toString()
+                            cancelAppointmentRequest?.serviceType="physiotherapy"
+                            fragmentMyUpCommingAppointmentViewModel?.apicancelappointment(cancelAppointmentRequest)
+
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Cancel Appointment", "Are you sure to cancel this appointment?")
             }
 
         }
@@ -319,8 +412,28 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                    FragmentAppiontmentDetails.newInstance("1"))
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+//
+
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+                            var cancelAppointmentRequest= CancelAppointmentRequest()
+                            cancelAppointmentRequest?.id=id.toString()
+                            cancelAppointmentRequest?.serviceType="caregiver"
+                            fragmentMyUpCommingAppointmentViewModel?.apicancelappointment(cancelAppointmentRequest)
+
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Cancel Appointment", "Are you sure to cancel this appointment?")
             }
 
         }
@@ -341,8 +454,31 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
             override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                    FragmentAppiontmentDetails.newInstance("1"))
+//                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+//                    FragmentAppiontmentDetails.newInstance("1"))
+
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+//
+
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+                            var cancelAppointmentRequest= CancelAppointmentRequest()
+                            cancelAppointmentRequest?.id=id.toString()
+                            cancelAppointmentRequest?.serviceType="babysitter"
+                            fragmentMyUpCommingAppointmentViewModel?.apicancelappointment(cancelAppointmentRequest)
+
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Cancel Appointment", "Are you sure to cancel this appointment?")
             }
 
         }
@@ -403,6 +539,28 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
             defaultBabysitterListSetup(babysitterAppointmentItemArrayList)
             defaultPathologyListSetup(pathologyAppointmentItemArrayList)
 
+        }
+
+    }
+
+    override fun successAppointmentCancelResponse(appointmentCancelResponse: AppointmentCancelResponse?) {
+        baseActivity?.hideLoading()
+        if(appointmentCancelResponse?.code.equals("200")){
+            Toast.makeText(activity, appointmentCancelResponse?.message, Toast.LENGTH_SHORT).show()
+            if(isNetworkConnected){
+                baseActivity?.showLoading()
+                var appointmentRequest= AppointmentRequest()
+                appointmentRequest?.userId=fragmentMyUpCommingAppointmentViewModel?.appSharedPref?.userId
+//            appointmentRequest?.userId="11"
+
+                fragmentMyUpCommingAppointmentViewModel?.apipatientupcomingappointment(appointmentRequest)
+
+            }else{
+                Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+            }
+
+        }else{
+            Toast.makeText(activity, appointmentCancelResponse?.message, Toast.LENGTH_SHORT).show()
         }
 
     }

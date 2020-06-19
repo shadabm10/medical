@@ -100,9 +100,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
 
             R.id.navigation_booking -> {
-//                checkFragmentInBackstackAndOpen(FragmentBookingAppointment.newInstance(1))
-//                Handler().postDelayed({ showSelectionOfBottomNavigationItem() }, 100)
-//                return@OnNavigationItemSelectedListener true
+                checkFragmentInBackstackAndOpen(FragmentAppointment.newInstance())
+                Handler().postDelayed({ showSelectionOfBottomNavigationItem() }, 100)
+                return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
                 checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
@@ -572,7 +572,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 //            menu.findItem(R.id.navigation_booking).setIcon(R.drawable.booking_deselect);
 //            menu.findItem(R.id.navigation_cart).setIcon(R.drawable.cart_deselect);
 //            menu.findItem(R.id.navigation_profile).setIcon(R.drawable.profile_select);
-        }else if (fragment is FragmentBookingAppointment) {
+        }else if (fragment is FragmentAppointment) {
             menu.findItem(R.id.navigation_booking).isChecked = true
         }
         else if (fragment is FragmentBookingCart) {

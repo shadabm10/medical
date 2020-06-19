@@ -69,6 +69,7 @@ class AdapterAppointmentListRecyclerView (val doctorAppointmentList: ArrayList<D
             itemView?.rootView?.txt_appointment_id?.setText(doctorAppointmentList?.get(pos)?.orderId)
             itemView?.rootView?.txt_patient_name?.setText(doctorAppointmentList?.get(pos)?.patientName)
             itemView?.rootView?.txt_doctor_name?.setText(doctorAppointmentList?.get(pos)?.doctorName)
+            itemView?.rootView?.txt_phone_no?.setText(doctorAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.bookingDate))
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.appointmentDate))
         }

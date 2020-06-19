@@ -9,12 +9,15 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class FragmentAddPatientForDoctorBookingViewModel : BaseViewModel<FragmentAddPatientForDoctorBookingNavigator>() {
-    fun apiinsertpatientfamily(userId: RequestBody, first_name: RequestBody, last_name: RequestBody,image: MultipartBody.Part? = null,email: RequestBody,phone_number: RequestBody,gender: RequestBody,age: RequestBody) {
+    fun apiinsertpatientfamily(userId: RequestBody, first_name: RequestBody, last_name: RequestBody,image: MultipartBody.Part? = null,gender: RequestBody,age: RequestBody) {
+
+//        email: RequestBody,phone_number: RequestBody,
 //        userId: RequestBody,first_name: RequestBody,last_name: RequestBody,id_number: RequestBody,status: RequestBody,image: MultipartBody.Part? = null
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
         var disposable: Disposable? = null
         if (image != null) {
-            disposable = apiServiceWithGsonFactory.apiinsertpatientfamily(userId,first_name,last_name,image,email,phone_number,gender,age)
+//            email,phone_number
+            disposable = apiServiceWithGsonFactory.apiinsertpatientfamily(userId,first_name,last_name,image,gender,age)
                 .subscribeOn(_scheduler_io)
                 .observeOn(_scheduler_ui)
                 .subscribe({ response ->

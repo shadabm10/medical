@@ -61,7 +61,9 @@ class AdapterHospitalAppointmentlistRecyclerview (val pathologyAppointmentList: 
 
             itemView?.rootView?.txt_appointment_id?.setText(pathologyAppointmentList?.get(pos)?.orderId)
             itemView?.rootView?.txt_patient_name?.setText(pathologyAppointmentList?.get(pos)?.patientName)
+            itemView?.rootView?.txt_appoitment_header?.setText("Hospital Name : ")
             itemView?.rootView?.txt_doctor_name?.setText(pathologyAppointmentList?.get(pos)?.pathologyName)
+            itemView?.rootView?.txt_phone_no?.setText(pathologyAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.bookingDate))
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.appointmentDate))
 

@@ -6,11 +6,9 @@ import com.rootscare.data.model.api.request.patientprofilerequest.PatientProfile
 import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilelifestylerequest.ProfileLifestyleUpdateRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilemedicalrequest.ProfileMedicalUpdateRequest
 import com.rootscare.ui.base.BaseViewModel
-import com.rootscare.ui.login.LoginNavigator
 import io.reactivex.disposables.Disposable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Part
 
 class FragmentProfileViewModel : BaseViewModel<FragmentProfileNavigator>() {
 
@@ -122,5 +120,33 @@ class FragmentProfileViewModel : BaseViewModel<FragmentProfileNavigator>() {
                 })
         }
         compositeDisposable.add(disposable!!)
+    }
+
+
+    fun apinationality() {
+//        val body = RequestBody.create(MediaType.parse("application/json"), "")
+        val disposable = apiServiceWithGsonFactory.apinationality()
+            .subscribeOn(_scheduler_io)
+            .observeOn(_scheduler_ui)
+            .subscribe({ response ->
+                if (response != null) {
+                    // Store last login time
+                    Log.d("check_response", ": " + Gson().toJson(response))
+                    navigator.successNationalityResponse(response)
+                    /* Saving access token after singup or login */
+                    if (response.result!= null){
+                    }
+
+                } else {
+                    Log.d("check_response", ": null response")
+                }
+            }, { throwable ->
+                run {
+                    navigator.errorPatientProfileResponse(throwable)
+                    Log.d("check_response_error", ": " + throwable.message)
+                }
+            })
+
+        compositeDisposable.add(disposable)
     }
 }

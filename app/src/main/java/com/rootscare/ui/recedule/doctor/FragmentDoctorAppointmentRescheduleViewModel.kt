@@ -1,24 +1,25 @@
-package com.rootscare.ui.myupcomingappointment
+package com.rootscare.ui.recedule.doctor
 
 import android.util.Log
 import com.google.gson.Gson
-import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
-import com.rootscare.data.model.api.request.cancelappointmentrequest.CancelAppointmentRequest
-import com.rootscare.data.model.api.request.cartitemdeleterequest.CartItemDeleteRequest
+import com.rootscare.data.model.api.request.doctorrequest.doctorprivatesotrequest.DoctorPrivateSlotRequest
+import com.rootscare.data.model.api.request.reschedule.DoctorAppointmentRescheduleRequest
+import com.rootscare.data.model.api.response.reschedule.doctorreschedule.DoctorRescheduleResponse
 import com.rootscare.ui.base.BaseViewModel
-import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointmentNavigator
+import com.rootscare.ui.reviewandrating.FragmentReviewAndRatingNavigator
 
-class FragmentMyUpCommingAppointmentViewModel : BaseViewModel<FragmentMyUpCommingAppointmentnavigator>() {
-    fun apipatientupcomingappointment(appointmentRequest: AppointmentRequest) {
+class FragmentDoctorAppointmentRescheduleViewModel  : BaseViewModel<FragmentDoctorAppointmentRescheduleNavigator>() {
+
+    fun apidoctorprivateslot(doctorPrivateSlotRequest: DoctorPrivateSlotRequest) {
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
-        val disposable = apiServiceWithGsonFactory.apipatientupcomingappointment(appointmentRequest)
+        val disposable = apiServiceWithGsonFactory.apidoctorprivateslot(doctorPrivateSlotRequest)
             .subscribeOn(_scheduler_io)
             .observeOn(_scheduler_ui)
             .subscribe({ response ->
                 if (response != null) {
                     // Store last login time
                     Log.d("check_response", ": " + Gson().toJson(response))
-                    navigator.successAppointmentHistoryResponse(response)
+                    navigator.successDoctorPrivateSlotResponse(response)
                     /* Saving access token after singup or login */
                     if (response.result!= null){
                     }
@@ -28,7 +29,7 @@ class FragmentMyUpCommingAppointmentViewModel : BaseViewModel<FragmentMyUpCommin
                 }
             }, { throwable ->
                 run {
-                    navigator.errorAppointmentHistoryResponse(throwable)
+                    navigator.errorGetPatientFamilyListResponse(throwable)
                     Log.d("check_response_error", ": " + throwable.message)
                 }
             })
@@ -36,17 +37,16 @@ class FragmentMyUpCommingAppointmentViewModel : BaseViewModel<FragmentMyUpCommin
         compositeDisposable.add(disposable)
     }
 
-
-    fun apicancelappointment(cancelAppointmentRequest: CancelAppointmentRequest) {
+    fun apirescheduleappointment(doctorAppointmentRescheduleRequest: DoctorAppointmentRescheduleRequest) {
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
-        val disposable = apiServiceWithGsonFactory.apicancelappointment(cancelAppointmentRequest)
+        val disposable = apiServiceWithGsonFactory.apirescheduleappointment(doctorAppointmentRescheduleRequest)
             .subscribeOn(_scheduler_io)
             .observeOn(_scheduler_ui)
             .subscribe({ response ->
                 if (response != null) {
                     // Store last login time
                     Log.d("check_response", ": " + Gson().toJson(response))
-                    navigator.successAppointmentCancelResponse(response)
+                    navigator.successDoctorRescheduleResponse(response)
                     /* Saving access token after singup or login */
                     if (response.result!= null){
                     }
@@ -56,7 +56,7 @@ class FragmentMyUpCommingAppointmentViewModel : BaseViewModel<FragmentMyUpCommin
                 }
             }, { throwable ->
                 run {
-                    navigator.errorAppointmentHistoryResponse(throwable)
+                    navigator.errorGetPatientFamilyListResponse(throwable)
                     Log.d("check_response_error", ": " + throwable.message)
                 }
             })

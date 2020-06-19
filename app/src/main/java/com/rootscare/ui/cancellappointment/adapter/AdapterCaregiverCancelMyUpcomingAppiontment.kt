@@ -82,10 +82,16 @@ class AdapterCaregiverCancelMyUpcomingAppiontment (val caregiverAppointmentList:
             }else{
                 itemView?.rootView?.txt_cancelappointment_booking_date?.setText("")
             }
-            if(caregiverAppointmentList?.get(pos)?.bookingDate!=null && !caregiverAppointmentList?.get(pos)?.bookingDate.equals("")){
-                itemView?.rootView?.txt_cancelappointment_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.bookingDate))
+            if(caregiverAppointmentList?.get(pos)?.fromDate!=null && !caregiverAppointmentList?.get(pos)?.fromDate.equals("")){
+                itemView?.rootView?.txt_cancelappointment_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.fromDate))
             }else{
                 itemView?.rootView?.txt_cancelappointment_appointment_date?.setText("")
+            }
+
+            if (caregiverAppointmentList?.get(pos)?.patientContact!=null && !caregiverAppointmentList?.get(pos)?.patientContact.equals("")){
+                itemView?.rootView?.txt_cancelappointment_phone_no?.setText(caregiverAppointmentList?.get(pos)?.patientContact)
+            }else{
+                itemView?.rootView?.txt_cancelappointment_phone_no?.setText("")
             }
         }
 

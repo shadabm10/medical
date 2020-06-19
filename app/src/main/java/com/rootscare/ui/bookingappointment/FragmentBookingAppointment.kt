@@ -451,8 +451,8 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
                 var imagename=modelOfGetAddPatientList?.image
                 var firstname=modelOfGetAddPatientList?.firstName
                 var lastname=modelOfGetAddPatientList?.lastName
-                var email=modelOfGetAddPatientList?.email
-                var phoneno=modelOfGetAddPatientList?.phoneNumber
+//                var email=modelOfGetAddPatientList?.email
+//                var phoneno=modelOfGetAddPatientList?.phoneNumber
                 var age=modelOfGetAddPatientList?.age
                 var gender=modelOfGetAddPatientList?.gender
 
@@ -463,10 +463,10 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
                     }
 
                     override fun onConfirm() {
-
+//                        email!!, phoneno!!,
                         (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                             FragmentEditPatientFamilyMember.newInstance(doctorId, id!!, imagename!!,
-                                firstname!!, lastname!!, email!!, phoneno!!, age!!, gender!!))
+                                firstname!!, lastname!!,age!!, gender!!))
 
                     }
 
