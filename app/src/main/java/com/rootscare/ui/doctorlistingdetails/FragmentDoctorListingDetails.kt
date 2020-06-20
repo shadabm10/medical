@@ -114,8 +114,8 @@ class FragmentDoctorListingDetails : BaseFragment<FragmentDoctorListingDetailsBi
             }else{
 
             }
-            if(doctorDetailsResponse?.result?.address!=null && !doctorDetailsResponse?.result?.address.equals("")){
-                fragmentDoctorListingDetailsBinding?.txtDoctorAddress?.setText(doctorDetailsResponse?.result?.address)
+            if(doctorDetailsResponse?.result?.description!=null && !doctorDetailsResponse?.result?.description.equals("")){
+                fragmentDoctorListingDetailsBinding?.txtDoctorAddress?.setText(doctorDetailsResponse?.result?.description)
             }else{
                 fragmentDoctorListingDetailsBinding?.txtDoctorAddress?.setText("")
             }

@@ -152,4 +152,8 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="MyProgressBarCircleStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 </resources>

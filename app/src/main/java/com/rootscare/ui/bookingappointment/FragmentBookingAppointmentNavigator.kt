@@ -10,5 +10,6 @@ interface FragmentBookingAppointmentNavigator {
     fun successDoctorPrivateSlotResponse(doctorPrivateSlotResponse: DoctorPrivateSlotResponse?)
     fun successDoctorDetailsResponse(doctorDetailsResponse: DoctorDetailsResponse?)
     fun successDoctorPrivateBooingResponse(doctorPrivateBooingResponse: DoctorPrivateBooingResponse?)
+    fun successDeletePatientFamilyListResponse(getPatientFamilyListResponse: GetPatientFamilyListResponse?)
     fun errorGetPatientFamilyListResponse(throwable: Throwable?)
 }

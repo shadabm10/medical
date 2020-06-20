@@ -133,7 +133,7 @@ class FragmentBookingAppointmentViewModel : BaseViewModel<FragmentBookingAppoint
                 if (response != null) {
                     // Store last login time
                     Log.d("check_response", ": " + Gson().toJson(response))
-                    navigator.successGetPatientFamilyListResponse(response)
+                    navigator.successDeletePatientFamilyListResponse(response)
                     /* Saving access token after singup or login */
                     if (response.result!= null){
                     }

@@ -23,6 +23,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
     private var fragmentLoginBinding: FragmentLoginBinding? = null
     private var fragmentLoginViewModel: FragmentLoginViewModel? = null
     private var isLoginRemeberCheck=false
+    private var loginRemember=""
 
     override val bindingVariable: Int
         get() = BR.viewModel
@@ -54,11 +55,13 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
         fragmentLoginBinding?.checkboxLoginremember?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 isLoginRemeberCheck=true
-                fragmentLoginViewModel?.appSharedPref?.isloginremember="true"
+                loginRemember="true"
+//                fragmentLoginViewModel?.appSharedPref?.isloginremember="true"
                 //Do Whatever you want in isChecked
             }else{
                 isLoginRemeberCheck=false
-                fragmentLoginViewModel?.appSharedPref?.isloginremember="false"
+                loginRemember="false"
+//                fragmentLoginViewModel?.appSharedPref?.isloginremember="false"
             }
         }
 
@@ -192,6 +195,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
     override fun successLoginResponse(loginResponse: LoginResponse?) {
         baseActivity?.hideLoading()
         if(loginResponse?.code.equals("200")){
+            fragmentLoginViewModel?.appSharedPref?.isloginremember=loginRemember
             startActivity(activity?.let { HomeActivity.newIntent(it) })
             activity?.finish()
         }else{

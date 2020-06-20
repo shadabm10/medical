@@ -20,6 +20,8 @@ import com.rootscare.data.model.api.request.forgotpassword.forgotpasswordchanger
 import com.rootscare.data.model.api.request.forgotpassword.forgotpasswordemailrequest.ForgotPasswordSendEmailRequest
 import com.rootscare.data.model.api.request.insertdoctorreviewratingrequest.InsertDoctorReviewRatingRequest
 import com.rootscare.data.model.api.request.loginrequest.LoginRequest
+import com.rootscare.data.model.api.request.medicalrecorddeleterequest.MedicalFileDeleteRequest
+import com.rootscare.data.model.api.request.medicalrecordsrequest.GetMedicalRecordListRequest
 import com.rootscare.data.model.api.request.patientpaymenthistoryreuest.PatientPaymentHistoryRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.PatientProfileRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilelifestylerequest.ProfileLifestyleUpdateRequest
@@ -47,6 +49,8 @@ import com.rootscare.data.model.api.response.editpatientfamilymemberresponse.Edi
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordchangepassword.ForgotPasswordChangePasswordResponse
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordsendmailresponse.ForgotPasswordSendMailResponse
 import com.rootscare.data.model.api.response.loginresponse.LoginResponse
+import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFileDeleteResponse
+import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
 import com.rootscare.data.model.api.response.nationalityresponse.NationalityResponse
 import com.rootscare.data.model.api.response.patienthome.PatientHomeApiResponse
 import com.rootscare.data.model.api.response.patientprescription.PatientPrescriptionResponse
@@ -221,6 +225,12 @@ interface ApiService {
 
     @POST("api-reschedule-appointment")
     fun apirescheduleappointment(@Body doctorAppointmentRescheduleRequestBody: DoctorAppointmentRescheduleRequest): Single<DoctorRescheduleResponse>
+
+    @POST("api-patient-medical-record")
+    fun apipatientmedicalrecord(@Body getMedicalRecordListRequestBody: GetMedicalRecordListRequest): Single<MedicalRecordListResponse>
+
+    @POST("api-delete-patient-medical-record")
+    fun apideletepatientmedicalrecord(@Body medicalFileDeleteRequestBody: MedicalFileDeleteRequest): Single<MedicalFileDeleteResponse>
 
 //    @Part("email") email: RequestBody,
 //    @Part("phone_number") phone_number: RequestBody,

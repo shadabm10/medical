@@ -278,6 +278,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:maxLines="2"
+                                        android:layout_marginTop="@dimen/_3sdp"
                                         android:id="@+id/txt_doctor_address"
                                         android:padding="@dimen/_10sdp"
                                         android:textColor="@color/txt_color"

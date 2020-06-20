@@ -5,15 +5,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.interfaces.OnMedicalRecordFileDeleteListner
 import com.rootscare.R
+import com.rootscare.data.model.api.response.medicalrecordresponse.ResultItem
+import com.rootscare.data.model.api.response.medicalrecordresponse.UploadDocumentItem
 import com.rootscare.databinding.ItemMedicalRecordsRecyclerviewListBinding
 import com.rootscare.databinding.ItemViewPresprictionRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
 import com.rootscare.ui.viewprescription.adapter.AdapterViewPrescriptionRecyclerview
+import kotlinx.android.synthetic.main.item_medical_records_recyclerview_list.view.*
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class AdapterMedicalRecordsRecyclerview ( internal var context: Context) : RecyclerView.Adapter<AdapterMedicalRecordsRecyclerview.ViewHolder>() {
+class AdapterMedicalRecordsRecyclerview (val medicalrecordlist: ArrayList<ResultItem?>?, internal var context: Context) : RecyclerView.Adapter<AdapterMedicalRecordsRecyclerview.ViewHolder>() {
     //    val trainerList: ArrayList<TrainerListItem?>?,
     companion object {
         val TAG: String = AdapterHospitalRecyclerviw::class.java.simpleName
@@ -21,7 +30,8 @@ class AdapterMedicalRecordsRecyclerview ( internal var context: Context) : Recyc
 
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
-    internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
+    internal lateinit var recyclerViewItemClickWithView: OnMedicalRecordFileDeleteListner
+    var fileId:String=""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemMedicalRecordsRecyclerviewListBinding>(
@@ -32,7 +42,7 @@ class AdapterMedicalRecordsRecyclerview ( internal var context: Context) : Recyc
 
     override fun getItemCount(): Int {
 //        return trainerList!!.size
-        return 10
+        return medicalrecordlist?.size!!
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,23 +57,6 @@ class AdapterMedicalRecordsRecyclerview ( internal var context: Context) : Recyc
 //            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
 //                recyclerViewItemClickWithView?.onItemClick(1)
 //            })
-//            itemView?.root?.btn_view_trainner_profile?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(trainerList?.get(local_position)?.id?.toInt()!!)
-//            })
-
-//            itemView.root?.img_bid?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_bid,local_position)
-//                    //serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_bid,it1) }
-//                }
-//            }
-//
-//            itemView.root?.img_details?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_details,local_position)
-//                    // serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_details,it1) }
-//                }
-//            }
 
 
         }
@@ -71,22 +64,56 @@ class AdapterMedicalRecordsRecyclerview ( internal var context: Context) : Recyc
         fun onBind(pos: Int) {
             Log.d(TAG, " true")
             local_position = pos
-
-//            itemView?.rootView?.txt_teacher_name?.text= trainerList?.get(pos)?.name
-//            itemView?.rootView?.txt_teacher_qualification?.text= "Qualification : "+" "+trainerList?.get(pos)?.qualification
-//            if(trainerList?.get(pos)?.avgRating!=null && !trainerList?.get(pos)?.avgRating.equals("")){
-//                itemView?.rootView?.ratingBarteacher?.rating= trainerList?.get(pos)?.avgRating?.toFloat()!!
-//            }
-
-
-
-
-
-//            itemView?.rootView?.txt_rating_count?.text="("+contactListItem?.get(pos)?.contactRating+")"
-//            (contactListItem?.get(pos)?.contactRating)?.toFloat()?.let { itemView?.rootView?.ratingBar?.setRating(it) }
-////            itemView?.rootView?.ratingBar?.rating=1.5f
+            if(medicalrecordlist?.get(pos)?.date!=null && !medicalrecordlist?.get(pos)?.date.equals("")){
+                itemView?.rootView?.txt_medicalreport_upload_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",medicalrecordlist?.get(pos)?.date))
+            }else{
+                itemView?.rootView?.txt_medicalreport_upload_date?.setText("")
+            }
+            if (medicalrecordlist?.get(pos)?.uploadDocument!=null && medicalrecordlist?.get(pos)?.uploadDocument?.size!!>0){
+                setUpViewForUploadedDocument(medicalrecordlist?.get(pos)?.uploadDocument)
+            }
 
 
+//
+
+
+        }
+
+        private fun setUpViewForUploadedDocument(uploadDocumentlist: ArrayList<UploadDocumentItem?>?) {
+//        trainerList: ArrayList<TrainerListItem?>?
+            assert(itemView?.rootView?.recyclerview_get_upload_file_list!= null)
+            val recyclerView = itemView?.rootView?.recyclerview_get_upload_file_list
+            val gridLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+            recyclerView?.layoutManager = gridLayoutManager
+            recyclerView?.setHasFixedSize(true)
+//        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+//        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
+            val contactListAdapter = AdapterFileUpload(uploadDocumentlist,context!!)
+            recyclerView?.adapter = contactListAdapter
+            contactListAdapter?.recyclerViewItemClickWithView= object : OnMedicalRecordFileDeleteListner {
+                override fun onDelectClick(id: String) {
+                    fileId=id
+                    recyclerViewItemClickWithView?.onDelectClick(fileId)
+                }
+
+            }
+
+
+        }
+
+        fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {
+            var parsed: Date? = null
+            var outputDate = ""
+            val df_input =
+                SimpleDateFormat(inputFormat, Locale.getDefault())
+            val df_output =
+                SimpleDateFormat(outputFormat, Locale.getDefault())
+            try {
+                parsed = df_input.parse(inputDate)
+                outputDate = df_output.format(parsed)
+            } catch (e: ParseException) {
+            }
+            return outputDate
         }
     }
 

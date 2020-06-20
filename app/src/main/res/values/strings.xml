@@ -10,4 +10,7 @@
     <string name="ok">Ok</string>
     <string name="your_string_here"> <u>Write Your Review</u></string>
     <string name="more"><u>More..</u></string>
+    <string name="transition_string">transition_name</string>
+    <string name="upload_document">Upload Document</string>
+    <string name="upload_another_result">Upload Another Result</string>
 </resources>

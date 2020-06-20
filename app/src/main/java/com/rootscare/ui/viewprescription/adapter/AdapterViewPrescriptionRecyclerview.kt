@@ -1,19 +1,28 @@
 package com.rootscare.ui.viewprescription.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.rootscare.R
 import com.rootscare.data.model.api.response.patientprescription.ResultItem
 import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
 import com.rootscare.databinding.ItemViewPresprictionRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
+import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
 import com.rootscare.ui.myupcomingappointment.adapter.AdapteMyUpComingAppointment
+import com.rootscare.ui.showimagelarger.TransaprentPopUpActivityForImageShow
+import com.rootscare.utils.AnimUtils
+import com.rootscare.utils.AppConstants
 import kotlinx.android.synthetic.main.item_view_prespriction_recyclerview.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AdapterViewPrescriptionRecyclerview (val prescriptionList: ArrayList<ResultItem?>?,internal var context: Context) : RecyclerView.Adapter<AdapterViewPrescriptionRecyclerview.ViewHolder>() {
     //    val trainerList: ArrayList<TrainerListItem?>?,
@@ -63,7 +72,28 @@ class AdapterViewPrescriptionRecyclerview (val prescriptionList: ArrayList<Resul
                 itemView?.txt_description?.setText("")
             }
 
+            if (prescriptionList?.get(local_position)?.ePrescription?.toLowerCase(Locale.ROOT)!!.contains("pdf")) {
 
+                itemView?.rootView?.crdview_view_prescription?.setOnClickListener(View.OnClickListener {
+                    AnimUtils.animateIntent(context as HomeActivity, itemView?.rootView?.crdview_view_prescription, null,
+                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
+                            "http://166.62.54.122/rootscare/uploads/images/"+prescriptionList?.get(local_position)?.ePrescription!!, "pdf"),
+                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
+                })
+                //Glide.with(context).load(R.drawable.pdf_file_logo).apply(RequestOptions().placeholder(R.drawable.app_icon_logo).error(R.drawable.app_icon_logo)).into(itemVie.imageviewFilesType)
+//                itemVie.imageviewFilesType.setOnClickListener {
+//                    AnimUtils.animateIntent(activity, itemVie.imageviewFilesType, null,
+//                        TransaprentPopUpActivityForImageShow.newIntent(activity, data[local_position].image, "pdf"),
+//                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
+//                }
+            }else{
+                itemView?.rootView?.crdview_view_prescription?.setOnClickListener(View.OnClickListener {
+                    AnimUtils.animateIntent(context as HomeActivity, itemView?.rootView?.crdview_view_prescription, null,
+                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
+                            "http://166.62.54.122/rootscare/uploads/images/"+prescriptionList?.get(local_position)?.ePrescription!!, "image"),
+                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
+                })
+            }
 
         }
     }

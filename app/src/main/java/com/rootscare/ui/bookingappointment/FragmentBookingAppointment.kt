@@ -456,21 +456,23 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
                 var age=modelOfGetAddPatientList?.age
                 var gender=modelOfGetAddPatientList?.gender
 
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentEditPatientFamilyMember.newInstance(doctorId, id!!, imagename!!,
+                        firstname!!, lastname!!,age!!, gender!!))
 
-                CommonDialog.showDialog(context!!, object :
-                    DialogClickCallback {
-                    override fun onDismiss() {
-                    }
 
-                    override fun onConfirm() {
-//                        email!!, phoneno!!,
-                        (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                            FragmentEditPatientFamilyMember.newInstance(doctorId, id!!, imagename!!,
-                                firstname!!, lastname!!,age!!, gender!!))
 
-                    }
-
-                }, "Edit Member", "Are you sure to edit this family member?")
+//                CommonDialog.showDialog(context!!, object :
+//                    DialogClickCallback {
+//                    override fun onDismiss() {
+//                    }
+//
+//                    override fun onConfirm() {
+////                        email!!, phoneno!!,
+//
+//                    }
+//
+//                }, "Edit Member", "Are you sure to edit this family member?")
             }
 
             override fun onDeleteButtonClick(id: String) {
@@ -636,6 +638,21 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
             Toast.makeText(activity, doctorPrivateBooingResponse?.message, Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    override fun successDeletePatientFamilyListResponse(getPatientFamilyListResponse: GetPatientFamilyListResponse?) {
+        baseActivity?.hideLoading()
+        if(isNetworkConnected){
+            baseActivity?.showLoading()
+//            patientProfileRequest?.userId="11"
+            var getPatientFamilyMemberRequest= GetPatientFamilyMemberRequest()
+            getPatientFamilyMemberRequest?.userId=fragmentBookingAppointmentViewModel?.appSharedPref?.userId
+//            getPatientFamilyMemberRequest?.userId="11"
+            fragmentBookingAppointmentViewModel?.apipatientfamilymember(getPatientFamilyMemberRequest)
+
+        }else{
+            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun errorGetPatientFamilyListResponse(throwable: Throwable?) {
@@ -892,5 +909,9 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         fragmentBookingAppointmentViewModel?. apibookcartprivatedoctor(patient_id,family_member_id,doctor_id,private_clinic_id,appointment_date,from_time,to_time,price,prescriptionimagemultipartBody,symptom_text, symptomsRecordingFilemultipartBody,appointment_type)
 
     }
+
+
+
+
 
 }

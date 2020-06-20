@@ -8,11 +8,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import com.dialog.CommonDialog
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
+import com.rootscare.data.model.api.request.medicalrecorddeleterequest.MedicalFileDeleteRequest
 import com.rootscare.data.model.api.response.deactivateaccountresponse.DeactivateAccountResponse
 import com.rootscare.databinding.FragmentPatientProfileSettingBinding
+import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.login.LoginActivity
@@ -98,17 +101,30 @@ class FragmentPatientProfileSetting  : BaseFragment<FragmentPatientProfileSettin
 
         fragmentPatientProfileSettingBinding?.txtPatientsettingDeactivateAccount?.setOnClickListener(
             View.OnClickListener {
-                if(isNetworkConnected){
-                    baseActivity?.showLoading()
-                    var appointmentRequest= AppointmentRequest()
-                    appointmentRequest?.userId=fragmentPatientProfileSettingViewModel?.appSharedPref?.userId
+
+
+
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+                            var appointmentRequest= AppointmentRequest()
+                            appointmentRequest?.userId=fragmentPatientProfileSettingViewModel?.appSharedPref?.userId
 //            appointmentRequest?.userId="11"
 
-                    fragmentPatientProfileSettingViewModel?.apideactivateuser(appointmentRequest)
+                            fragmentPatientProfileSettingViewModel?.apideactivateuser(appointmentRequest)
 
-                }else{
-                    Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
-                }
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Delete Member", "Do you really want to inactivate your account?")
             })
 
 

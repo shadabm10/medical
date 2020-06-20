@@ -303,11 +303,14 @@ class FragmentEditPatientFamilyMember : BaseFragment<FragmentEditPatientFamilyMe
         if (requestCode == REQUEST_CAMERA) onCaptureImageResult(data!!) else if (requestCode == SELECT_FILE) {
             onSelectFromGalleryResult(data)
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            val result = CropImage.getActivityResult(data)
-            val resultUri = result.uri
-            Picasso.get().load(resultUri).into(fragmentEditPatientFamilyMemberBinding?.imgRootscarePatientProfileImage)
-            imageFile = File(result.uri.path)
-            println("resultUri===>$resultUri")
+            if(data!=null){
+                val result = CropImage.getActivityResult(data)
+                val resultUri = result.uri
+                Picasso.get().load(resultUri).into(fragmentEditPatientFamilyMemberBinding?.imgRootscarePatientProfileImage)
+                imageFile = File(result.uri.path)
+                println("resultUri===>$resultUri")
+            }
+
         }
     }
 

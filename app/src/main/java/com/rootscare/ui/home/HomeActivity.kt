@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -33,7 +32,6 @@ import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.interfaces.OnItemClickListener
 import com.rootscare.model.DrawerDatatype
 import com.rootscare.ui.appointment.FragmentAppointment
-import com.rootscare.ui.appointment.subfragment.FragmentAppiontmentDetails
 import com.rootscare.ui.base.BaseActivity
 import com.rootscare.ui.bookingappointment.FragmentBookingAppointment
 import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBooking
@@ -407,8 +405,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 //        strings.add(DrawerDatatype("Student GK Portal", 10, 0))
 //        strings.add(DrawerDatatype("Refer and Earn", 11, 0))
 
+//        Cancelled Appointment
+//        Cancel My Upcoming Appointment
+
         strings.add(DrawerDatatype("My Upcoming Appointment", 0,R.drawable.my_appointment))
-        strings.add(DrawerDatatype("Cancel My Upcoming Appointment", 1, R.drawable.cancel_appointment))
+        strings.add(DrawerDatatype("Cancelled Appointment", 1, R.drawable.cancel_appointment))
         strings.add(DrawerDatatype("Appointment History", 2, R.drawable.appointment_history))
         strings.add(DrawerDatatype("Medical Records", 3,R.drawable.medical_records))
         strings.add(DrawerDatatype("View Prescription", 4, R.drawable.view_prescription))
@@ -1091,6 +1092,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
         var fragment=supportFragmentManager.findFragmentById(activityHomeBinding?.appBarHomepage?.layoutContainer?.id!!)
         fragment?.onActivityResult(requestCode, resultCode, data)
     }
+
+
 
     private fun logout(){
         CommonDialog.showDialog(this@HomeActivity, object :

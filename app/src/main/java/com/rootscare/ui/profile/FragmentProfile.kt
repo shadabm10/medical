@@ -1,6 +1,7 @@
 package com.rootscare.ui.profile
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
@@ -20,10 +21,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.dialog.CommonDialog
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.interfaces.DropDownDialogCallBack
@@ -57,12 +60,9 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
     var dayStr: String=""
     var imagefilename=""
     var selectGender="Female"
+//
 
-    private val GALLERY = 1
-    private val CAMERA = 2
-    private val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 3
-    private val PermissionsRequestCode = 123
-    private lateinit var managePermissions: ManagePermissions
+
     var imageFile: File? = null
 
 
@@ -71,9 +71,10 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
     var thumbnail: Bitmap? = null
     var bytes: ByteArrayOutputStream? = null
 
-    private val REQUEST_CAMERA = 3
-    var SELECT_FILE:Int = 4
+    private val REQUEST_CAMERA = 0
+    private  var SELECT_FILE:Int = 1
     var REQUEST_ID_MULTIPLE_PERMISSIONS = 123
+    private val ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 0
     var requested = false
 
     override val bindingVariable: Int
@@ -108,18 +109,18 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         fragmentProfileBinding = viewDataBinding
         setUpTabLayout()
         fragmentProfileBinding?.layoutProfilePersonal?.txtProfilePersonalStatus?.setText("1")
-        val list = listOf<String>(
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-
-        // Initialize a new instance of ManagePermissions class
-        managePermissions = ManagePermissions(this!!.activity!!, list, PermissionsRequestCode)
-
-        //check permissions states
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            managePermissions.checkPermissions()
+//        val list = listOf<String>(
+//            Manifest.permission.CAMERA,
+//            Manifest.permission.READ_EXTERNAL_STORAGE
+//        )
+//
+//        // Initialize a new instance of ManagePermissions class
+//        managePermissions = ManagePermissions(this!!.activity!!, list, PermissionsRequestCode)
+//
+//        //check permissions states
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+//            managePermissions.checkPermissions()
 
         if(isNetworkConnected){
             baseActivity?.showLoading()
@@ -170,7 +171,18 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
 
         fragmentProfileBinding?.edtProfileImage?.setOnClickListener({
 //            showPictureDialog()
-            captureImage()
+           // captureImage()
+
+
+            if (Build.VERSION.SDK_INT >= 23) {
+                val granted = checkAndRequestPermissionsTest()
+                println("granted===>$granted")
+                if (granted == true) {
+                    captureImage()
+                }
+            } else {
+                captureImage()
+            }
         })
 
         fragmentProfileBinding?.layoutProfilePersonal?.radioProfileMale?.setOnClickListener(View.OnClickListener {
@@ -706,71 +718,28 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         pictureDialog.setItems(pictureDialogItems
         ) { dialog, which ->
             when (which) {
-                0 -> choosePhotoFromGallary()
-                1 -> takePhotoFromCamera()
+//                0 -> choosePhotoFromGallary()
+//                1 -> takePhotoFromCamera()
             }
         }
         pictureDialog.show()
     }
 
-    fun choosePhotoFromGallary() {
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-
-        startActivityForResult(galleryIntent, GALLERY)
-    }
-
-    private fun takePhotoFromCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, CAMERA)
-    }
-
-
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-        /* if (resultCode == this.RESULT_CANCELED)
-         {
-         return
-         }*/
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                val contentURI = data!!.data
-                try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
-                    val path = saveImage(bitmap)
-                    bitmapToFile(bitmap)
-                    Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
-
-                    fragmentProfileBinding?.imgRootscareProfileImage?.setImageBitmap(bitmap)
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-
-        } else if (requestCode == CAMERA) {
-            val thumbnail = data!!.extras!!.get("data") as Bitmap
-            fragmentProfileBinding?.imgRootscareProfileImage?.setImageBitmap(thumbnail)
-            saveImage(thumbnail)
-            bitmapToFile(thumbnail)
-            Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
-        }
+//    fun choosePhotoFromGallary() {
+//        val galleryIntent = Intent(
+//            Intent.ACTION_PICK,
+//            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//
+//        startActivityForResult(galleryIntent, GALLERY)
+//    }
+//
+//    private fun takePhotoFromCamera() {
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        startActivityForResult(intent, CAMERA)
+//    }
 
 
-        if (requestCode == REQUEST_CAMERA) onCaptureImageResult(data!!) else if (requestCode == SELECT_FILE) {
-            onSelectFromGalleryResult(data)
-        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            val result = CropImage.getActivityResult(data)
-            val resultUri = result.uri
-            Picasso.get().load(resultUri).into(fragmentProfileBinding?.imgRootscareProfileImage)
-            imageFile = File(result.uri.path)
-            println("resultUri===>$resultUri")
-        }
-    }
+//
 
     fun saveImage(myBitmap: Bitmap): String {
         val bytes = ByteArrayOutputStream()
@@ -814,26 +783,26 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
 
 
     // Receive the permissions request result
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
-        when (requestCode) {
-            PermissionsRequestCode -> {
-                val isPermissionsGranted = managePermissions
-                    .processPermissionsResult(requestCode, permissions, grantResults)
-
-                if (isPermissionsGranted) {
-                    // Do the task now
-                    goToImageIntent()
-                    Toast.makeText(activity, "Permissions granted.", Toast.LENGTH_SHORT).show()
-                    //  toast("Permissions granted.")
-                } else {
-                    Toast.makeText(activity, "Permissions denied.", Toast.LENGTH_SHORT).show()
-                    // toast("Permissions denied.")
-                }
-                return
-            }
-        }
-    }
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+//                                            grantResults: IntArray) {
+//        when (requestCode) {
+//            PermissionsRequestCode -> {
+//                val isPermissionsGranted = managePermissions
+//                    .processPermissionsResult(requestCode, permissions, grantResults)
+//
+//                if (isPermissionsGranted) {
+//                    // Do the task now
+//                    goToImageIntent()
+//                    Toast.makeText(activity, "Permissions granted.", Toast.LENGTH_SHORT).show()
+//                    //  toast("Permissions granted.")
+//                } else {
+//                    Toast.makeText(activity, "Permissions denied.", Toast.LENGTH_SHORT).show()
+//                    // toast("Permissions denied.")
+//                }
+//                return
+//            }
+//        }
+//    }
     // Method to save an bitmap to a file
     private fun bitmapToFile(bitmap: Bitmap): Uri {
         // Get the context wrapper
@@ -1084,6 +1053,8 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
 
 
     //image upload*********************************************************************************************************************************************
+
+    //image upload*********************************************************************************************************************************************
     private fun checkAndRequestPermissionsTest(): Boolean {
         return if (Build.VERSION.SDK_INT >= 23) {
             val permissionText = " "
@@ -1121,12 +1092,11 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         }
     }
 
-
     private fun captureImage() {
         val options =
             arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
         val builder =
-            AlertDialog.Builder(context)
+            AlertDialog.Builder(this!!.activity!!)
         builder.setTitle("Add Photo!")
         builder.setItems(options) { dialog, item ->
             if (options[item] == "Take Photo") {
@@ -1144,7 +1114,6 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         builder.show()
     }
 
-
     private fun OpenPictureEditActivity() {
         if (!TextUtils.isEmpty(imageFile?.getPath()) && File(imageFile?.getPath())
                 .exists()
@@ -1157,7 +1126,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
     private fun onCaptureImageResult(data: Intent) {
         thumbnail = data.extras!!["data"] as Bitmap?
         bytes = ByteArrayOutputStream()
-        thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        thumbnail!!.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         imageFile = File(
             Environment.getExternalStorageDirectory(),
             System.currentTimeMillis().toString() + ".jpg"
@@ -1166,7 +1135,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         try {
             imageFile?.createNewFile()
             fo = FileOutputStream(imageFile)
-            fo.write(bytes?.toByteArray())
+            fo.write(bytes!!.toByteArray())
             fo.close()
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
@@ -1198,7 +1167,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         try {
             imageFile?.createNewFile()
             fo = FileOutputStream(imageFile)
-            fo.write(bytes?.toByteArray())
+            fo.write(bytes!!.toByteArray())
             fo.close()
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
@@ -1211,6 +1180,40 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
         im_holder.setVisibility(View.GONE);*/
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            ASK_MULTIPLE_PERMISSION_REQUEST_CODE -> if (grantResults.size > 0) {
+                val permission1 =
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED
+                val permission2 =
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED
+                if (permission1 && permission2) {
+                    goToImageIntent()
+                } else {
+                    Snackbar.make(
+                        this.activity?.findViewById(android.R.id.content)!!,
+                        "Please Grant Permissions to upload Profile",
+                        Snackbar.LENGTH_INDEFINITE
+                    ).setAction(
+                        "ENABLE"
+                    ) {
+                        ActivityCompat.requestPermissions(
+                            this.activity!!,
+                            arrayOf(
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.CAMERA
+                            ),
+                            ASK_MULTIPLE_PERMISSION_REQUEST_CODE
+                        )
+                    }.show()
+                }
+            }
+        }
+    }
 
     fun goToImageIntent() {
         val intent = Intent(
@@ -1221,4 +1224,55 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
     }
 
 
-}
+     override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+/*        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            // Get the cursor
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            // Move to first row
+            assert cursor != null;
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String imgDecodableString = cursor.getString(columnIndex);
+            cursor.close();
+            // Set the Image in ImageView after decoding the String
+            //userAvatar.setImageBitmap(BitmapFactory.decodeFile(imgDecodableString));
+            Glide.with(this).load(imgDecodableString).into(userProfileImg);
+            imgFile = new File(imgDecodableString);
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+//            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_SHORT).show();
+        }*/if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_CAMERA){
+                onCaptureImageResult(data!!)
+            }
+
+
+            else if (requestCode == SELECT_FILE) {
+                onSelectFromGalleryResult(data)
+            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                if(data!=null){
+                    val result = CropImage.getActivityResult(data)
+                    val resultUri = result.uri
+                    Picasso.get().load(resultUri).into(fragmentProfileBinding?.imgRootscareProfileImage)
+                    imageFile = File(result.uri.path)
+                    println("resultUri===>$resultUri")
+                }
+
+            }
+        }
+    }
+
+    }
+    //End image upload*********************************************************************************************************************************************
+
+

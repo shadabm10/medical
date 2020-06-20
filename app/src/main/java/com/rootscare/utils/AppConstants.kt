@@ -24,6 +24,8 @@ object AppConstants {
 
     val channelname = "Phoenix"
     val channelId = "Phoenix"
+    const val REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW = 21
+
 }// This utility class is not publicly instantiable
 
 

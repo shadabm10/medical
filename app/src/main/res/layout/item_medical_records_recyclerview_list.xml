@@ -11,8 +11,9 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/crdview_order_medicine"
-            android:layout_width="@dimen/_130sdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
             android:layout_margin="@dimen/_5sdp"
             app:cardCornerRadius="@dimen/_12sdp"
             android:elevation="@dimen/_10sdp"
@@ -21,39 +22,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
-                    android:id="@+id/img_contentimage"
-                    android:scaleType="fitXY"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/prescription"/>
-
-                <LinearLayout
+                <com.customview.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_3sdp"
-                    android:orientation="vertical">
-                    >
-                    <com.customview.MyTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txt_description"
-                        android:gravity="center"
-                        android:textSize="@dimen/_10ssp"
-                        android:textColor="@color/black"
-                        android:text="Medical Records"/>
-                    <com.customview.MyTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txt_upload_date"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:gravity="center"
-                        android:textSize="@dimen/_8ssp"
-                        android:textColor="@color/black"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:text="Upload date: 28-04-2020"/>
-                </LinearLayout>
+                    android:textSize="@dimen/_14sdp"
+                    android:id="@+id/txt_medicalreport_upload_date"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:textColor="@color/txt_color"
+                    android:textStyle="bold"
+                    android:text="15 June 2020"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="100dp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/imageview_upload_sign"
+                    android:id="@+id/recyclerview_get_upload_file_list"/>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
