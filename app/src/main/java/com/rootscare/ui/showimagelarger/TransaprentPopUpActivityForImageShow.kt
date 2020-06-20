@@ -82,7 +82,7 @@ class TransaprentPopUpActivityForImageShow : BaseActivity<ActivityTransparentFor
                     val circularProgressDrawable = CircularProgressDrawable(this@TransaprentPopUpActivityForImageShow)
                     circularProgressDrawable.strokeWidth = 5f
                     circularProgressDrawable.centerRadius = 30f
-                    circularProgressDrawable.setColorSchemeColors(*intArrayOf(R.color.colorAccent, R.color.colorPrimary))
+                    circularProgressDrawable.setColorSchemeColors(*intArrayOf(R.color.colorAccent, R.color.colorAccent))
                     circularProgressDrawable.start()
                     val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
                     Glide.with(this@TransaprentPopUpActivityForImageShow).load(fileUrl).

@@ -89,7 +89,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:progressDrawable="@color/colorPrimary"
+                    android:progressDrawable="@color/colorAccent"
                     android:theme="@style/MyProgressBarCircleStyle"  />
 
                 <!--<com.github.barteksc.pdfviewer.PDFView

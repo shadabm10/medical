@@ -63,6 +63,23 @@ class AdapterFileUpload (val uploadDocumentlist: ArrayList<UploadDocumentItem?>?
             })
 
 
+            if (uploadDocumentlist?.get(local_position)?.file?.toLowerCase(Locale.ROOT)!!.contains("pdf")) {
+                itemView?.root?.imageview_files_type?.setOnClickListener(View.OnClickListener {
+                    AnimUtils.animateIntent(context as HomeActivity, itemView?.root?.imageview_files_type, null,
+                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
+                            "http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!, "pdf"),
+                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
+                })
+            }else{
+                itemView?.root?.imageview_files_type?.setOnClickListener(View.OnClickListener {
+                    AnimUtils.animateIntent(context as HomeActivity, itemView?.root?.imageview_files_type, null,
+                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
+                            "http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!, "image"),
+                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
+                })
+            }
+
+
         }
 
         fun onBind(pos: Int) {
@@ -85,21 +102,7 @@ class AdapterFileUpload (val uploadDocumentlist: ArrayList<UploadDocumentItem?>?
                     .into(itemView?.rootView?.imageview_files_type!!)
             }
 
-            if (uploadDocumentlist?.get(local_position)?.file?.toLowerCase(Locale.ROOT)!!.contains("pdf")) {
-                itemView?.rootView?.imageview_files_type?.setOnClickListener(View.OnClickListener {
-                    AnimUtils.animateIntent(context as HomeActivity, itemView?.rootView?.imageview_files_type, null,
-                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
-                            "http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!, "pdf"),
-                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
-                })
-            }else{
-                itemView?.rootView?.imageview_files_type?.setOnClickListener(View.OnClickListener {
-                    AnimUtils.animateIntent(context as HomeActivity, itemView?.rootView?.imageview_files_type, null,
-                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
-                            "http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!, "image"),
-                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
-                })
-            }
+
 
 
 

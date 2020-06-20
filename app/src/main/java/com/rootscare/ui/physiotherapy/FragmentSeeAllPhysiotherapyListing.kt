@@ -7,19 +7,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.interfaces.OnClickWithTwoButton
 import com.rootscare.BR
 import com.rootscare.R
-import com.rootscare.databinding.FragmentSeeAllNursesListByGridBinding
 import com.rootscare.databinding.FragmentSeeAllPhysiotherapyListingBinding
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.nurses.FragmentNursesListByGrid
-import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
-import com.rootscare.ui.nurses.FragmentNursesListByGridViewModel
-import com.rootscare.ui.nurses.adapter.AdapterSeeAllNursesByGridRecyclerView
-import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListing
-import com.rootscare.ui.nurses.nursesprofile.FragmentNursesProfile
 import com.rootscare.ui.physiotherapy.adapter.AdapterPhysiotherapyListRecyclerView
 import com.rootscare.ui.physiotherapy.physiotherapycategorylisting.FragmentPhysiotherapyCategoryListing
-import com.rootscare.ui.physiotherapy.physiotherapyprofile.FragmentPhysiotherapyProfile
 
 class FragmentSeeAllPhysiotherapyListing: BaseFragment<FragmentSeeAllPhysiotherapyListingBinding, FragmentSeeAllPhysiotherapyListingViewModel>(),
     FragmentSeeAllPhysiotherapyListingNavigator {

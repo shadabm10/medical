@@ -124,7 +124,7 @@ class FragmentPatientProfileSetting  : BaseFragment<FragmentPatientProfileSettin
 
                     }
 
-                }, "Delete Member", "Do you really want to inactivate your account?")
+                }, "Inactivate Account", "Do you really want to inactivate your account?")
             })
 
 

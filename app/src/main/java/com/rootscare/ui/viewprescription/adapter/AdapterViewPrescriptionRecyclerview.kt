@@ -60,6 +60,24 @@ class AdapterViewPrescriptionRecyclerview (val prescriptionList: ArrayList<Resul
 //            })
 //
 
+            if (prescriptionList?.get(local_position)?.ePrescription?.toLowerCase(Locale.ROOT)!!.contains("pdf")) {
+
+                itemView?.root?.crdview_view_prescription?.setOnClickListener(View.OnClickListener {
+                    AnimUtils.animateIntent(context as HomeActivity, itemView?.root?.crdview_view_prescription, null,
+                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
+                            "http://166.62.54.122/rootscare/uploads/images/"+prescriptionList?.get(local_position)?.ePrescription!!, "pdf"),
+                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
+                })
+
+            }else{
+                itemView?.root?.crdview_view_prescription?.setOnClickListener(View.OnClickListener {
+                    AnimUtils.animateIntent(context as HomeActivity, itemView?.root?.crdview_view_prescription, null,
+                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
+                            "http://166.62.54.122/rootscare/uploads/images/"+prescriptionList?.get(local_position)?.ePrescription!!, "image"),
+                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
+                })
+            }
+
         }
 
         fun onBind(pos: Int) {
@@ -72,28 +90,7 @@ class AdapterViewPrescriptionRecyclerview (val prescriptionList: ArrayList<Resul
                 itemView?.txt_description?.setText("")
             }
 
-            if (prescriptionList?.get(local_position)?.ePrescription?.toLowerCase(Locale.ROOT)!!.contains("pdf")) {
 
-                itemView?.rootView?.crdview_view_prescription?.setOnClickListener(View.OnClickListener {
-                    AnimUtils.animateIntent(context as HomeActivity, itemView?.rootView?.crdview_view_prescription, null,
-                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
-                            "http://166.62.54.122/rootscare/uploads/images/"+prescriptionList?.get(local_position)?.ePrescription!!, "pdf"),
-                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
-                })
-                //Glide.with(context).load(R.drawable.pdf_file_logo).apply(RequestOptions().placeholder(R.drawable.app_icon_logo).error(R.drawable.app_icon_logo)).into(itemVie.imageviewFilesType)
-//                itemVie.imageviewFilesType.setOnClickListener {
-//                    AnimUtils.animateIntent(activity, itemVie.imageviewFilesType, null,
-//                        TransaprentPopUpActivityForImageShow.newIntent(activity, data[local_position].image, "pdf"),
-//                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
-//                }
-            }else{
-                itemView?.rootView?.crdview_view_prescription?.setOnClickListener(View.OnClickListener {
-                    AnimUtils.animateIntent(context as HomeActivity, itemView?.rootView?.crdview_view_prescription, null,
-                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
-                            "http://166.62.54.122/rootscare/uploads/images/"+prescriptionList?.get(local_position)?.ePrescription!!, "image"),
-                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
-                })
-            }
 
         }
     }

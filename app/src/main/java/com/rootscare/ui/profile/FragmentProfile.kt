@@ -410,6 +410,8 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             fragmentProfileBinding?.txtProfileEmail?.setText(patientProfileResponse?.result?.email)
             fragmentProfileBinding?.txtProfileContactnumner?.setText(patientProfileResponse?.result?.phoneNumber)
             Toast.makeText(activity, patientProfileResponse?.message, Toast.LENGTH_SHORT).show()
+           fragmentProfileViewModel?.appSharedPref?.userName=patientProfileResponse?.result?.firstName+" "+patientProfileResponse?.result?.lastName
+            fragmentProfileViewModel?.appSharedPref?.userEmail=patientProfileResponse?.result?.email
             fragmentProfileViewModel?.appSharedPref?.userImage=patientProfileResponse?.result?.image
             defaultPersonalDetailsSetup(patientProfileResponse)
             defaultMedicalDetailsSetup(patientProfileResponse)

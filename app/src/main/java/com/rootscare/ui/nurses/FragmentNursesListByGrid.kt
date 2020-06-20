@@ -7,18 +7,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.interfaces.OnClickWithTwoButton
 import com.rootscare.BR
 import com.rootscare.R
-import com.rootscare.databinding.FragmentMyUpcommingAppointmentBinding
 import com.rootscare.databinding.FragmentSeeAllNursesListByGridBinding
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.FragmentBookingAppointment
-import com.rootscare.ui.doctorprofile.FragmentDoctorProfile
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointmentViewModel
-import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointmentnavigator
 import com.rootscare.ui.nurses.adapter.AdapterSeeAllNursesByGridRecyclerView
 import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListing
-import com.rootscare.ui.nurses.nursesprofile.FragmentNursesProfile
-import com.rootscare.ui.seealldoctorbygrid.adapter.AdapterSeeAllDoctorByGridRecyclerView
 
 class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBinding, FragmentNursesListByGridViewModel>(),
     FragmentNursesListByGridNavigator {
