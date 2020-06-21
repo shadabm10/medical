@@ -1,2 +1,5 @@
-rootProject.name='Roots Care Application'
+
 include ':app'
+
+rootProject.name='Roots Care Application'
+

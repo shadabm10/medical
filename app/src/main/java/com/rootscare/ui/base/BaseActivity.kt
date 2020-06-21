@@ -104,6 +104,11 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppComp
 
 
     }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    fun hasPermission(permission: String): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+    }
     override fun onDestroy() {
         super.onDestroy()
         unregisterWifiReceiver()
@@ -134,10 +139,7 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppComp
     // To reload page after internet connected
     protected abstract fun reloadPageAfterConnectedToInternet()
 
-    @TargetApi(Build.VERSION_CODES.M)
-    fun hasPermission(permission: String): Boolean {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
-    }
+
 
     fun hideKeyboard() {
         val view = this.currentFocus
@@ -172,6 +174,10 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppComp
         viewDataBinding!!.setVariable(bindingVariable, mViewModel)
         viewDataBinding!!.executePendingBindings()
     }
+
+
+
+
 
 
 }

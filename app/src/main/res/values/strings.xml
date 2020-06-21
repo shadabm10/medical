@@ -13,4 +13,17 @@
     <string name="transition_string">transition_name</string>
     <string name="upload_document">Upload Document</string>
     <string name="upload_another_result">Upload Another Result</string>
+    <string name="select_file">Select file (.jpg, .png, .pdf)</string>
+    <string name="select_pdf">Select PDF file (.pdf)</string>
+    <string name="capture_or_select_image">Capture or select Image (.jpg, .png)</string>
+    <string name="need_these_permission">Need these permissions</string>
+    <string name="warning">Warning</string>
+    <string name="please_select_at_least_one_file_to_upload">Please select at least one file to upload</string>
+    <string name="you_have_selected_maximum_number_of_files">You have selected maximum number of files</string>
+    <string name="choose_name_for_this_file">Choose a name for this file</string>
+    <string name="submit">Submit</string>
+    <string name="enter_description">Enter description</string>
+    <string name="create_file_name">Create file name</string>
+    <string name="pleaese_enter_some_description">Please enter some description</string>
+    <string name="pleaese_create_name_for_this_file">Please create name for selected file</string>
 </resources>

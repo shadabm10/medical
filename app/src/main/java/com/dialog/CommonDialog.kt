@@ -138,6 +138,26 @@ object CommonDialog {
         }
         dialog.show()
     }
+
+
+    fun showDialogWithOnlyOneButton(context: Context, dialogClickCallback: DialogClickCallback, dialog_title: String,
+                                    dialog_message: String?, btnLabel: String) {
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setTitle(dialog_title)
+        if (dialog_message != null) {
+            alertDialogBuilder.setMessage(dialog_message)
+        }
+        alertDialogBuilder.setCancelable(false)
+        alertDialogBuilder.setPositiveButton(btnLabel) { dialogInterface, i ->
+            dialogClickCallback.onConfirm()
+            dialogInterface.dismiss()
+        }
+
+//        alertDialogBuilder.show()
+        //changeFont(activity, alertDialogBuilder)
+    }
+
+
         // Show Image uploading progress
     var dialog: Dialog? = null
 

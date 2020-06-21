@@ -1,6 +1,9 @@
 package com.rootscare.ui.base
 
+import android.annotation.TargetApi
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +55,10 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*>> : Fragmen
         }
     }
 
-
+    @TargetApi(Build.VERSION_CODES.M)
+    fun hasPermission(permission: String): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || activity?.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
+    }
 //    override fun onAttach(context: Context?) {
 //        super.onAttach(context!!)
 //        if (context is BaseActivity<*, *>) {

@@ -1,9 +1,10 @@
-package com.latikaseafood.utils
+package com.rootscare.utils
 
 import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
 import java.sql.Time
+import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -67,6 +68,16 @@ object DateTimeUtils {
         val calendar = Calendar.getInstance(TimeZone.getDefault())
         calendar.time = date
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val result = Date(calendar.time.time)
+        Log.d(TAG, "getFormattedDate: " + dateFormat.format(result))
+        return dateFormat.format(result)
+    }
+
+    /* return as given pattern */
+    fun getFormattedDate(date: Date?, pattern: String?): String {
+        val calendar = Calendar.getInstance(TimeZone.getDefault())
+        calendar.time = date
+        val dateFormat: DateFormat = SimpleDateFormat(pattern, Locale.getDefault())
         val result = Date(calendar.time.time)
         Log.d(TAG, "getFormattedDate: " + dateFormat.format(result))
         return dateFormat.format(result)

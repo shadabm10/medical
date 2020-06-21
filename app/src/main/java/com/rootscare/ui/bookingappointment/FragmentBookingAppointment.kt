@@ -136,17 +136,8 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
             doctorId = arguments?.getString("doctorid")!!
             Log.d("Doctor Id", ": " + doctorId )
         }
-//        setUpFromTimeListingRecyclerview()
-//        setUpToTimeListingRecyclerview()
-
-//        setUpDoctorSloytListingRecyclerview()
-
-//        fragmentBookingBinding?.btnAppointmentBooking?.setOnClickListener(View.OnClickListener {
-//            (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentPatientbookPayNow.newInstance())
-//        })
         if(isNetworkConnected){
             baseActivity?.showLoading()
-//            patientProfileRequest?.userId="11"
             var getPatientFamilyMemberRequest= GetPatientFamilyMemberRequest()
             getPatientFamilyMemberRequest?.userId=fragmentBookingAppointmentViewModel?.appSharedPref?.userId
 //            getPatientFamilyMemberRequest?.userId="11"
@@ -167,35 +158,14 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }
         fragmentBookingBinding?.btnAddPatient?.setOnClickListener(View.OnClickListener {
-//            CommonDialog.showDialogForAddPatient(this!!.activity!!,
-//                "Add Patient",object : DialogClickCallback {
-//                    override fun onConfirm() {
-//                        // Toast.makeText(activity, registrationResponse?.message, Toast.LENGTH_SHORT).show()
 //
-//                    }
-//
-//                    override fun onDismiss() {
-//                    }
-//
-//                })
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                 FragmentAddPatientForDoctorBooking.newInstance(doctorId))
 
         })
 
         fragmentBookingBinding?.btnAppointmentBooking?.setOnClickListener(View.OnClickListener {
-//            CommonDialog.showDialogForAddPatient(this!!.activity!!,
-//                "Doctor Booking",object : DialogClickCallback {
-//                    override fun onConfirm() {
-//                        // Toast.makeText(activity, registrationResponse?.message, Toast.LENGTH_SHORT).show()
 //
-//
-//                    }
-//
-//                    override fun onDismiss() {
-//                    }
-//
-//                })
             if (familymemberid.equals("")){
 //                familymemberid= fragmentBookingAppointmentViewModel?.appSharedPref?.userId!!
                 familymemberid= "0"
@@ -512,8 +482,6 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.setHasFixedSize(true)
-//        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-//        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
         val contactListAdapter = AdapterFromTimeRecyclerview(context!!)
         recyclerView.adapter = contactListAdapter
 
@@ -527,8 +495,6 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.setHasFixedSize(true)
-//        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-//        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
         val contactListAdapter = AdapterToTimeRecyclerView(context!!)
         recyclerView.adapter = contactListAdapter
 
@@ -543,8 +509,6 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.setHasFixedSize(true)
-//        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-//        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
         val contactListAdapter = AdapterDoctorSlotRecyclerview(doctorprivateList,context!!)
         recyclerView.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClick= object : OnDoctorPrivateSlotClickListner {

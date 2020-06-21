@@ -64,6 +64,7 @@ import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
+import java.util.ArrayList
 
 interface ApiService {
 
@@ -231,6 +232,14 @@ interface ApiService {
 
     @POST("api-delete-patient-medical-record")
     fun apideletepatientmedicalrecord(@Body medicalFileDeleteRequestBody: MedicalFileDeleteRequest): Single<MedicalFileDeleteResponse>
+
+
+    @Multipart
+    @POST("api-insert-medical-record")
+    fun apiinsertmedicalrecord(@Part("user_id") user_id: RequestBody,
+                               @Part("date") date: RequestBody,
+                               @Part("title") title: RequestBody,
+                               @Part file: ArrayList<MultipartBody.Part>): Single<MedicalFileDeleteResponse>
 
 //    @Part("email") email: RequestBody,
 //    @Part("phone_number") phone_number: RequestBody,
