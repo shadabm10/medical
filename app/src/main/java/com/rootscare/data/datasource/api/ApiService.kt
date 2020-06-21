@@ -239,7 +239,9 @@ interface ApiService {
     fun apiinsertmedicalrecord(@Part("user_id") user_id: RequestBody,
                                @Part("date") date: RequestBody,
                                @Part("title") title: RequestBody,
-                               @Part file: ArrayList<MultipartBody.Part>): Single<MedicalFileDeleteResponse>
+                               @Part file: ArrayList<MultipartBody.Part>): Single<MedicalRecordListResponse>
+
+
 
 //    @Part("email") email: RequestBody,
 //    @Part("phone_number") phone_number: RequestBody,

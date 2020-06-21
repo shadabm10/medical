@@ -1,9 +1,9 @@
 package com.rootscare.ui.addmedicalrecords
 
-import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.GetPatientFamilyListResponse
-import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFileDeleteResponse
+
+import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
 
 interface FragmentAddMedicalRecordNavigator {
-    fun successMedicalFileDeleteResponse(medicalFileDeleteResponse: MedicalFileDeleteResponse?)
+    fun successMedicalFileDeleteResponse(medicalFileDeleteResponse: MedicalRecordListResponse?)
     fun errorMedicalFileDeleteResponse(throwable: Throwable?)
 }

@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.interfaces.OnMedicalRecordFileDeleteListner
 import com.rootscare.R
 import com.rootscare.data.model.api.response.medicalrecordresponse.UploadDocumentItem
@@ -71,12 +73,22 @@ class AdapterFileUpload (val uploadDocumentlist: ArrayList<UploadDocumentItem?>?
                         AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
                 })
             }else{
-                itemView?.root?.imageview_files_type?.setOnClickListener(View.OnClickListener {
+
+                val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+                Glide.with(context).load("http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!).thumbnail(Glide.with(context).load("http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!)).
+                apply(RequestOptions().placeholder(R.drawable.prescription).error(R.drawable.prescription)).
+                apply(requestOptions).into(itemView?.root?.imageview_files_type)
+                itemView?.root?.imageview_files_type.setOnClickListener {
                     AnimUtils.animateIntent(context as HomeActivity, itemView?.root?.imageview_files_type, null,
-                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
-                            "http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!, "image"),
+                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity, "http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!, "image"),
                         AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
-                })
+                }
+//                itemView?.root?.imageview_files_type?.setOnClickListener(View.OnClickListener {
+//                    AnimUtils.animateIntent(context as HomeActivity, itemView?.root?.imageview_files_type, null,
+//                        TransaprentPopUpActivityForImageShow.newIntent(context as HomeActivity,
+//                            "http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!, "image"),
+//                        AppConstants.REQUEST_RESULT_CODE_FOR_TRANSITION_ANIM_LABLISTING_TO_POPUPIMAGESHOW)
+//                })
             }
 
 

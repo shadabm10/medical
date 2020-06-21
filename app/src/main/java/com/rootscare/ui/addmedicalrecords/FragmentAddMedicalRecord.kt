@@ -12,21 +12,17 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dialog.CommonDialog
 import com.dialog.inputfilename.FileNameInputDialog
 import com.interfaces.RecyclerViewItemClick
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.response.addmedicallrecords.AddlabTestImageSelectionModel
-import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFileDeleteResponse
+import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
 import com.rootscare.databinding.FragmentAddMedicalRecordsBinding
-import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.ui.addmedicalrecords.adapter.FilesListingAdapter
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingcart.FragmentBookingCart
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.ui.medicalrecords.FragmentMedicalRecords
@@ -439,8 +435,8 @@ class FragmentAddMedicalRecord : BaseFragment<FragmentAddMedicalRecordsBinding, 
     private fun setUpRecyclerview() {
         with(fragmentAddMedicalRecordsBinding!!) {
             filesListingAdapter = FilesListingAdapter(context as HomeActivity)
-            val layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
-//            val layoutManager = GridLayoutManager(context, 2)
+//            val layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+            val layoutManager = GridLayoutManager(context, 2)
             fragmentAddMedicalRecordsBinding?.recyclerviewUploadFileList?.layoutManager = layoutManager
             fragmentAddMedicalRecordsBinding?.recyclerviewUploadFileList?.setHasFixedSize(true)
             fragmentAddMedicalRecordsBinding?.recyclerviewUploadFileList?.addItemDecoration(EqualSpacingItemDecoration(10)) // 10px. In practice, you'll want to use getDimensionPixelSize
@@ -488,7 +484,7 @@ class FragmentAddMedicalRecord : BaseFragment<FragmentAddMedicalRecordsBinding, 
         }
     }
 
-    override fun successMedicalFileDeleteResponse(medicalFileDeleteResponse: MedicalFileDeleteResponse?) {
+    override fun successMedicalFileDeleteResponse(medicalFileDeleteResponse: MedicalRecordListResponse?) {
         baseActivity?.hideLoading()
         if(medicalFileDeleteResponse?.code.equals("200")){
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentMedicalRecords.newInstance())
@@ -544,9 +540,9 @@ class FragmentAddMedicalRecord : BaseFragment<FragmentAddMedicalRecordsBinding, 
 ////                val body = MultipartBody.Part.createFormData(AppConstants.UPLOAD_IMAGE_KEY, file.name, requestFile!!)
                 requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
 //                val body = MultipartBody.Part.createFormData(data[i].fileNameAsOriginal, data[i].fileName, requestFile!!)
-//            val body = MultipartBody.Part.createFormData(data[i].fileNameAsOriginal, data[i].rawFileName, requestFile!!)
+            val body = MultipartBody.Part.createFormData(data[i].fileNameAsOriginal, data[i].rawFileName, requestFile!!)
 
-                val body = MultipartBody.Part.createFormData("file", data[i].rawFileName, requestFile!!)
+//                val body = MultipartBody.Part.createFormData("file", data[i].rawFileName, requestFile!!)
 
                 fileList.add(body)
             }
@@ -568,31 +564,35 @@ class FragmentAddMedicalRecord : BaseFragment<FragmentAddMedicalRecordsBinding, 
             }
 
             if (dataFileList.size==0){
-                CommonDialog.showDialogWithOnlyOneButton(activity as HomeActivity, object : DialogClickCallback {
-                    override fun onConfirm() {
-
-                    }
-
-                    override fun onDismiss() {
-
-                    }
-
-                }, resources.getString(R.string.warning), resources.getString(R.string.please_select_at_least_one_file_to_upload), resources.getString(R.string.ok))
+                Toast.makeText(activity, "Please select at least one file to upload", Toast.LENGTH_SHORT).show()
+//                CommonDialog.showDialogWithOnlyOneButton(activity as HomeActivity, object : DialogClickCallback {
+//                    override fun onConfirm() {
+//
+//                    }
+//
+//                    override fun onDismiss() {
+//
+//                    }
+//
+//                }, resources.getString(R.string.warning), resources.getString(R.string.please_select_at_least_one_file_to_upload), resources.getString(R.string.ok))
 
                 return false
             }
             if (dataFileList.size>4){
-                CommonDialog.showDialogWithOnlyOneButton(activity as HomeActivity, object :
-                    DialogClickCallback {
-                    override fun onConfirm() {
 
-                    }
 
-                    override fun onDismiss() {
-
-                    }
-
-                }, resources.getString(R.string.warning), resources.getString(R.string.you_have_selected_maximum_number_of_files), resources.getString(R.string.ok))
+                Toast.makeText(activity, "You have selected maximum number of files", Toast.LENGTH_SHORT).show()
+//                CommonDialog.showDialogWithOnlyOneButton(activity as HomeActivity, object :
+//                    DialogClickCallback {
+//                    override fun onConfirm() {
+//
+//                    }
+//
+//                    override fun onDismiss() {
+//
+//                    }
+//
+//                }, resources.getString(R.string.warning), resources.getString(R.string.you_have_selected_maximum_number_of_files), resources.getString(R.string.ok))
 
                 return false
             }
