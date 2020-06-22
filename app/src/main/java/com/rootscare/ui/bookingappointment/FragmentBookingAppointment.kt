@@ -27,8 +27,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.dialog.CommonDialog
-import com.interfaces.OnAddPatientListClick
 import com.interfaces.OnDoctorPrivateSlotClickListner
+import com.interfaces.OnDoctorSlotClickListner
 import com.interfaces.OnPatientFamilyMemberListener
 import com.rootscare.BR
 import com.rootscare.R
@@ -38,22 +38,19 @@ import com.rootscare.data.model.api.request.doctorrequest.doctorprivatesotreques
 import com.rootscare.data.model.api.request.doctorrequest.getpatientfamilymemberrequest.GetPatientFamilyMemberRequest
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.bookingresponse.DoctorPrivateBooingResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.DoctorPrivateSlotResponse
+import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.SlotItem
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.GetPatientFamilyListResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.ResultItem
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctordetailsresponse.DoctorDetailsResponse
 import com.rootscare.databinding.FragmentBookingBinding
 import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.adapter.AdapterAddPatientListRecyclerview
-import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotRecyclerview
-import com.rootscare.ui.bookingappointment.adapter.AdapterFromTimeRecyclerview
-import com.rootscare.ui.bookingappointment.adapter.AdapterToTimeRecyclerView
+import com.rootscare.ui.bookingappointment.adapter.*
 import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBooking
 import com.rootscare.ui.bookingappointment.subfragment.editpatient.FragmentEditPatientFamilyMember
 import com.rootscare.ui.bookingcart.FragmentBookingCart
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
-import com.rootscare.ui.login.LoginActivity
 import com.rootscare.utils.ManagePermissions
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -136,6 +133,7 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
             doctorId = arguments?.getString("doctorid")!!
             Log.d("Doctor Id", ": " + doctorId )
         }
+
         if(isNetworkConnected){
             baseActivity?.showLoading()
             var getPatientFamilyMemberRequest= GetPatientFamilyMemberRequest()
@@ -146,7 +144,7 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }
-
+//        setUpToTimeListingRecyclerview()
         //All Doctor Details Api Call
         if(isNetworkConnected){
             baseActivity?.showLoading()
@@ -170,22 +168,28 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
 //                familymemberid= fragmentBookingAppointmentViewModel?.appSharedPref?.userId!!
                 familymemberid= "0"
             }
-            CommonDialog.showDialog(this.activity!!, object :
-                DialogClickCallback {
-                override fun onDismiss() {
-                }
 
-                override fun onConfirm() {
-
-                    if(!clinicId.equals("") && !clinicFromTime.equals("") && !clinicToTime.equals("")){
-                        doctorPrivateBookingApiCall()
-                    }else{
-                        Toast.makeText(activity, "Please select slot", Toast.LENGTH_SHORT).show()
+            if(!clinicId.equals("") && !clinicFromTime.equals("") && !clinicToTime.equals("")){
+                CommonDialog.showDialog(this.activity!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
                     }
 
-                }
+                    override fun onConfirm() {
+                        doctorPrivateBookingApiCall()
+//                        if(!clinicId.equals("") && !clinicFromTime.equals("") && !clinicToTime.equals("")){
+//
+//                        }else{
+//                            Toast.makeText(activity, "Please select slot", Toast.LENGTH_SHORT).show()
+//                        }
 
-            }, "Comfirm Appointment", "Are you sure for this doctor booking ?")
+                    }
+
+                }, "Comfirm Appointment", "Are you sure for this doctor booking ?")
+            }else{
+                Toast.makeText(activity, "Please select slot", Toast.LENGTH_SHORT).show()
+            }
+
 //            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
 //                FragmentDoctorBookingDetails.newInstance())
         })
@@ -488,15 +492,29 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
 
     }
     // Set up recycler view for service listing if available
-    private fun setUpToTimeListingRecyclerview() {
+    private fun setUpToTimeListingRecyclerview(slotList: ArrayList<SlotItem?>?) {
 //        trainerList: ArrayList<TrainerListItem?>?
-        assert(fragmentBookingBinding!!.recyclerViewRootscareToTimeRecyclerview != null)
-        val recyclerView = fragmentBookingBinding!!.recyclerViewRootscareToTimeRecyclerview
+        assert(fragmentBookingBinding!!.recyclerViewTimeslotby30minute != null)
+        val recyclerView = fragmentBookingBinding!!.recyclerViewTimeslotby30minute
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.setHasFixedSize(true)
-        val contactListAdapter = AdapterToTimeRecyclerView(context!!)
+        val contactListAdapter = AdapterDoctorSlotDivision(slotList,context!!)
         recyclerView.adapter = contactListAdapter
+
+        contactListAdapter?.recyclerViewItemClickWithView= object : OnDoctorSlotClickListner {
+            override fun onSloctClick(position: SlotItem) {
+                clinicFromTime= position?.timeFrom!!
+                clinicToTime= position?.timeTo!!
+            }
+//            override fun onItemClick(modelData: com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.ResultItem?) {
+//                clinicId= modelData?.clinicId!!
+////                clinicFromTime= modelData?.timeFrom!!
+////                clinicToTime= modelData?.timeTo!!
+//            }
+
+
+        }
 
     }
 
@@ -514,8 +532,17 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         contactListAdapter?.recyclerViewItemClick= object : OnDoctorPrivateSlotClickListner {
             override fun onItemClick(modelData: com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.ResultItem?) {
                 clinicId= modelData?.clinicId!!
-                clinicFromTime= modelData?.timeFrom!!
-                clinicToTime= modelData?.timeTo!!
+                if(modelData?.slot!=null && modelData?.slot?.size>0){
+                    fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
+                    fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
+                    setUpToTimeListingRecyclerview(modelData?.slot)
+                }else{
+                    fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
+                    fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.VISIBLE
+                    fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.text="No slot available for booking."
+                }
+//                clinicFromTime= modelData?.timeFrom!!
+//                clinicToTime= modelData?.timeTo!!
             }
 
 
@@ -548,14 +575,29 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
                 fragmentBookingBinding?.btnAppointmentBooking?.visibility=View.VISIBLE
                 fragmentBookingBinding?.recyclerViewDoctorslot?.visibility=View.VISIBLE
                 fragmentBookingBinding?.tvSelectDoctorSlotNoDate?.visibility=View.GONE
+                fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
+                fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
                 clinicId= doctorPrivateSlotResponse?.result?.get(0)?.clinicId!!
-                clinicFromTime= doctorPrivateSlotResponse?.result?.get(0)?.timeFrom!!
-                clinicToTime= doctorPrivateSlotResponse?.result?.get(0)?.timeTo!!
+//                clinicFromTime= doctorPrivateSlotResponse?.result?.get(0)?.timeFrom!!
+//                clinicToTime= doctorPrivateSlotResponse?.result?.get(0)?.timeTo!!
                 setUpDoctorSloytListingRecyclerview(doctorPrivateSlotResponse?.result)
+                if(doctorPrivateSlotResponse?.result?.get(0)?.slot!=null && doctorPrivateSlotResponse?.result?.get(0)?.slot?.size!!>0){
+                    fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
+                    fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
+                    setUpToTimeListingRecyclerview(doctorPrivateSlotResponse?.result?.get(0)?.slot)
+
+                }else{
+                    fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
+                    fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.VISIBLE
+                    fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.text="No slot available for booking."
+                }
+
             }else{
                 fragmentBookingBinding?.btnAppointmentBooking?.visibility=View.GONE
                 fragmentBookingBinding?.recyclerViewDoctorslot?.visibility=View.GONE
                 fragmentBookingBinding?.tvSelectDoctorSlotNoDate?.visibility=View.VISIBLE
+                fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
+                fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
                 fragmentBookingBinding?.tvSelectDoctorSlotNoDate?.setText("No Doctor Slot Found")
             }
         }else{
@@ -874,7 +916,7 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
 
     }
 
-
+   
 
 
 

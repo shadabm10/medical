@@ -12,13 +12,10 @@ import com.interfaces.OnDoctorPrivateSlotClickListner
 import com.rootscare.R
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.ResultItem
 import com.rootscare.databinding.ItemDoctorSlotsRecyclerviewBinding
-import com.rootscare.databinding.ItemFromTimeRecyclerviewBinding
-import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
-import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_doctor_slots_recyclerview.view.*
 
-class AdapterDoctorSlotRecyclerview (val doctorprivateList: ArrayList<ResultItem?>?,internal var context: Context) : RecyclerView.Adapter<AdapterDoctorSlotRecyclerview.ViewHolder>() {
+class AdapterDoctorSlotRecyclerview (val doctorprivateList: ArrayList<ResultItem?>?, internal var context: Context) : RecyclerView.Adapter<AdapterDoctorSlotRecyclerview.ViewHolder>() {
     //    val trainerList: ArrayList<TrainerListItem?>?,
     companion object {
         val TAG: String = AdapterHospitalRecyclerviw::class.java.simpleName
@@ -90,7 +87,7 @@ class AdapterDoctorSlotRecyclerview (val doctorprivateList: ArrayList<ResultItem
             itemView?.rootView?.txt_doctorslots_clinic_name?.setText("Clinic Name:"+" "+doctorprivateList?.get(pos)?.clinicName)
             itemView?.rootView?.txt_doctorslots_clinic_address?.setText(doctorprivateList?.get(pos)?.clinicAddress)
             itemView?.rootView?.txt_doctorslots_clinic_day?.setText(doctorprivateList?.get(pos)?.day)
-            itemView?.rootView?.txt_doctor_clinic_time?.setText(doctorprivateList?.get(pos)?.timeFrom+"-"+doctorprivateList?.get(pos)?.timeTo)
+//            itemView?.rootView?.txt_doctor_clinic_time?.setText(doctorprivateList?.get(pos)?.timeFrom+"-"+doctorprivateList?.get(pos)?.timeTo)
 
 
 

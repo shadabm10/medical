@@ -18,3 +18,34 @@ data class DoctorPrivateSlotResponse(
 	@field:SerializedName("status")
 	val status: Boolean? = null
 )
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class SlotItem(
+	@field:JsonProperty("time_to")
+	@field:SerializedName("time_to")
+	val timeTo: String? = null,
+	@field:JsonProperty("time_from")
+	@field:SerializedName("time_from")
+	val timeFrom: String? = null,
+	@field:JsonProperty("status")
+	@field:SerializedName("status")
+	val status: String? = null
+
+)
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class ResultItem(
+	@field:JsonProperty("clinic_address")
+	@field:SerializedName("clinic_address")
+	val clinicAddress: String? = null,
+	@field:JsonProperty("clinic_name")
+	@field:SerializedName("clinic_name")
+	val clinicName: String? = null,
+	@field:JsonProperty("slot")
+	@field:SerializedName("slot")
+	val slot: ArrayList<SlotItem?>? = null,
+	@field:JsonProperty("clinic_id")
+	@field:SerializedName("clinic_id")
+	val clinicId: String? = null,
+	@field:JsonProperty("day")
+	@field:SerializedName("day")
+	val day: String? = null
+)

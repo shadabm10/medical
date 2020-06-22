@@ -264,7 +264,8 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
                         modelDoctorAppointmentItem?.doctorName!!,
                         modelDoctorAppointmentItem?.patientName!!,
                         modelDoctorAppointmentItem?.appointmentDate!!,
-                        modelDoctorAppointmentItem?.fromTime!!, modelDoctorAppointmentItem?.toTime!!))
+                        modelDoctorAppointmentItem?.fromTime!!, modelDoctorAppointmentItem?.toTime!!,
+                        modelDoctorAppointmentItem?.clinicName!!))
             }
 
 

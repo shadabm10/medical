@@ -9,26 +9,23 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dialog.CommonDialog
 import com.interfaces.OnDoctorPrivateSlotClickListner
+import com.interfaces.OnDoctorSlotClickListner
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.request.doctorrequest.doctorprivatesotrequest.DoctorPrivateSlotRequest
 import com.rootscare.data.model.api.request.reschedule.DoctorAppointmentRescheduleRequest
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.DoctorPrivateSlotResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.ResultItem
+import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.SlotItem
 import com.rootscare.data.model.api.response.reschedule.doctorreschedule.DoctorRescheduleResponse
 import com.rootscare.databinding.FragmentDoctorAppointmentRescheduleBinding
-import com.rootscare.databinding.FragmentReviewAndRatingBinding
 import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotRecyclerview
-import com.rootscare.ui.bookingappointment.subfragment.editpatient.FragmentEditPatientFamilyMember
+import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotDivision
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
 import com.rootscare.ui.recedule.doctor.adapter.AdapterDoctorPrivateSlot
-import com.rootscare.ui.reviewandrating.FragmentReviewAndRating
-import com.rootscare.ui.reviewandrating.FragmentReviewAndRatingNavigator
-import com.rootscare.ui.reviewandrating.FragmentReviewAndRatingViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,6 +41,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
     private var appointmentDate:String=""
     private var fromTime:String=""
     private var toTime:String=""
+    private var clinicname:String=""
     private var appointmentId:String=""
     override val bindingVariable: Int
         get() = BR.viewModel
@@ -57,7 +55,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
         }
 
     companion object {
-        fun newInstance(id: String,doctorid: String,patientname:String,doctorName:String,appointmentdate:String,fromdate:String,todate:String): FragmentDoctorAppointmentReschedule {
+        fun newInstance(id: String,doctorid: String,patientname:String,doctorName:String,appointmentdate:String,fromdate:String,todate:String,clinicName:String): FragmentDoctorAppointmentReschedule {
             val args = Bundle()
             args.putString("id",id)
             args.putString("doctorid",doctorid)
@@ -66,6 +64,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
             args.putString("appointmentdate",appointmentdate)
             args.putString("fromdate",fromdate)
             args.putString("todate",fromdate)
+            args.putString("clinicName",clinicName)
 
             val fragment = FragmentDoctorAppointmentReschedule()
             fragment.arguments = args
@@ -112,6 +111,11 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
         if (arguments!=null && arguments?.getString("todate")!=null){
             toTime = arguments?.getString("todate")!!
             Log.d("todate", ": " + toTime )
+        }
+
+        if (arguments!=null && arguments?.getString("clinicName")!=null){
+            clinicname = arguments?.getString("clinicName")!!
+            Log.d("clinicName", ": " + clinicname )
         }
         // Set todays date and get clinic list and doctor according to todays date
         var c = Calendar.getInstance().getTime();
@@ -168,33 +172,44 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
         fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setText(appointmentDate)
         fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText(fromTime)
         fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleEndTime?.setText(toTime)
+        fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleClinicName?.setText(clinicname)
 
         fragmentDoctorAppointmentRescheduleBinding?.btnAppointmentBooking?.setOnClickListener(View.OnClickListener {
-            CommonDialog.showDialog(context!!, object :
-                DialogClickCallback {
-                override fun onDismiss() {
-                }
 
-                override fun onConfirm() {
-                     if(isNetworkConnected){
-                baseActivity?.showLoading()
-                var doctorAppointmentRescheduleRequest= DoctorAppointmentRescheduleRequest()
-                doctorAppointmentRescheduleRequest?.id=appointmentId
-                doctorAppointmentRescheduleRequest?.serviceType="doctor"
-                doctorAppointmentRescheduleRequest?.fromDate=appointmentDate
-                doctorAppointmentRescheduleRequest?.toDate=appointmentDate
-                doctorAppointmentRescheduleRequest?.fromTime=fromTime
-                doctorAppointmentRescheduleRequest?.toTime=toTime
+//            fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText(fromTime)
+//            fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleEndTime?.setText(toTime)
+            fromTime = fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleStartTime?.text?.toString()!!
+            toTime= fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleEndTime?.text?.toString()!!
+            if(!fromTime.equals("") &&!toTime.equals("") ){
+                CommonDialog.showDialog(context!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
 
-                fragmentDoctorAppointmentRescheduleViewModel?.apirescheduleappointment(doctorAppointmentRescheduleRequest)
+                    override fun onConfirm() {
+                        if(isNetworkConnected){
+                            baseActivity?.showLoading()
+                            var doctorAppointmentRescheduleRequest= DoctorAppointmentRescheduleRequest()
+                            doctorAppointmentRescheduleRequest?.id=appointmentId
+                            doctorAppointmentRescheduleRequest?.serviceType="doctor"
+                            doctorAppointmentRescheduleRequest?.fromDate=appointmentDate
+                            doctorAppointmentRescheduleRequest?.toDate=appointmentDate
+                            doctorAppointmentRescheduleRequest?.fromTime=fromTime
+                            doctorAppointmentRescheduleRequest?.toTime=toTime
 
+                            fragmentDoctorAppointmentRescheduleViewModel?.apirescheduleappointment(doctorAppointmentRescheduleRequest)
+
+                        }else{
+                            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                }, "Reschedule Appointment", "Are you sure to reschedule this family member?")
             }else{
-                Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Please  select time slot to reschedule booking." , Toast.LENGTH_SHORT).show()
             }
 
-                }
-
-            }, "Reschedule Appointment", "Are you sure to reschedule this family member?")
 
 
         })
@@ -217,12 +232,52 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
         contactListAdapter?.recyclerViewItemClick= object : OnDoctorPrivateSlotClickListner {
             override fun onItemClick(modelData: com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.ResultItem?) {
 //                clinicId= modelData?.clinicId!!
-                fromTime= modelData?.timeFrom!!
-                toTime= modelData?.timeTo!!
-                fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText(fromTime)
-                fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleEndTime?.setText(toTime)
+//                fromTime= modelData?.timeFrom!!
+//                toTime= modelData?.timeTo!!
+                fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleClinicName?.setText(modelData?.clinicName)
+                fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText("")
+                fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleEndTime?.setText("")
+                if(modelData?.slot!=null && modelData?.slot?.size>0){
+                    fragmentDoctorAppointmentRescheduleBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
+                    fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
+                    setUpToTimeListingRecyclerview(modelData?.slot)
+                }else{
+                    fragmentDoctorAppointmentRescheduleBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
+                    fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.VISIBLE
+                    fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.text="No slot available for booking."
+                }
+//
 
             }
+
+
+        }
+
+    }
+
+    // Set up recycler view for service listing if available
+    private fun setUpToTimeListingRecyclerview(slotList: ArrayList<SlotItem?>?) {
+//        trainerList: ArrayList<TrainerListItem?>?
+        assert(fragmentDoctorAppointmentRescheduleBinding!!.recyclerViewTimeslotby30minute != null)
+        val recyclerView = fragmentDoctorAppointmentRescheduleBinding!!.recyclerViewTimeslotby30minute
+        val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = gridLayoutManager
+        recyclerView.setHasFixedSize(true)
+        val contactListAdapter = AdapterDoctorSlotDivision(slotList,context!!)
+        recyclerView.adapter = contactListAdapter
+
+        contactListAdapter?.recyclerViewItemClickWithView= object : OnDoctorSlotClickListner {
+            override fun onSloctClick(position: SlotItem) {
+                fromTime= position?.timeFrom!!
+                toTime= position?.timeTo!!
+                fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText(fromTime)
+                fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleEndTime?.setText(toTime)
+            }
+//            override fun onItemClick(modelData: com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.ResultItem?) {
+//                clinicId= modelData?.clinicId!!
+////                clinicFromTime= modelData?.timeFrom!!
+////                clinicToTime= modelData?.timeTo!!
+//            }
 
 
         }
@@ -237,14 +292,29 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
 
                 fragmentDoctorAppointmentRescheduleBinding?.btnAppointmentBooking?.visibility=View.VISIBLE
                 fragmentDoctorAppointmentRescheduleBinding?.recyclerViewDoctorslot?.visibility=View.VISIBLE
+                fragmentDoctorAppointmentRescheduleBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
+                fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
                 fragmentDoctorAppointmentRescheduleBinding?.tvSelectDoctorSlotNoDate?.visibility=View.GONE
 //                clinicId= doctorPrivateSlotResponse?.result?.get(0)?.clinicId!!
 //                clinicFromTime= doctorPrivateSlotResponse?.result?.get(0)?.timeFrom!!
 //                clinicToTime= doctorPrivateSlotResponse?.result?.get(0)?.timeTo!!
                 setUpDoctorSloytListingRecyclerview(doctorPrivateSlotResponse?.result)
+
+                if(doctorPrivateSlotResponse?.result?.get(0)?.slot!=null && doctorPrivateSlotResponse?.result?.get(0)?.slot?.size!!>0){
+                    fragmentDoctorAppointmentRescheduleBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
+                    fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
+                    setUpToTimeListingRecyclerview(doctorPrivateSlotResponse?.result?.get(0)?.slot)
+
+                }else{
+                    fragmentDoctorAppointmentRescheduleBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
+                    fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.VISIBLE
+                    fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.text="No slot available for booking."
+                }
             }else{
                 fragmentDoctorAppointmentRescheduleBinding?.btnAppointmentBooking?.visibility=View.GONE
                 fragmentDoctorAppointmentRescheduleBinding?.recyclerViewDoctorslot?.visibility=View.GONE
+                fragmentDoctorAppointmentRescheduleBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
+                fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
                 fragmentDoctorAppointmentRescheduleBinding?.tvSelectDoctorSlotNoDate?.visibility=View.VISIBLE
                 fragmentDoctorAppointmentRescheduleBinding?.tvSelectDoctorSlotNoDate?.setText("No Doctor Slot Found")
             }

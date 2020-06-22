@@ -12,7 +12,6 @@ import com.interfaces.OnDoctorPrivateSlotClickListner
 import com.rootscare.R
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.ResultItem
 import com.rootscare.databinding.ItemDoctorSlotsRecyclerviewBinding
-import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotRecyclerview
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
 import kotlinx.android.synthetic.main.item_doctor_slots_recyclerview.view.*
 
@@ -88,7 +87,7 @@ class AdapterDoctorPrivateSlot (val doctorprivateList: ArrayList<ResultItem?>?, 
             itemView?.rootView?.txt_doctorslots_clinic_name?.setText("Clinic Name:"+" "+doctorprivateList?.get(pos)?.clinicName)
             itemView?.rootView?.txt_doctorslots_clinic_address?.setText(doctorprivateList?.get(pos)?.clinicAddress)
             itemView?.rootView?.txt_doctorslots_clinic_day?.setText(doctorprivateList?.get(pos)?.day)
-            itemView?.rootView?.txt_doctor_clinic_time?.setText(doctorprivateList?.get(pos)?.timeFrom+"-"+doctorprivateList?.get(pos)?.timeTo)
+//            itemView?.rootView?.txt_doctor_clinic_time?.setText(doctorprivateList?.get(pos)?.timeFrom+"-"+doctorprivateList?.get(pos)?.timeTo)
 
 
 

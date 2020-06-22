@@ -1,21 +1,15 @@
 package com.rootscare.ui.physiotherapy.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.interfaces.OnDoctorPrivateSlotClickListner
 import com.rootscare.R
-import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.doctorprivateslotresponse.ResultItem
-import com.rootscare.databinding.ItemDoctorSlotsRecyclerviewBinding
 import com.rootscare.databinding.ItemPhysiotherapySlotRecyclerviewBinding
-import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotRecyclerview
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
-import kotlinx.android.synthetic.main.item_doctor_slots_recyclerview.view.*
 
 class AdapterPhysiotherapySlotRecyclerview (internal var context: Context) : RecyclerView.Adapter<AdapterPhysiotherapySlotRecyclerview.ViewHolder>() {
     //    val trainerList: ArrayList<TrainerListItem?>?,
