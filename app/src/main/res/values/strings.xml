@@ -26,4 +26,6 @@
     <string name="create_file_name">Create file name</string>
     <string name="pleaese_enter_some_description">Please enter some description</string>
     <string name="pleaese_create_name_for_this_file">Please create name for selected file</string>
+    <string name="review_more"> <u>More..</u></string>
+    <string name="review_less"> <u>Less..</u></string>
 </resources>

@@ -53,8 +53,9 @@ class AdapterSeeAllNursesByGridRecyclerView (val nurseList: ArrayList<ResultItem
         private var local_position:Int = 0
         init {
             itemView?.root?.crdview_seeall_nurseslisting?.setOnClickListener(View.OnClickListener {
-                recyclerViewItemClickWithView?.onSecondItemClick(1)
+                recyclerViewItemClickWithView?.onSecondItemClick(nurseList?.get(local_position)?.userId?.toInt()!!)
             })
+
         }
 
         fun onBind(pos: Int) {

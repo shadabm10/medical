@@ -20,6 +20,7 @@
             <com.customview.MyTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/txt_nurse_hourtext"
                 android:textSize="@dimen/_12ssp"
                 android:padding="@dimen/_10sdp"
                 android:textColor="@color/txt_color"
@@ -28,6 +29,7 @@
             <com.customview.MyTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/txt_nurse_hourvalue"
                 android:textSize="@dimen/_12ssp"
                 android:padding="@dimen/_10sdp"
                 android:textColor="@color/colorPrimaryDark"

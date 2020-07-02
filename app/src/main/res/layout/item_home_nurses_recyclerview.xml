@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data>
-
         <import type="android.view.View" />
-
-
     </data>
 
         <androidx.cardview.widget.CardView
@@ -27,13 +23,12 @@
                     android:layout_height="@dimen/_75sdp"
                     app:cardCornerRadius="@dimen/_7sdp"
                     >
-
                         <ImageView
                             android:layout_width="@dimen/_73sdp"
                             android:layout_height="@dimen/_75sdp"
                             android:id="@+id/img_home_nurseprofile"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/nursesphoto"/>
+                            android:src="@drawable/no_image"/>
 
                 </androidx.cardview.widget.CardView>
 

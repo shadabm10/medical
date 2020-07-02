@@ -31,6 +31,7 @@ import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.nurses.adapter.AdapterSeeAllNursesByGridRecyclerView
 import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListing
+import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
 import com.rootscare.ui.profile.FragmentProfile
 
 class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBinding, FragmentNursesListByGridViewModel>(),
@@ -156,11 +157,14 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
             override fun onFirstItemClick(id: Int) {
 //                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
 //                    FragmentDoctorProfile.newInstance())
+
+
             }
 
             override fun onSecondItemClick(id: Int) {
-//                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-//                    FragmentNursesProfile.newInstance())
+
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentNursesListingDetails.newInstance(id.toString()))
             }
 
         }

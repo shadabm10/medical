@@ -23,6 +23,7 @@ import com.rootscare.data.model.api.request.loginrequest.LoginRequest
 import com.rootscare.data.model.api.request.medicalrecorddeleterequest.MedicalFileDeleteRequest
 import com.rootscare.data.model.api.request.medicalrecordsrequest.GetMedicalRecordListRequest
 import com.rootscare.data.model.api.request.nurse.departmentnurselist.DepartmentNurseListRequest
+import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
 import com.rootscare.data.model.api.request.nurse.searchbyname.NurseSearchByNameRequest
 import com.rootscare.data.model.api.request.patientpaymenthistoryreuest.PatientPaymentHistoryRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.PatientProfileRequest
@@ -54,6 +55,7 @@ import com.rootscare.data.model.api.response.loginresponse.LoginResponse
 import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFileDeleteResponse
 import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
 import com.rootscare.data.model.api.response.nationalityresponse.NationalityResponse
+import com.rootscare.data.model.api.response.nurses.nursedetails.NurseDetailsResponse
 import com.rootscare.data.model.api.response.nurses.nurselist.GetNurseListResponse
 import com.rootscare.data.model.api.response.patienthome.PatientHomeApiResponse
 import com.rootscare.data.model.api.response.patientprescription.PatientPrescriptionResponse
@@ -253,6 +255,9 @@ interface ApiService {
 
     @POST("api-department-nurse-list")
     fun apidepartmentnurselist(@Body departmentNurseListRequestBody: DepartmentNurseListRequest): Single<GetNurseListResponse>
+
+    @POST("api-nurse-details")
+    fun apinursedetails(@Body nurseDetailsRequestBody: NurseDetailsRequest): Single<NurseDetailsResponse>
 
 
 

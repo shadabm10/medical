@@ -23,6 +23,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
+                    android:visibility="gone"
                     android:background="@color/white"
                     android:orientation="horizontal">
 
@@ -93,10 +94,11 @@
                                 app:cardCornerRadius="@dimen/_6sdp">
 
                                 <ImageView
-                                    android:id="@+id/img_doctordetails_profilephoto"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/nursesphoto" />
+                                    android:id="@+id/img_nursedetails_profilephoto"
+                                    android:layout_width="@dimen/_90sdp"
+                                    android:layout_height="@dimen/_90sdp"
+                                    android:scaleType="centerCrop"
+                                     />
                             </androidx.cardview.widget.CardView>
 
                             <LinearLayout
@@ -116,16 +118,15 @@
                                     android:isIndicator="true"
                                     android:numStars="5"
                                     android:progressTint="@color/review_star"
-                                    android:rating="5.0"
                                     android:stepSize="1.0" />
 
                                 <com.customview.MyTextView
-                                    android:id="@+id/txt_doctordetails_noofreview"
+                                    android:id="@+id/txt_nursedetails_noofreview"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_3sdp"
                                     android:gravity="start"
-                                    android:text="49 reviews"
+
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_10ssp" />
                             </LinearLayout>
@@ -143,14 +144,14 @@
                                 <com.customview.MyTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Dr.Maya Grey"
+                                    android:id="@+id/txt_nursedetais_name"
                                     android:textColor="@color/white"
                                     android:textStyle="bold"
                                     android:textSize="@dimen/_13ssp"/>
                                 <com.customview.MyTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="MBBS General Physician"
+                                    android:id="@+id/txt_nursedetais_qualification"
                                     android:layout_marginTop="@dimen/_3sdp"
                                     android:textColor="@color/white"
                                     android:textStyle="bold"
@@ -176,7 +177,6 @@
                                     <RelativeLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
                                         >
                                         <com.customview.MyTextView
                                             android:layout_width="wrap_content"
@@ -185,6 +185,7 @@
                                             android:textColor="@color/white"
                                             android:textSize="@dimen/_8ssp"
                                             android:textStyle="bold"
+                                            android:visibility="gone"
                                             android:drawablePadding="@dimen/_5sdp"
                                             android:drawableStart="@drawable/location"
                                             android:text="Map &amp; Direction"/>
@@ -194,12 +195,13 @@
                                             android:layout_marginStart="@dimen/_5sdp"
                                             android:layout_marginEnd="@dimen/_10sdp"
                                             android:textColor="@color/white"
+                                            android:id="@+id/txt_nursedetais_review_write"
                                             android:layout_toEndOf="@+id/txt_location_and_direction"
-                                            android:textSize="@dimen/_8ssp"
+                                            android:textSize="@dimen/_10ssp"
                                             android:textStyle="bold"
                                             android:drawablePadding="@dimen/_5sdp"
                                             android:drawableStart="@drawable/review"
-                                            android:text="Reviews"/>
+                                            android:text="Write your reviews"/>
 
 
 
@@ -228,6 +230,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:visibility="gone"
                                 android:background="@drawable/sky_heading">
                                 <com.customview.MyTextView
                                     android:layout_width="match_parent"
@@ -270,15 +273,17 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:maxLines="2"
+                                            android:id="@+id/txt_nursedetais_address_description"
                                             android:padding="@dimen/_10sdp"
                                             android:textColor="@color/txt_color"
                                             android:textSize="@dimen/_10ssp"
-                                            android:text="5835 LEHMAN DR,Colorado Springs Kolkata 700156"/>
+                                           />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginStart="@dimen/_10sdp"
+                                            android:visibility="gone"
                                             android:orientation="horizontal">
 
                                             <com.customview.MyTextView
@@ -360,7 +365,7 @@
                                             android:textColor="@color/colorPrimary"
                                             android:text="@string/no_data"
                                             android:layout_margin="@dimen/_3sdp"
-                                            android:id="@+id/tv_no_date"/>
+                                            android:id="@+id/tv_no_date_nursefeeslist"/>
                                     </RelativeLayout>
                                 </RelativeLayout>
 
@@ -400,6 +405,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:padding="@dimen/_10sdp"
+                                            android:id="@+id/txt_nursedetails_view_timings"
                                             android:textColor="@color/colorPrimaryDark"
                                             android:textSize="@dimen/_11ssp"
                                             android:text="View Timings"/>
@@ -412,6 +418,7 @@
                                         android:layout_below="@id/ll_content2"
                                         android:id="@+id/txt_no_available"
                                         android:textSize="@dimen/_11ssp"
+                                        android:layout_marginBottom="@dimen/_20sdp"
                                         android:textColor="@color/txt_color"
                                         android:text="Not available"/>
 
@@ -429,6 +436,7 @@
                                 android:padding="@dimen/_5sdp"
                                 android:layout_marginTop="@dimen/_20sdp"
                                 android:textAllCaps="false"
+                                android:visibility="gone"
                                 android:textColor="@color/white"
                                 android:layout_marginBottom="@dimen/_30sdp"
                                 android:drawablePadding="@dimen/_10sdp"
@@ -454,7 +462,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/_10ssp"
                         android:textColor="@color/txt_color"
-                        android:text="Name"/>
+                        android:text="Education"/>
 
                 </LinearLayout>
 
@@ -462,18 +470,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_5sdp">
-                    <com.customview.MyTextView
+                    android:layout_margin="@dimen/_10sdp">
+                    <RelativeLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/txt_color"
-                        android:textSize="@dimen/_10ssp"
-                        android:text="Kristen Lewis"/>
-
-
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/recyclerView_nursedetails_education"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/_16ssp"
+                            android:layout_centerInParent="true"
+                            android:visibility="gone"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            android:text="@string/no_data"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:id="@+id/tv_nursedetails_education_no_date"/>
+                    </RelativeLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -488,7 +505,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/_10ssp"
                         android:textColor="@color/txt_color"
-                        android:text="Working"/>
+                        android:text="Specility"/>
 
                 </LinearLayout>
 
@@ -496,27 +513,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_5sdp">
-                    <com.customview.MyTextView
+                    android:layout_margin="@dimen/_10sdp">
+                    <RelativeLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/txt_color"
-                        android:textSize="@dimen/_10ssp"
-                        android:text="Working Experience 25 yrs"/>
-
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/recyclerView_nursedetails_specility"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/_16ssp"
+                            android:layout_centerInParent="true"
+                            android:visibility="gone"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            android:text="@string/no_data"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:id="@+id/tv_nursedetails_specility_no_date"/>
+                    </RelativeLayout>
                 </LinearLayout>
-
-
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@drawable/details_bg">
-                    <TextView
+                    <com.customview.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
@@ -526,74 +550,58 @@
                         android:textSize="@dimen/_12ssp"
                         android:textColor="@color/txt_color"
                         android:text="Reviews"/>
-                    <TextView
+                    <com.customview.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
+                        android:visibility="visible"
+                        android:id="@+id/txt_nurse_submit_review"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_gravity="center"
                         android:layout_alignParentEnd="true"
                         android:textSize="@dimen/_12ssp"
-                        android:id="@+id/txt_write_your_review"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor=" #64a7dd"
                         android:text="@string/your_string_here"/>
-
                 </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_10sdp">
                     <RelativeLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/recyclerView_nurselisting_review"/>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_alignParentStart="true"
-                            android:textSize="@dimen/_9ssp"
-                            android:textStyle="bold"
-                            android:textColor="@color/txt_color"
-                            android:text="Palalika C"/>
-                        <RatingBar
-                            style="@style/customRatingBar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:numStars="5"
-                            android:rating="5.0"
-                            android:isIndicator="true"
-                            android:progressTint="@color/review_star"
-                            android:stepSize="1.0" />
-
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/_16ssp"
+                            android:layout_centerInParent="true"
+                            android:visibility="gone"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            android:text="@string/no_data"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:id="@+id/tv_nurselisting_review_no_date"/>
                     </RelativeLayout>
-
-                    <LinearLayout
+                    <com.customview.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/txt_color"
-                            android:textSize="@dimen/_9ssp"
-                            android:text="Lorem Ipsum has been the industry's standard"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="@dimen/_9ssp"
-                            android:text="@string/more"/>
-                    </LinearLayout>
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="visible"
+                        android:id="@+id/txt_nursedetails_review_more"
+                        android:textStyle="bold"
+                        android:layout_gravity="end"
+                        android:layout_alignParentEnd="true"
+                        android:textSize="@dimen/_12ssp"
+                        android:textColor="@color/green"
+                        android:text="@string/review_more"/>
                 </LinearLayout>
-
-
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

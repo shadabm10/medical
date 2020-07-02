@@ -92,6 +92,7 @@
                                 <ImageView
                                     android:id="@+id/img_doctordetails_profilephoto"
                                     android:layout_width="@dimen/_90sdp"
+                                    android:scaleType="centerCrop"
                                     android:layout_height="@dimen/_90sdp" />
                             </androidx.cardview.widget.CardView>
 
@@ -697,6 +698,7 @@
                             android:layout_margin="@dimen/_3sdp"
                             android:id="@+id/tv_doctorlisting_review_no_date"/>
                     </RelativeLayout>
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

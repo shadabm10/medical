@@ -75,8 +75,8 @@ class FragmentBabySitterListingDetails : BaseFragment<FragmentBabysitterListingD
         recyclerView.setHasFixedSize(true)
 //        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 //        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
-        val contactListAdapter = AdapterNursesFeesListingRecyclerView(context!!)
-        recyclerView.adapter = contactListAdapter
+   //     val contactListAdapter = AdapterNursesFeesListingRecyclerView(context!!)
+       // recyclerView.adapter = contactListAdapter
 
     }
 }

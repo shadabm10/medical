@@ -60,7 +60,7 @@ class AdapterNursesCtegoryListingRecyclerview (val nurseList: ArrayList<ResultIt
             })
 //
             itemView?.root?.crdview_nurses_category_list?.setOnClickListener(View.OnClickListener {
-                recyclerViewItemClickWithView?.onSecondItemClick(1)
+                recyclerViewItemClickWithView?.onSecondItemClick(nurseList?.get(local_position)?.userId?.toInt()!!)
             })
 
         }

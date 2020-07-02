@@ -169,7 +169,7 @@ class FragmentNursesCategoryListing : BaseFragment<FragmentNursesCategorylisting
                 }
                 override fun onSecondItemClick(id: Int) {
                     (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                        FragmentNursesListingDetails.newInstance())
+                        FragmentNursesListingDetails.newInstance(id.toString()))
                 }
             }
 

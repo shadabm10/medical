@@ -19,6 +19,7 @@ import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.adapter.*
 import com.rootscare.ui.hospital.FragmentSeeAllHospitalList
 import com.rootscare.ui.nurses.FragmentNursesListByGrid
+import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
 import com.rootscare.ui.physiotherapy.FragmentSeeAllPhysiotherapyListing
 import com.rootscare.ui.seealldoctorbygrid.FragmentSeeAllDoctorByGrid
 
@@ -134,6 +135,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewmodel>(),
         recyclerView.setHasFixedSize(true)
         val contactListAdapter = AdapterNursesRecyclerviw(nurseList,context!!)
         recyclerView.adapter = contactListAdapter
+
+        contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
+            override fun onItemClick(id: Int) {
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentNursesListingDetails.newInstance(id.toString()))
+            }
+
+        }
 
 
     }
