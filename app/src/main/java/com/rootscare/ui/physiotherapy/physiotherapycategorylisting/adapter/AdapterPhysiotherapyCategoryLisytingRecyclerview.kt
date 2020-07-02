@@ -12,7 +12,6 @@ import com.rootscare.R
 import com.rootscare.databinding.ItemNursesCategorylistingRecyclerviewBinding
 import com.rootscare.databinding.ItemPhysiotherapyCategoryListingRecyclerviewBinding
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
-import com.rootscare.ui.nurses.nursescategorylisting.adapter.AdapterNursesCtegoryListingRecyclerview
 import kotlinx.android.synthetic.main.item_nurses_categorylisting_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_nurses_categorylisting_recyclerview.view.crdview_nurses_category_list
 import kotlinx.android.synthetic.main.item_physiotherapy_category_listing_recyclerview.view.*

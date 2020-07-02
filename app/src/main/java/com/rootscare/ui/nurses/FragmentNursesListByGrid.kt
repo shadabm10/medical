@@ -17,8 +17,10 @@ import com.interfaces.OnClickWithTwoButton
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.adapter.CustomDropDownAdapter
+import com.rootscare.data.model.api.request.doctorrequest.doctorlistbydepartmentrequest.DoctorListByDepartmentIdRequest
 import com.rootscare.data.model.api.request.doctorrequest.doctorsearchrequest.SeeAllDoctorSearch
 import com.rootscare.data.model.api.request.medicalrecordsrequest.GetMedicalRecordListRequest
+import com.rootscare.data.model.api.request.nurse.departmentnurselist.DepartmentNurseListRequest
 import com.rootscare.data.model.api.request.nurse.searchbyname.NurseSearchByNameRequest
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctordepartmentlistingresponse.DoctorDepartmentListingResponse
 import com.rootscare.data.model.api.response.nurses.nurselist.GetNurseListResponse
@@ -39,6 +41,7 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
     var departmentDropdownList:ArrayList<RowItem?>? = null
     private var selectedSpecialityCodeForFilter: String? = null
     private var selectedSpecialityNameForFilter: String? = null
+    var departmentId=""
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -67,7 +70,7 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
         fragmentSeeAllNursesListByGridBinding = viewDataBinding
         fragmentSeeAllNursesListByGridBinding?.btnRootscareMoreNurses?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentNursesCategoryListing.newInstance())
+                FragmentNursesCategoryListing.newInstance(fragmentSeeAllNursesListByGridBinding?.edtNurseSearchByName?.text?.toString()!!))
         })
         //Department List Api Call
         apiHitForDepartmetList()
@@ -116,13 +119,13 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
         })
 
         fragmentSeeAllNursesListByGridBinding?.tvFilterSubmit?.setOnClickListener {
-//            if(selectedSpecialityCodeForFilter!=null){
-//                departmentId=selectedSpecialityCodeForFilter.toString()
-//                apicalldepartmentdoctorlist(departmentId)
-//            }else{
-//                fragmentSeeAllDoctorByGridViewModel?.apidoctorlist()
-////                Toast.makeText(activity, "Please select any specility.", Toast.LENGTH_SHORT).show()
-//            }
+            if(selectedSpecialityCodeForFilter!=null){
+                departmentId=selectedSpecialityCodeForFilter.toString()
+                apicalldepartmentnurselist(departmentId)
+            }else{
+                fragmentNursesListByGridViewModel?.apinurselist()
+//                Toast.makeText(activity, "Please select any specility.", Toast.LENGTH_SHORT).show()
+            }
             showFilterMenuWithCircularRevealAnimation()
         }
         fragmentSeeAllNursesListByGridBinding?.tvFilterClear?.setOnClickListener(View.OnClickListener {
@@ -190,10 +193,6 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
         if(doctorDepartmentListingResponse?.code.equals("200")){
 
             if(doctorDepartmentListingResponse?.result!=null && doctorDepartmentListingResponse?.result.size>0){
-
-
-
-
                 departmentDropdownList= ArrayList<RowItem?>()
                 departmentDropdownList?.add(RowItem("Select Specility","0"))
                 for (i in 0 until doctorDepartmentListingResponse?.result?.size) {
@@ -237,8 +236,6 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
     }
 
     // Circular Reveal Animation for filter layout
-
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showFilterMenuWithCircularRevealAnimation() {
         with(fragmentSeeAllNursesListByGridBinding!!) {
@@ -303,6 +300,18 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
             fragmentSeeAllNursesListByGridBinding?.spinnerSpeciality?.setSelection(0)
+        }
+    }
+
+    private fun apicalldepartmentnurselist(departmentid:String){
+        if(isNetworkConnected){
+            baseActivity?.showLoading()
+            var departmentNurseListRequest= DepartmentNurseListRequest()
+            departmentNurseListRequest?.departmentId=departmentid
+            fragmentNursesListByGridViewModel?.apidepartmentnurselist(departmentNurseListRequest)
+
+        }else{
+            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }
     }
 

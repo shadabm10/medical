@@ -22,6 +22,7 @@ import com.rootscare.data.model.api.request.insertdoctorreviewratingrequest.Inse
 import com.rootscare.data.model.api.request.loginrequest.LoginRequest
 import com.rootscare.data.model.api.request.medicalrecorddeleterequest.MedicalFileDeleteRequest
 import com.rootscare.data.model.api.request.medicalrecordsrequest.GetMedicalRecordListRequest
+import com.rootscare.data.model.api.request.nurse.departmentnurselist.DepartmentNurseListRequest
 import com.rootscare.data.model.api.request.nurse.searchbyname.NurseSearchByNameRequest
 import com.rootscare.data.model.api.request.patientpaymenthistoryreuest.PatientPaymentHistoryRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.PatientProfileRequest
@@ -249,6 +250,9 @@ interface ApiService {
 
     @POST("api-search-nurse")
     fun apisearchnurse(@Body nurseSearchByNameRequestBody: NurseSearchByNameRequest): Single<GetNurseListResponse>
+
+    @POST("api-department-nurse-list")
+    fun apidepartmentnurselist(@Body departmentNurseListRequestBody: DepartmentNurseListRequest): Single<GetNurseListResponse>
 
 
 

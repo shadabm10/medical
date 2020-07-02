@@ -102,11 +102,8 @@ class FragmentSeeAllDoctorByGrid : BaseFragment<FragmentSeeAllDoctorByGridBindin
                     departmentId=title_id
                     apicalldepartmentdoctorlist(departmentId)
                 }
-
             })
         })
-
-
 
         //Doctor Search Api Call
         fragmentSeeAllDoctorByGridBinding?.txtSeeallDoctorSearch?.setOnClickListener(View.OnClickListener {
