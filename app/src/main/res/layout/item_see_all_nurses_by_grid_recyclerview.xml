@@ -34,6 +34,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_80sdp"
+                        android:id="@+id/img_nurse_list"
                         android:scaleType="fitXY"
                         android:src="@drawable/nursesphoto"
                         />
@@ -51,12 +52,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_9ssp"
+                        android:id="@+id/txt_nurse_name"
                         android:textColor="@color/txt_color"
                         android:textStyle="bold"
                         android:text="Kristen Lewis"/>
                     <com.customview.MyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/txt_nurse_qualification"
                         android:textSize="@dimen/_8ssp"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:textColor="@color/txt_color"
@@ -64,6 +67,7 @@
                     <com.customview.MyTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/txt_nurse_description"
                         android:maxLines="3"
                         android:textSize="@dimen/_7ssp"
                         android:layout_marginTop="@dimen/_2sdp"

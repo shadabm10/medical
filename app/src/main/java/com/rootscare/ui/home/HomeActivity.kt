@@ -43,6 +43,7 @@ import com.rootscare.ui.login.LoginActivity
 import com.rootscare.ui.medicalrecords.FragmentMedicalRecords
 import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
 import com.rootscare.ui.notification.FragmentNotification
+import com.rootscare.ui.nurses.FragmentNursesListByGrid
 import com.rootscare.ui.patientbookpaynow.FragmentPatientbookPayNow
 import com.rootscare.ui.patientprofilrsetting.FragmentPatientProfileSetting
 import com.rootscare.ui.paymenthistory.FragmentPaymentHistory
@@ -1023,7 +1024,29 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
             })
 
         }
+        else if (fragment is FragmentNursesListByGrid) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Nurse List"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
 
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
 
 
     }

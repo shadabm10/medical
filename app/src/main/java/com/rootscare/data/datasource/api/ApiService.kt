@@ -22,6 +22,7 @@ import com.rootscare.data.model.api.request.insertdoctorreviewratingrequest.Inse
 import com.rootscare.data.model.api.request.loginrequest.LoginRequest
 import com.rootscare.data.model.api.request.medicalrecorddeleterequest.MedicalFileDeleteRequest
 import com.rootscare.data.model.api.request.medicalrecordsrequest.GetMedicalRecordListRequest
+import com.rootscare.data.model.api.request.nurse.searchbyname.NurseSearchByNameRequest
 import com.rootscare.data.model.api.request.patientpaymenthistoryreuest.PatientPaymentHistoryRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.PatientProfileRequest
 import com.rootscare.data.model.api.request.patientprofilerequest.updateprofilelifestylerequest.ProfileLifestyleUpdateRequest
@@ -52,6 +53,7 @@ import com.rootscare.data.model.api.response.loginresponse.LoginResponse
 import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFileDeleteResponse
 import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
 import com.rootscare.data.model.api.response.nationalityresponse.NationalityResponse
+import com.rootscare.data.model.api.response.nurses.nurselist.GetNurseListResponse
 import com.rootscare.data.model.api.response.patienthome.PatientHomeApiResponse
 import com.rootscare.data.model.api.response.patientprescription.PatientPrescriptionResponse
 import com.rootscare.data.model.api.response.patientprofileresponse.PatientProfileResponse
@@ -240,6 +242,13 @@ interface ApiService {
                                @Part("date") date: RequestBody,
                                @Part("title") title: RequestBody,
                                @Part file: ArrayList<MultipartBody.Part>): Single<MedicalRecordListResponse>
+
+
+    @GET("api-nurse-list")
+    fun apinurselist(): Single<GetNurseListResponse>
+
+    @POST("api-search-nurse")
+    fun apisearchnurse(@Body nurseSearchByNameRequestBody: NurseSearchByNameRequest): Single<GetNurseListResponse>
 
 
 
