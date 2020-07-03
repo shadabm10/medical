@@ -3,6 +3,8 @@ package com.rootscare.ui.nurses.nurseslistingdetails
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,27 +13,17 @@ import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
 import com.rootscare.data.model.api.response.nurses.nursedetails.*
-import com.rootscare.databinding.FragmentNursesCategorylistingBinding
+import com.rootscare.data.model.api.response.nurses.nurseviewtiming.NueseViewTimingsResponse
+import com.rootscare.data.model.api.response.nurses.nurseviewtiming.ResultItem
 import com.rootscare.databinding.FragmentNursesListingDetailsBinding
-import com.rootscare.databinding.FragmentSeeAllNursesListByGridBinding
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.doctorlistingdetails.adapter.AdapterDoctordetailsEducationListRecyclerview
-import com.rootscare.ui.doctorlistingdetails.adapter.AdapterDoctordetailsReviewListRecyclerview
-import com.rootscare.ui.doctorlistingdetails.adapter.AdapterDoctordetailsSpecilityListRecyclerview
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
-import com.rootscare.ui.nurses.FragmentNursesListByGridViewModel
-import com.rootscare.ui.nurses.adapter.AdapterSeeAllNursesByGridRecyclerView
 import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
-import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListing
-import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListingViewModel
-import com.rootscare.ui.nurses.nurseslistingdetails.adapter.AdapterNurseEducationListRecyclerView
-import com.rootscare.ui.nurses.nurseslistingdetails.adapter.AdapterNurseReviewrecyclerview
-import com.rootscare.ui.nurses.nurseslistingdetails.adapter.AdapterNurseSpecilityListRecyclerview
-import com.rootscare.ui.nurses.nurseslistingdetails.adapter.AdapterNursesFeesListingRecyclerView
-import com.rootscare.ui.physiotherapy.submitreviewforservice.FragmentSubmitReview
+import com.rootscare.ui.nurses.nurseslistingdetails.adapter.*
+import com.rootscare.ui.nurses.review.FragmentNurseReviewSubmit
 import com.rootscare.ui.profile.FragmentProfile
-import kotlinx.android.synthetic.main.item_see_all_nurses_by_grid_recyclerview.view.*
+import com.rootscare.ui.submitfeedback.FragmentSubmitReview
+
 
 class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBinding, FragmentNursesListingDetailsViewModel>(),
     FragmentNursesListingDetailsNavigator {
@@ -40,6 +32,9 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
     var nurseFirstName=""
     var nurseLastName=""
     var nurseId=""
+    private var hidden = true
+    var  initialReviewRatingList: ArrayList<ReviewRatingItem?>?=null
+    var  finalReviewRatingList: ArrayList<ReviewRatingItem?>?=null
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -70,9 +65,8 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
             nurseId = arguments?.getString("nurseid")!!
             Log.d("Nurse ID", ": " + nurseId )
         }
-//        setUpViewSeeAllNursesCategorieslistingRecyclerview()
-//        setUpViewNursesFeeslistingRecyclerview()
 //Api hit for nurse details
+        apiHitForNurseViewTiming()
         apiHitForNurseDetails()
         fragmentNursesListingDetailsBinding?.btnRootscareBookingNurses?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
@@ -83,24 +77,67 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                 FragmentNursesBookingAppointment.newInstance())
         })
+        fragmentNursesListingDetailsBinding?.txtNurseSubmitReview?.setOnClickListener(View.OnClickListener {
+            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                FragmentNurseReviewSubmit.newInstance(nurseId))
+        })
+
+        fragmentNursesListingDetailsBinding?.txtNursedetaisheaderReviewWrite?.setOnClickListener(View.OnClickListener {
+            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                FragmentNurseReviewSubmit.newInstance(nurseId))
+        })
+        fragmentNursesListingDetailsBinding?.txtNursedetailsViewTimings?.setOnClickListener(View.OnClickListener {
+            if(hidden){
+                fragmentNursesListingDetailsBinding?.llNurseViewTiming?.visibility=View.VISIBLE
+                val animSlideDown = AnimationUtils.loadAnimation(
+                    activity?.applicationContext,
+                    R.anim.slide_down
+                )
+                fragmentNursesListingDetailsBinding?.llNurseViewTiming?.startAnimation(animSlideDown)
+                hidden=false
+                fragmentNursesListingDetailsBinding?.txtNursedetailsViewTimings?.setText("Close Timings")
+            }else{
+                val animSlideUp: Animation =
+                    AnimationUtils.loadAnimation(activity?.applicationContext, R.anim.slide_up)
+                fragmentNursesListingDetailsBinding?.llNurseViewTiming?.startAnimation(animSlideUp)
+                fragmentNursesListingDetailsBinding?.llNurseViewTiming?.visibility=View.GONE
+                hidden=true
+                fragmentNursesListingDetailsBinding?.txtNursedetailsViewTimings?.setText("View Timings")
+            }
+
+        })
+
+        fragmentNursesListingDetailsBinding?.imgClose?.setOnClickListener(View.OnClickListener {
+            val animSlideUp: Animation =
+                AnimationUtils.loadAnimation(activity?.applicationContext, R.anim.slide_up)
+            fragmentNursesListingDetailsBinding?.llNurseViewTiming?.startAnimation(animSlideUp)
+            fragmentNursesListingDetailsBinding?.llNurseViewTiming?.visibility=View.GONE
+        })
+
+        fragmentNursesListingDetailsBinding?.txtNursedetailsReviewMore?.setOnClickListener(View.OnClickListener {
+            if(fragmentNursesListingDetailsBinding?.txtNursedetailsReviewMore?.text!!.equals("More..")){
+                if(finalReviewRatingList!=null && finalReviewRatingList!!.size>0){
+                    setReviewRatingListing(finalReviewRatingList)
+                    fragmentNursesListingDetailsBinding?.txtNursedetailsReviewMore?.setText("Less..")
+                }
+            }else if (fragmentNursesListingDetailsBinding?.txtNursedetailsReviewMore?.text!!.equals("Less..")){
+                if (initialReviewRatingList!=null && initialReviewRatingList!!.size>0){
+                    setReviewRatingListing(initialReviewRatingList)
+                    fragmentNursesListingDetailsBinding?.txtNursedetailsReviewMore?.setText("More..")
+                }
+            }
+        })
 
 
-//        fragmentNursesListingDetailsBinding?.txtWriteYourReview?.setOnClickListener(View.OnClickListener {
-//            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-//                FragmentSubmitReview.newInstance())
-//        })
     }
 
     // Set up recycler view for service listing if available
     private fun setUpViewNursesFeeslistingRecyclerview(hourlyRatesList: ArrayList<HourlyRatesItem?>?) {
-//        trainerList: ArrayList<TrainerListItem?>?
-        assert(fragmentNursesListingDetailsBinding!!.recyclerViewRootscareNursesfeesListing != null)
+        assert(fragmentNursesListingDetailsBinding!!.recyclerViewRootscareNursesfeesListing!= null)
         val recyclerView = fragmentNursesListingDetailsBinding!!.recyclerViewRootscareNursesfeesListing
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.setHasFixedSize(true)
-//        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-//        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
         val contactListAdapter = AdapterNursesFeesListingRecyclerView(hourlyRatesList,context!!)
         recyclerView.adapter = contactListAdapter
 
@@ -127,6 +164,17 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
                 fragmentNursesListingDetailsBinding?.txtNursedetaisQualification?.setText(nurseDetailsResponse?.result?.qualification)
             }else{
                 fragmentNursesListingDetailsBinding?.txtNursedetaisQualification?.setText("")
+            }
+
+            if(nurseDetailsResponse?.result?.reviewAbility!=null && !nurseDetailsResponse?.result?.reviewAbility.equals("")){
+                if(nurseDetailsResponse?.result?.reviewAbility.equals("yes")){
+                    fragmentNursesListingDetailsBinding?.txtNursedetaisheaderReviewWrite?.visibility=View.VISIBLE
+                    fragmentNursesListingDetailsBinding?.txtNurseSubmitReview?.visibility=View.VISIBLE
+
+                }else if(nurseDetailsResponse?.result?.reviewAbility.equals("no")){
+                    fragmentNursesListingDetailsBinding?.txtNursedetaisheaderReviewWrite?.visibility=View.GONE
+                    fragmentNursesListingDetailsBinding?.txtNurseSubmitReview?.visibility=View.GONE
+                }
             }
 
             if (nurseDetailsResponse?.result?.avgRating!=null && !nurseDetailsResponse?.result?.avgRating.equals("")){
@@ -176,10 +224,34 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
                 fragmentNursesListingDetailsBinding?.tvNursedetailsSpecilityNoDate?.setText("No specility data found.")
             }
 
+            initialReviewRatingList= ArrayList<ReviewRatingItem?>()
+            finalReviewRatingList= ArrayList<ReviewRatingItem?>()
+
             if(nurseDetailsResponse?.result?.reviewRating!=null && nurseDetailsResponse?.result?.reviewRating.size>0){
                 fragmentNursesListingDetailsBinding?.recyclerViewNurselistingReview?.visibility=View.VISIBLE
                 fragmentNursesListingDetailsBinding?.tvNurselistingReviewNoDate?.visibility=View.GONE
-                setReviewRatingListing(nurseDetailsResponse?.result?.reviewRating)
+                finalReviewRatingList=nurseDetailsResponse?.result?.reviewRating
+                if(nurseDetailsResponse?.result?.reviewRating?.size>1){
+                    fragmentNursesListingDetailsBinding?.txtNursedetailsReviewMore?.visibility=View.VISIBLE
+                    var reviewRatingItem=ReviewRatingItem()
+                    reviewRatingItem.rating=nurseDetailsResponse?.result?.reviewRating?.get(0)?.rating
+                    reviewRatingItem.review=nurseDetailsResponse?.result?.reviewRating?.get(0)?.review
+                    reviewRatingItem.reviewBy=nurseDetailsResponse?.result?.reviewRating?.get(0)?.reviewBy
+                    initialReviewRatingList?.add(reviewRatingItem)
+                    setReviewRatingListing(initialReviewRatingList)
+                }else{
+                    fragmentNursesListingDetailsBinding?.txtNursedetailsReviewMore?.visibility=View.GONE
+                    finalReviewRatingList= ArrayList<ReviewRatingItem?>()
+                    for (i in 0 until nurseDetailsResponse?.result?.reviewRating?.size) {
+                        var reviewRatingItem=ReviewRatingItem()
+                        reviewRatingItem.rating=nurseDetailsResponse?.result?.reviewRating?.get(0)?.rating
+                        reviewRatingItem.review=nurseDetailsResponse?.result?.reviewRating?.get(0)?.review
+                        reviewRatingItem.reviewBy=nurseDetailsResponse?.result?.reviewRating?.get(0)?.reviewBy
+                        finalReviewRatingList?.add(reviewRatingItem)
+                        setReviewRatingListing(finalReviewRatingList)
+                    }
+                }
+              //  setReviewRatingListing(nurseDetailsResponse?.result?.reviewRating)
             }else{
                 fragmentNursesListingDetailsBinding?.recyclerViewNurselistingReview?.visibility=View.GONE
                 fragmentNursesListingDetailsBinding?.tvNurselistingReviewNoDate?.visibility=View.VISIBLE
@@ -202,6 +274,27 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
             Toast.makeText(activity, nurseDetailsResponse?.message, Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    override fun successNueseViewTimingsResponse(nueseViewTimingsResponse: NueseViewTimingsResponse?) {
+        baseActivity?.hideLoading()
+        if(nueseViewTimingsResponse?.code.equals("200")){
+
+            if(nueseViewTimingsResponse?.result!=null && nueseViewTimingsResponse?.result.size>0){
+                fragmentNursesListingDetailsBinding?.recyclerViewNursetiming?.visibility=View.VISIBLE
+                fragmentNursesListingDetailsBinding?.tvNoDateNursetiming?.visibility=View.GONE
+                setNurseViewTimingListing(nueseViewTimingsResponse?.result)
+            }else{
+                fragmentNursesListingDetailsBinding?.recyclerViewNursetiming?.visibility=View.GONE
+                fragmentNursesListingDetailsBinding?.tvNoDateNursetiming?.visibility=View.VISIBLE
+                fragmentNursesListingDetailsBinding?.tvNoDateNursetiming?.setText("No timings found.")
+            }
+
+        }else{
+            fragmentNursesListingDetailsBinding?.recyclerViewNursetiming?.visibility=View.GONE
+            fragmentNursesListingDetailsBinding?.tvNoDateNursetiming?.visibility=View.VISIBLE
+            fragmentNursesListingDetailsBinding?.tvNoDateNursetiming?.setText("No timings found.")
+        }
     }
 
     override fun errorNurseDetailsResponse(throwable: Throwable?) {
@@ -245,6 +338,16 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
         val contactListAdapter = AdapterNurseReviewrecyclerview(reviewRatingList,context!!)
         recyclerView.adapter = contactListAdapter
     }
+//Setup recyclerview for nurse view timing recyclerview
+    private fun setNurseViewTimingListing(nurseTimingList: ArrayList<ResultItem?>?) {
+        assert(fragmentNursesListingDetailsBinding!!.recyclerViewNursetiming != null)
+        val recyclerView = fragmentNursesListingDetailsBinding!!.recyclerViewNursetiming
+        val gridLayoutManager = GridLayoutManager(activity, 4, GridLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = gridLayoutManager
+        recyclerView.setHasFixedSize(true)
+        val contactListAdapter = AdapterNurseViewTimingRecyclerview(nurseTimingList,context!!)
+        recyclerView.adapter = contactListAdapter
+    }
 
     fun apiHitForNurseDetails(){
         if(isNetworkConnected){
@@ -254,6 +357,15 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
             nurseDetailsRequest.userId=fragmentNursesListingDetailsViewModel?.appSharedPref?.userId?.toInt()
 
             fragmentNursesListingDetailsViewModel?.apinursedetails(nurseDetailsRequest)
+        }else{
+            Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun apiHitForNurseViewTiming(){
+        if(isNetworkConnected){
+            baseActivity?.showLoading()
+            fragmentNursesListingDetailsViewModel?.taskbasedslots()
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }

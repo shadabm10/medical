@@ -134,8 +134,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_20sdp"
                             >
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -195,7 +194,7 @@
                                             android:layout_marginStart="@dimen/_5sdp"
                                             android:layout_marginEnd="@dimen/_10sdp"
                                             android:textColor="@color/white"
-                                            android:id="@+id/txt_nursedetais_review_write"
+                                            android:id="@+id/txt_nursedetaisheader_review_write"
                                             android:layout_toEndOf="@+id/txt_location_and_direction"
                                             android:textSize="@dimen/_10ssp"
                                             android:textStyle="bold"
@@ -391,7 +390,6 @@
                                         android:id="@+id/ll_content2"
                                         android:layout_toEndOf="@+id/img_stopwatch"
                                         >
-
                                         <com.customview.MyTextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -400,7 +398,6 @@
                                             android:textColor="@color/txt_color"
                                             android:textSize="@dimen/_11ssp"
                                             android:text="Today's Timing"/>
-
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -409,7 +406,6 @@
                                             android:textColor="@color/colorPrimaryDark"
                                             android:textSize="@dimen/_11ssp"
                                             android:text="View Timings"/>
-
                                     </LinearLayout>
                                     <com.customview.MyTextView
                                         android:layout_width="match_parent"
@@ -417,10 +413,46 @@
                                         android:layout_marginStart="@dimen/_40sdp"
                                         android:layout_below="@id/ll_content2"
                                         android:id="@+id/txt_no_available"
+                                        android:visibility="gone"
                                         android:textSize="@dimen/_11ssp"
                                         android:layout_marginBottom="@dimen/_20sdp"
                                         android:textColor="@color/txt_color"
                                         android:text="Not available"/>
+
+                                    <RelativeLayout
+                                        android:orientation="vertical"
+                                        android:layout_width="match_parent"
+                                        android:id="@+id/ll_nurse_view_timing"
+                                        android:layout_marginBottom="@dimen/_20sdp"
+                                        android:layout_below="@+id/ll_content2"
+                                        android:visibility="gone"
+                                        android:layout_height="match_parent">
+                                        <ImageView
+                                            android:id="@+id/img_close"
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:padding="5dp"
+                                            android:visibility="gone"
+                                            android:layout_alignParentEnd="true"
+                                            android:src="@drawable/close_cross_icon"
+                                            />
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/img_close"
+                                            android:id="@+id/recyclerView_nursetiming"/>
+                                        <com.customview.MyTextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:textSize="@dimen/_10ssp"
+                                            android:layout_centerInParent="true"
+                                            android:visibility="gone"
+                                            android:gravity="center"
+                                            android:textColor="@color/colorPrimary"
+                                            android:text="@string/no_data"
+                                            android:layout_margin="@dimen/_3sdp"
+                                            android:id="@+id/tv_no_date_nursetiming"/>
+                                    </RelativeLayout>
 
                                 </RelativeLayout>
 
@@ -593,7 +625,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_10sdp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:id="@+id/txt_nursedetails_review_more"
                         android:textStyle="bold"
                         android:layout_gravity="end"

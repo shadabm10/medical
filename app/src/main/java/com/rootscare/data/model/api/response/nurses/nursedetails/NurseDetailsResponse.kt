@@ -22,13 +22,13 @@ data class NurseDetailsResponse(
 data class ReviewRatingItem(
 	@field:JsonProperty("review")
 	@field:SerializedName("review")
-	val review: String? = null,
+	var review: String? = null,
 	@field:JsonProperty("rating")
 	@field:SerializedName("rating")
-	val rating: String? = null,
+    var rating: String? = null,
 	@field:JsonProperty("review_by")
 	@field:SerializedName("review_by")
-	val reviewBy: String? = null
+	var reviewBy: String? = null
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class QualificationDataItem(

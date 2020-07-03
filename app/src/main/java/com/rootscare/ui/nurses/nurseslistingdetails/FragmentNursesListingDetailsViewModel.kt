@@ -35,4 +35,31 @@ class FragmentNursesListingDetailsViewModel : BaseViewModel<FragmentNursesListin
 
         compositeDisposable.add(disposable)
     }
+
+    fun taskbasedslots() {
+//        val body = RequestBody.create(MediaType.parse("application/json"), "")
+        val disposable = apiServiceWithGsonFactory.taskbasedslots()
+            .subscribeOn(_scheduler_io)
+            .observeOn(_scheduler_ui)
+            .subscribe({ response ->
+                if (response != null) {
+                    // Store last login time
+                    Log.d("check_response", ": " + Gson().toJson(response))
+                    navigator.successNueseViewTimingsResponse(response)
+                    /* Saving access token after singup or login */
+                    if (response.result!= null){
+                    }
+
+                } else {
+                    Log.d("check_response", ": null response")
+                }
+            }, { throwable ->
+                run {
+                    navigator.errorNurseDetailsResponse(throwable)
+                    Log.d("check_response_error", ": " + throwable.message)
+                }
+            })
+
+        compositeDisposable.add(disposable)
+    }
 }
