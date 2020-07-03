@@ -23,6 +23,7 @@ import com.rootscare.data.model.api.request.loginrequest.LoginRequest
 import com.rootscare.data.model.api.request.medicalrecorddeleterequest.MedicalFileDeleteRequest
 import com.rootscare.data.model.api.request.medicalrecordsrequest.GetMedicalRecordListRequest
 import com.rootscare.data.model.api.request.nurse.departmentnurselist.DepartmentNurseListRequest
+import com.rootscare.data.model.api.request.nurse.hourlyslot.NurseHourlySlotRequest
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
 import com.rootscare.data.model.api.request.nurse.review.InsertNurseReviewRequest
 import com.rootscare.data.model.api.request.nurse.searchbyname.NurseSearchByNameRequest
@@ -57,6 +58,7 @@ import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFi
 import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
 import com.rootscare.data.model.api.response.nationalityresponse.NationalityResponse
 import com.rootscare.data.model.api.response.nurses.nursedetails.NurseDetailsResponse
+import com.rootscare.data.model.api.response.nurses.nursehourlyslot.GetNurseHourlySlotResponse
 import com.rootscare.data.model.api.response.nurses.nurselist.GetNurseListResponse
 import com.rootscare.data.model.api.response.nurses.nurseviewtiming.NueseViewTimingsResponse
 import com.rootscare.data.model.api.response.patienthome.PatientHomeApiResponse
@@ -266,6 +268,10 @@ interface ApiService {
 
     @POST("api-insert-nurse-review")
     fun apiinsertnursereview(@Body InsertNurseReviewRequestBody: InsertNurseReviewRequest): Single<DoctorReviewRatingSubmiteResponse>
+
+    @POST("api-get-hourly-rates")
+    fun apigethourlyrates(@Body nurseHourlySlotRequestBody: NurseHourlySlotRequest): Single<GetNurseHourlySlotResponse>
+
 
 
 

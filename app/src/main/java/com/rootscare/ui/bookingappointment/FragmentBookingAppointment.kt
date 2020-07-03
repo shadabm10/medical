@@ -129,6 +129,20 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getPermissionToRecordAudio()
         }
+
+        val list = listOf<String>(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+
+        // Initialize a new instance of ManagePermissions class
+        managePermissions = ManagePermissions(this!!.activity!!, list, PermissionsRequestCode)
+
+        //check permissions states
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            managePermissions.checkPermissions()
+
         if (arguments!=null && arguments?.getString("doctorid")!=null){
             doctorId = arguments?.getString("doctorid")!!
             Log.d("Doctor Id", ": " + doctorId )

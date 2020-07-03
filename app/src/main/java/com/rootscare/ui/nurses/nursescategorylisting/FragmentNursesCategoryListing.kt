@@ -165,7 +165,7 @@ class FragmentNursesCategoryListing : BaseFragment<FragmentNursesCategorylisting
             contactListAdapter?.recyclerViewItemClickWithView= object : OnClickWithTwoButton {
                 override fun onFirstItemClick(id: Int) {
                     (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                        FragmentNursesBookingAppointment.newInstance())
+                        FragmentNursesBookingAppointment.newInstance(id.toString()))
                 }
                 override fun onSecondItemClick(id: Int) {
                     (activity as HomeActivity).checkFragmentInBackstackAndOpen(

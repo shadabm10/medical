@@ -56,7 +56,7 @@ class AdapterNursesCtegoryListingRecyclerview (val nurseList: ArrayList<ResultIt
         private var local_position:Int = 0
         init {
             itemView?.root?.btn_rootscare_booking_nurses?.setOnClickListener(View.OnClickListener {
-                recyclerViewItemClickWithView?.onFirstItemClick(1)
+                recyclerViewItemClickWithView?.onFirstItemClick(nurseList?.get(local_position)?.userId?.toInt()!!)
             })
 //
             itemView?.root?.crdview_nurses_category_list?.setOnClickListener(View.OnClickListener {

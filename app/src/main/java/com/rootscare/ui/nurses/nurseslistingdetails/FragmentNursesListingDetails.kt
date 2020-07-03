@@ -70,12 +70,12 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
         apiHitForNurseDetails()
         fragmentNursesListingDetailsBinding?.btnRootscareBookingNurses?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentNursesBookingAppointment.newInstance())
+                FragmentNursesBookingAppointment.newInstance(nurseId))
         })
 
         fragmentNursesListingDetailsBinding?.btnBookingAppointment?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentNursesBookingAppointment.newInstance())
+                FragmentNursesBookingAppointment.newInstance(nurseId))
         })
         fragmentNursesListingDetailsBinding?.txtNurseSubmitReview?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(

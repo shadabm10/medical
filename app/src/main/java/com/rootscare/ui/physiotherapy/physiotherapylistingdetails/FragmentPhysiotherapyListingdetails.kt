@@ -50,12 +50,12 @@ class FragmentPhysiotherapyListingdetails : BaseFragment<FragmentPhysiotherapyLi
         setUpViewNursesFeeslistingRecyclerview()
         fragmentPhysiotherapyListingDetailsBinding?.btnRootscareBookingPhysiotherapy?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentNursesBookingAppointment.newInstance())
+                FragmentNursesBookingAppointment.newInstance("1"))
         })
 
         fragmentPhysiotherapyListingDetailsBinding?.btnBookingAppointment?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentNursesBookingAppointment.newInstance())
+                FragmentNursesBookingAppointment.newInstance("1"))
         })
 
         fragmentPhysiotherapyListingDetailsBinding?.txtWriteYourReview?.setOnClickListener(View.OnClickListener {

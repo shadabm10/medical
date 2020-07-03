@@ -8,6 +8,8 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_margin="@dimen/_3sdp"
+        android:id="@+id/ll_nurse_slot_time"
+
         android:layout_height="wrap_content">
 
         <com.customview.MyTextView
@@ -16,7 +18,7 @@
             android:padding="@dimen/_5sdp"
             android:id="@+id/txt_nurse_view_timings"
             android:gravity="center"
-            android:background="@drawable/rounded_with_border"
+            android:background="@drawable/rounded_blue_broder"
 
             android:textSize="@dimen/_8ssp"
             android:textColor="@color/txt_color"/>

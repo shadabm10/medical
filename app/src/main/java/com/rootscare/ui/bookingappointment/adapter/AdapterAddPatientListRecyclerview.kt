@@ -68,27 +68,6 @@ class AdapterAddPatientListRecyclerview (val patientfamilymemberList: ArrayList<
             })
 
 
-//            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(1)
-//            })
-//            itemView?.root?.btn_view_trainner_profile?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(trainerList?.get(local_position)?.id?.toInt()!!)
-//            })
-
-//            itemView.root?.img_bid?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_bid,local_position)
-//                    //serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_bid,it1) }
-//                }
-//            }
-//
-//            itemView.root?.img_details?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_details,local_position)
-//                    // serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_details,it1) }
-//                }
-//            }
-
 
         }
 

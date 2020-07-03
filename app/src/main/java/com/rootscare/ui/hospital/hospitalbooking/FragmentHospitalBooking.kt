@@ -105,15 +105,15 @@ class FragmentHospitalBooking : BaseFragment<FragmentHospitalBookingBinding, Fra
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = gridLayoutManager
         recyclerView.setHasFixedSize(true)
-        val contactListAdapter = AdapterForNursesAddPatientListRecyclerview(context!!)
-        recyclerView.adapter = contactListAdapter
-        contactListAdapter?.recyclerViewOnAddPatientListClick= object : OnAddPatientListClick {
-            override fun onItemClick(modelOfGetAddPatientList: ResultItem?) {
-                //  familymemberid= modelOfGetAddPatientList?.id!!
-            }
-
-
-        }
+//        val contactListAdapter = AdapterForNursesAddPatientListRecyclerview(context!!)
+//        recyclerView.adapter = contactListAdapter
+//        contactListAdapter?.recyclerViewOnAddPatientListClick= object : OnAddPatientListClick {
+//            override fun onItemClick(modelOfGetAddPatientList: ResultItem?) {
+//                //  familymemberid= modelOfGetAddPatientList?.id!!
+//            }
+//
+//
+//        }
 
     }
 
