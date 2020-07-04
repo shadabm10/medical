@@ -102,6 +102,8 @@ class AdapterCancelMyUpcomingAppiontment (val doctorAppointmentList: ArrayList<D
             }else{
                 itemView?.rootView?.txt_cancelappointment_phone_no?.setText("")
             }
+            itemView?.rootView?.txt_appointment_status?.setText(doctorAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_appointment_acceptance?.setText(doctorAppointmentList?.get(pos)?.acceptanceStatus)
 
 
         }

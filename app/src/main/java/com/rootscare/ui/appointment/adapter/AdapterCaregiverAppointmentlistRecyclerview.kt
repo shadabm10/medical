@@ -64,7 +64,8 @@ class AdapterCaregiverAppointmentlistRecyclerview (val caregiverAppointmentList:
             itemView?.rootView?.txt_phone_no?.setText(caregiverAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.bookingDate))
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.fromDate)+" "+"-"+" "+formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",caregiverAppointmentList?.get(pos)?.toDate))
-
+            itemView?.rootView?.txt_appointment_status?.setText(caregiverAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_appointment_acceptance?.setText(caregiverAppointmentList?.get(pos)?.acceptanceStatus)
 
         }
 

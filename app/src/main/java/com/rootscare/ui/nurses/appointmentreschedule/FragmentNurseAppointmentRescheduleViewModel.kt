@@ -3,13 +3,14 @@ package com.rootscare.ui.nurses.appointmentreschedule
 import android.util.Log
 import com.google.gson.Gson
 import com.rootscare.data.model.api.request.nurse.hourlyslot.NurseHourlySlotRequest
+import com.rootscare.data.model.api.request.nurse.nurseslots.NurseSlotRequest
 import com.rootscare.data.model.api.request.reschedule.DoctorAppointmentRescheduleRequest
 import com.rootscare.ui.base.BaseViewModel
 
 class FragmentNurseAppointmentRescheduleViewModel : BaseViewModel<FragmentNurseAppointmentRescheduleNavigator>(){
-    fun taskbasedslots() {
+    fun taskbasedslots(nurseSlotRequestBody: NurseSlotRequest) {
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
-        val disposable = apiServiceWithGsonFactory.taskbasedslots()
+        val disposable = apiServiceWithGsonFactory.taskbasedslots(nurseSlotRequestBody)
             .subscribeOn(_scheduler_io)
             .observeOn(_scheduler_ui)
             .subscribe({ response ->

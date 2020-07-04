@@ -64,6 +64,8 @@ class AdapterBabysitterAppointmentlistRecyclerview  (val babysitterAppointmentLi
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.bookingDate))
             itemView?.rootView?.txt_phone_no?.setText(babysitterAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.fromDate)+" "+"-"+" "+formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",babysitterAppointmentList?.get(pos)?.toDate))
+            itemView?.rootView?.txt_appointment_status?.setText(babysitterAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_appointment_acceptance?.setText(babysitterAppointmentList?.get(pos)?.acceptanceStatus)
 
         }
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {

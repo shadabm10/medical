@@ -15,7 +15,12 @@ import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.cancellappointment.adapter.AdapterCancelMyUpcomingAppiontment
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.*
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_appointment_date
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_booking_date
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_doctor_name
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_patient_name
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -100,6 +105,9 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
             }else{
                 itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText("")
             }
+            itemView?.rootView?.txt_upappointment_status?.setText(doctorAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_upappointment_acceptance?.setText(doctorAppointmentList?.get(pos)?.acceptanceStatus)
+
 
 
 

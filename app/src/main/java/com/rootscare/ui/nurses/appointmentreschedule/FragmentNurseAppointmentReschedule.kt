@@ -17,6 +17,7 @@ import com.interfaces.OnNurseSlotClick
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.request.nurse.hourlyslot.NurseHourlySlotRequest
+import com.rootscare.data.model.api.request.nurse.nurseslots.NurseSlotRequest
 import com.rootscare.data.model.api.request.nurse.searchbyname.NurseSearchByNameRequest
 import com.rootscare.data.model.api.request.reschedule.DoctorAppointmentRescheduleRequest
 import com.rootscare.data.model.api.response.nurses.nursehourlyslot.GetNurseHourlySlotResponse
@@ -71,8 +72,6 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
             args.putString("totime",totime)
             args.putString("fromdate",fromdate)
             args.putString("todate",todate)
-
-
             val fragment = FragmentNurseAppointmentReschedule()
             fragment.arguments = args
             return fragment
@@ -282,6 +281,18 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
                 fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fromDate= fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()!!
                 toDate=fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()!!
+                if(isNetworkConnected){
+                    baseActivity?.showLoading()
+                    val nurseSlotRequest= NurseSlotRequest()
+                    nurseSlotRequest?.userId=fragmentNurseAppointmentRescheduleViewModel?.appSharedPref?.userId
+                    nurseSlotRequest?.serviceProviderId=nurseId
+                    nurseSlotRequest?.serviceType="nurse"
+                    nurseSlotRequest?.fromDate=fromDate
+                    nurseSlotRequest?.toDate=toDate
+                    fragmentNurseAppointmentRescheduleViewModel?.taskbasedslots(nurseSlotRequest)
+                }else{
+                    Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                }
             }, year, month, day)
 
             dpd.show()
@@ -444,7 +455,13 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
         fragmentNurseAppointmentRescheduleBinding?.recyclerViewRootscareFromTimeRecyclerview?.visibility=View.VISIBLE
         if(isNetworkConnected){
             baseActivity?.showLoading()
-            fragmentNurseAppointmentRescheduleViewModel?.taskbasedslots()
+            val nurseSlotRequest= NurseSlotRequest()
+            nurseSlotRequest?.userId=fragmentNurseAppointmentRescheduleViewModel?.appSharedPref?.userId
+            nurseSlotRequest?.serviceProviderId=nurseId
+            nurseSlotRequest?.serviceType="nurse"
+            nurseSlotRequest?.fromDate=fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text.toString()
+            nurseSlotRequest?.toDate=fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()
+            fragmentNurseAppointmentRescheduleViewModel?.taskbasedslots(nurseSlotRequest)
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }

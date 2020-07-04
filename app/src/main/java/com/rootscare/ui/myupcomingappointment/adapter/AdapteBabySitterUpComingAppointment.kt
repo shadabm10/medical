@@ -12,8 +12,13 @@ import com.rootscare.data.model.api.response.appointmenthistoryresponse.Babysitt
 import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_cancell_appointment.view.*
 import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.*
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_appointment_date
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_booking_date
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_doctor_name
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_patient_name
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -117,6 +122,9 @@ class AdapteBabySitterUpComingAppointment  (val babysitterAppointmentList: Array
             }else{
                 itemView?.rootView?.txt_appointment_date?.setText("")
             }
+            itemView?.rootView?.txt_upappointment_status?.setText(babysitterAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_upappointment_acceptance?.setText(babysitterAppointmentList?.get(pos)?.acceptanceStatus)
+
 
         }
 

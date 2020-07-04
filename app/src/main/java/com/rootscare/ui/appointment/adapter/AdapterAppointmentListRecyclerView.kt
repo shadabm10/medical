@@ -72,6 +72,8 @@ class AdapterAppointmentListRecyclerView (val doctorAppointmentList: ArrayList<D
             itemView?.rootView?.txt_phone_no?.setText(doctorAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.bookingDate))
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.appointmentDate))
+            itemView?.rootView?.txt_appointment_status?.setText(doctorAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_appointment_acceptance?.setText(doctorAppointmentList?.get(pos)?.acceptanceStatus)
         }
 
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {

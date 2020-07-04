@@ -11,6 +11,7 @@ import com.rootscare.data.model.api.response.appointmenthistoryresponse.Caregive
 import com.rootscare.databinding.ItemCancellAppointmentBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_cancell_appointment.view.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -93,6 +94,9 @@ class AdapterCaregiverCancelMyUpcomingAppiontment (val caregiverAppointmentList:
             }else{
                 itemView?.rootView?.txt_cancelappointment_phone_no?.setText("")
             }
+            itemView?.rootView?.txt_appointment_status?.setText(caregiverAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_appointment_acceptance?.setText(caregiverAppointmentList?.get(pos)?.acceptanceStatus)
+
         }
 
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {

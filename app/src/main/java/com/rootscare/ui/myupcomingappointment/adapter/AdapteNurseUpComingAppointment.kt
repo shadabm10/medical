@@ -13,7 +13,12 @@ import com.rootscare.data.model.api.response.appointmenthistoryresponse.NurseApp
 import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.*
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_appointment_date
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_booking_date
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_doctor_name
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_patient_name
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -58,26 +63,7 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
                 recyclerViewItemClickWithView?.onRescheduleBtnClick(pathologyAppointmentList?.get(local_position)!!)
             })
 
-//            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(1)
-//            })
-//            itemView?.root?.btn_view_trainner_profile?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(trainerList?.get(local_position)?.id?.toInt()!!)
-//            })
-
-//            itemView.root?.img_bid?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_bid,local_position)
-//                    //serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_bid,it1) }
-//                }
-//            }
 //
-//            itemView.root?.img_details?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_details,local_position)
-//                    // serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_details,it1) }
-//                }
-//            }
 
 
         }
@@ -121,6 +107,9 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
             }else{
                 itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText("")
             }
+            itemView?.rootView?.txt_upappointment_status?.setText(pathologyAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_upappointment_acceptance?.setText(pathologyAppointmentList?.get(pos)?.acceptanceStatus)
+
         }
 
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {

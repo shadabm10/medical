@@ -668,7 +668,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
         }
         else if (fragment is FragmentAppointment) {
         //    drawerAdapter!!.selectItem(2)
-            tootbar_text.text ="Appointment History"
+            tootbar_text.text ="Past Appointment"
             tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
             toolbar_profile?.visibility=View.VISIBLE
             tootlebar_notification?.visibility=View.VISIBLE

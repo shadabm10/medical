@@ -65,6 +65,9 @@ class AdapterPhysitherarpyAppointmentlistRecyclerview (val pathologyAppointmentL
             itemView?.rootView?.txt_phone_no?.setText(pathologyAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.bookingDate))
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.fromDate)+" "+"-"+" "+formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",pathologyAppointmentList?.get(pos)?.toDate))
+            itemView?.rootView?.txt_appointment_status?.setText(pathologyAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_appointment_acceptance?.setText(pathologyAppointmentList?.get(pos)?.acceptanceStatus)
+
         }
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {
             var parsed: Date? = null

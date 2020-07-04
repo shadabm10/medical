@@ -25,5 +25,9 @@ data class ResultItem(
 	val startTime: String? = null,
 	@field:JsonProperty("end_time")
 	@field:SerializedName("end_time")
-	val endTime: String? = null
+	val endTime: String? = null,
+	@field:JsonProperty("status")
+	@field:SerializedName("status")
+	val status: String? = null
+
 )

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
+import com.rootscare.data.model.api.request.nurse.nurseslots.NurseSlotRequest
 import com.rootscare.data.model.api.response.nurses.nursedetails.*
 import com.rootscare.data.model.api.response.nurses.nurseviewtiming.NueseViewTimingsResponse
 import com.rootscare.data.model.api.response.nurses.nurseviewtiming.ResultItem
@@ -23,6 +24,9 @@ import com.rootscare.ui.nurses.nurseslistingdetails.adapter.*
 import com.rootscare.ui.nurses.review.FragmentNurseReviewSubmit
 import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.submitfeedback.FragmentSubmitReview
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBinding, FragmentNursesListingDetailsViewModel>(),
@@ -32,6 +36,7 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
     var nurseFirstName=""
     var nurseLastName=""
     var nurseId=""
+    var currentDate=""
     private var hidden = true
     var  initialReviewRatingList: ArrayList<ReviewRatingItem?>?=null
     var  finalReviewRatingList: ArrayList<ReviewRatingItem?>?=null
@@ -65,6 +70,13 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
             nurseId = arguments?.getString("nurseid")!!
             Log.d("Nurse ID", ": " + nurseId )
         }
+
+        var c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        var df = SimpleDateFormat("yyyy-MM-dd");
+        var formattedDate = df.format(c);
+        currentDate=formattedDate
 //Api hit for nurse details
         apiHitForNurseViewTiming()
         apiHitForNurseDetails()
@@ -365,7 +377,13 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
     fun apiHitForNurseViewTiming(){
         if(isNetworkConnected){
             baseActivity?.showLoading()
-            fragmentNursesListingDetailsViewModel?.taskbasedslots()
+            val nurseSlotRequest= NurseSlotRequest()
+            nurseSlotRequest?.userId=fragmentNursesListingDetailsViewModel?.appSharedPref?.userId
+            nurseSlotRequest?.serviceProviderId=nurseId
+            nurseSlotRequest?.serviceType="nurse"
+            nurseSlotRequest?.fromDate=currentDate
+            nurseSlotRequest?.toDate=currentDate
+            fragmentNursesListingDetailsViewModel?.taskbasedslots(nurseSlotRequest)
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }

@@ -11,6 +11,7 @@ import com.rootscare.data.model.api.response.appointmenthistoryresponse.Babysitt
 import com.rootscare.databinding.ItemCancellAppointmentBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_cancell_appointment.view.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -48,26 +49,7 @@ class AdapterBabySitterCancelMyUpcomingAppiontment(val babysitterAppointmentList
 
         private var local_position:Int = 0
         init {
-//            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(1)
-//            })
-//            itemView?.root?.btn_view_trainner_profile?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(trainerList?.get(local_position)?.id?.toInt()!!)
-//            })
-
-//            itemView.root?.img_bid?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_bid,local_position)
-//                    //serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_bid,it1) }
-//                }
-//            }
 //
-//            itemView.root?.img_details?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_details,local_position)
-//                    // serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_details,it1) }
-//                }
-//            }
 
 
         }
@@ -109,6 +91,10 @@ class AdapterBabySitterCancelMyUpcomingAppiontment(val babysitterAppointmentList
             }else{
                 itemView?.rootView?.txt_cancelappointment_phone_no?.setText("")
             }
+
+            itemView?.rootView?.txt_appointment_status?.setText(babysitterAppointmentList?.get(pos)?.appointmentStatus)
+            itemView?.rootView?.txt_appointment_acceptance?.setText(babysitterAppointmentList?.get(pos)?.acceptanceStatus)
+
         }
 
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {

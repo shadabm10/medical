@@ -26,6 +26,7 @@ import com.rootscare.data.model.api.request.medicalrecordsrequest.GetMedicalReco
 import com.rootscare.data.model.api.request.nurse.departmentnurselist.DepartmentNurseListRequest
 import com.rootscare.data.model.api.request.nurse.hourlyslot.NurseHourlySlotRequest
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
+import com.rootscare.data.model.api.request.nurse.nurseslots.NurseSlotRequest
 import com.rootscare.data.model.api.request.nurse.review.InsertNurseReviewRequest
 import com.rootscare.data.model.api.request.nurse.searchbyname.NurseSearchByNameRequest
 import com.rootscare.data.model.api.request.patientpaymenthistoryreuest.PatientPaymentHistoryRequest
@@ -276,8 +277,8 @@ interface ApiService {
     @POST("api-nurse-details")
     fun apinursedetails(@Body nurseDetailsRequestBody: NurseDetailsRequest): Single<NurseDetailsResponse>
 
-    @GET("task-based-slots")
-    fun taskbasedslots(): Single<NueseViewTimingsResponse>
+    @POST("task-based-slots")
+    fun taskbasedslots(@Body nurseSlotRequestBody: NurseSlotRequest): Single<NueseViewTimingsResponse>
 
     @POST("api-insert-nurse-review")
     fun apiinsertnursereview(@Body InsertNurseReviewRequestBody: InsertNurseReviewRequest): Single<DoctorReviewRatingSubmiteResponse>

@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.rootscare.data.model.api.request.nurse.departmentnurselist.DepartmentNurseListRequest
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
+import com.rootscare.data.model.api.request.nurse.nurseslots.NurseSlotRequest
 import com.rootscare.ui.base.BaseViewModel
 import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
 
@@ -36,9 +37,9 @@ class FragmentNursesListingDetailsViewModel : BaseViewModel<FragmentNursesListin
         compositeDisposable.add(disposable)
     }
 
-    fun taskbasedslots() {
+    fun taskbasedslots(nurseSlotRequestBody: NurseSlotRequest) {
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
-        val disposable = apiServiceWithGsonFactory.taskbasedslots()
+        val disposable = apiServiceWithGsonFactory.taskbasedslots(nurseSlotRequestBody)
             .subscribeOn(_scheduler_io)
             .observeOn(_scheduler_ui)
             .subscribe({ response ->

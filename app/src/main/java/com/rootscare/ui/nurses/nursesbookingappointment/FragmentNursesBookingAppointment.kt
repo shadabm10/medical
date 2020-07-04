@@ -37,6 +37,7 @@ import com.rootscare.data.model.api.request.deletepatientfamilymemberrequest.Del
 import com.rootscare.data.model.api.request.doctorrequest.getpatientfamilymemberrequest.GetPatientFamilyMemberRequest
 import com.rootscare.data.model.api.request.nurse.hourlyslot.NurseHourlySlotRequest
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
+import com.rootscare.data.model.api.request.nurse.nurseslots.NurseSlotRequest
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.GetPatientFamilyListResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.ResultItem
 import com.rootscare.data.model.api.response.nurses.nursebookappointment.NurseBookAppointmentResponse
@@ -269,6 +270,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.setText(formattedDate)
         if(!fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text?.toString().equals("") && fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text!=null ){
            // selectDoctorSlotApiCall(fragmentBookingBinding?.txtDoctorBookingSelectdate?.text?.toString()!!)
+            apiHitForNurseViewTiming()
         }
         //End this section
 
@@ -301,6 +303,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                 fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.setText("" + year + "-" + monthstr + "-" + dayStr)
 
                 if(!fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text?.toString().equals("") && fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text!=null ){
+                    apiHitForNurseViewTiming()
                     //selectDoctorSlotApiCall(fragmentBookingBinding?.txtDoctorBookingSelectdate?.text?.toString()!!)
                 }
 
@@ -659,6 +662,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                 fragmentNursesBookingAppointmentBinding?.llHourlyTime?.visibility=View.VISIBLE
                 fragmentNursesBookingAppointmentBinding?.recyclerViewRootscareHourlyTimeRecyclerview?.visibility=View.VISIBLE
                 fragmentNursesBookingAppointmentBinding?.tvNoDateHourlytime?.visibility=View.GONE
+                nurseHourlyprice=getNurseHourlySlotResponse?.result?.get(0)?.price!!
                 setUpHourlyTimeListingRecyclerview(getNurseHourlySlotResponse?.result)
             }else{
                 fragmentNursesBookingAppointmentBinding?.llHourlyTime?.visibility=View.VISIBLE
@@ -972,7 +976,14 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         fragmentNursesBookingAppointmentBinding?.txtSlotPrice?.setText("SR"+" "+dailyrate)
         if(isNetworkConnected){
             baseActivity?.showLoading()
-            fragmentNursesBookingAppointmentViewModel?.taskbasedslots()
+            val nurseSlotRequest= NurseSlotRequest()
+//            nurseSlotRequest?.userId="11"
+            nurseSlotRequest?.userId=fragmentNursesBookingAppointmentViewModel?.appSharedPref?.userId
+            nurseSlotRequest?.serviceProviderId=nurseId
+            nurseSlotRequest?.serviceType="nurse"
+            nurseSlotRequest?.fromDate=fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text.toString()
+            nurseSlotRequest?.toDate=fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text?.toString()
+            fragmentNursesBookingAppointmentViewModel?.taskbasedslots(nurseSlotRequest)
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }

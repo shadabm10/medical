@@ -85,6 +85,14 @@ class AdapterNurseSlotTiimeRecyclerview(val nurseTimingList: ArrayList<ResultIte
                 itemView?.rootView?.setBackgroundColor(Color.parseColor("#ffffff"))
 
             itemView?.rootView?.txt_nurse_view_timings?.setText(nurseTimingList?.get(pos)?.startTime)
+
+            if(nurseTimingList?.get(pos)?.status.equals("Active")){
+                itemView?.rootView?.txt_nurse_view_timings?.setAlpha(1.0F)
+                itemView?.rootView?.ll_nurse_slot_time?.isClickable=true
+            }else if(nurseTimingList?.get(pos)?.status.equals("Inactive")){
+                itemView?.rootView?.txt_nurse_view_timings?.setAlpha(0.4F)
+                itemView?.rootView?.ll_nurse_slot_time?.isClickable=false
+            }
         }
     }
 

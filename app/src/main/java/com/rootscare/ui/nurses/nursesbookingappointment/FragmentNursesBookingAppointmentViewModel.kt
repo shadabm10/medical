@@ -6,6 +6,7 @@ import com.rootscare.data.model.api.request.deletepatientfamilymemberrequest.Del
 import com.rootscare.data.model.api.request.doctorrequest.getpatientfamilymemberrequest.GetPatientFamilyMemberRequest
 import com.rootscare.data.model.api.request.nurse.hourlyslot.NurseHourlySlotRequest
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
+import com.rootscare.data.model.api.request.nurse.nurseslots.NurseSlotRequest
 import com.rootscare.ui.base.BaseViewModel
 import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
 import com.rootscare.ui.nurses.nursesappointmentbookingdetails.FragmentNursesAppointmentBookingDetailsNavigator
@@ -68,9 +69,9 @@ class FragmentNursesBookingAppointmentViewModel: BaseViewModel<FragmentNursesBoo
         compositeDisposable.add(disposable)
     }
 
-    fun taskbasedslots() {
+    fun taskbasedslots(nurseSlotRequestBody: NurseSlotRequest) {
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
-        val disposable = apiServiceWithGsonFactory.taskbasedslots()
+        val disposable = apiServiceWithGsonFactory.taskbasedslots(nurseSlotRequestBody)
             .subscribeOn(_scheduler_io)
             .observeOn(_scheduler_ui)
             .subscribe({ response ->

@@ -51,6 +51,15 @@ class AdapterNurseViewTimingRecyclerview (val nurseTimingList: ArrayList<ResultI
             local_position = pos
             itemView?.rootView?.txt_nurse_view_timings?.setText(nurseTimingList?.get(pos)?.startTime)
 
+
+            if(nurseTimingList?.get(pos)?.status.equals("Active")){
+                itemView?.rootView?.txt_nurse_view_timings?.setAlpha(1.0F)
+             //   itemView?.rootView?.ll_nurse_slot_time?.isClickable=true
+            }else if(nurseTimingList?.get(pos)?.status.equals("Inactive")){
+                itemView?.rootView?.txt_nurse_view_timings?.setAlpha(0.4F)
+              //  itemView?.rootView?.ll_nurse_slot_time?.isClickable=false
+            }
+
 //            if(hourlyRatesList?.get(pos)?.duration!=null && !hourlyRatesList?.get(pos)?.duration.equals("")){
 //                itemView?.rootView?.txt_nurse_hourtext?.setText("For"+" "+hourlyRatesList?.get(pos)?.duration)
 //            }else{
