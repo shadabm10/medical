@@ -1,6 +1,7 @@
 package com.rootscare.ui.nurses.appointmentreschedule
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -47,6 +48,7 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
     private var appointmentId:String=""
     var monthstr: String=""
     var dayStr: String=""
+    var format: String? = null
     var nationalityDropdownlist:ArrayList<String?>?=null
     override val bindingVariable: Int
         get() = BR.viewModel
@@ -165,34 +167,60 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
 
         apiHitForNurseViewTiming()
 
-        fragmentNurseAppointmentRescheduleBinding?.edtNurseFromTime?.addTextChangedListener(object :
-            TextWatcher {
-            override fun afterTextChanged(s: Editable) { // you can call or do what you want with your EditText here
-// yourEditText...
-                if(s.toString().length>0){
-                    fragmentNurseAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText(s.toString())
-                }
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence,
-                start: Int,
-                before: Int,
-                count: Int
-            ) {
-//                if(s.toString().length>0){
-//                 fragmentNurseAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText(s.toString())
-//                }
-            }
+        fragmentNurseAppointmentRescheduleBinding?.edtNurseFromTime?.setOnClickListener(View.OnClickListener {
+            val calendar = Calendar.getInstance()
+            val CalendarHour = calendar.get(Calendar.HOUR_OF_DAY)
+            val  CalendarMinute = calendar.get(Calendar.MINUTE)
+            val  timepickerdialog = TimePickerDialog(
+                context,
+                TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                    var hourOfDay = hourOfDay
+                    if (hourOfDay == 0) {
+                        hourOfDay += 12
+                        format = "AM"
+                    } else if (hourOfDay == 12) {
+                        format = "PM"
+                    } else if (hourOfDay > 12) {
+                        hourOfDay -= 12
+                        format = "PM"
+                    } else {
+                        format = "AM"
+                    }
+                    fragmentNurseAppointmentRescheduleBinding?.edtNurseFromTime?.setText("$hourOfDay:$minute$format")
+                    fragmentNurseAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText("$hourOfDay:$minute$format")
+                }, CalendarHour, CalendarMinute, false
+            )
+            timepickerdialog.show()
         })
+
+
+        fragmentNurseAppointmentRescheduleBinding?.edtNurseToTime?.setOnClickListener(View.OnClickListener {
+            val calendar = Calendar.getInstance()
+            val CalendarHour = calendar.get(Calendar.HOUR_OF_DAY)
+            val  CalendarMinute = calendar.get(Calendar.MINUTE)
+            val  timepickerdialog = TimePickerDialog(
+                context,
+                TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                    var hourOfDay = hourOfDay
+                    if (hourOfDay == 0) {
+                        hourOfDay += 12
+                        format = "AM"
+                    } else if (hourOfDay == 12) {
+                        format = "PM"
+                    } else if (hourOfDay > 12) {
+                        hourOfDay -= 12
+                        format = "PM"
+                    } else {
+                        format = "AM"
+                    }
+                    fragmentNurseAppointmentRescheduleBinding?.edtNurseToTime?.setText("$hourOfDay:$minute$format")
+                    fragmentNurseAppointmentRescheduleBinding?.edtRescheduleEndTime?.setText("$hourOfDay:$minute$format")
+                }, CalendarHour, CalendarMinute, false
+            )
+            timepickerdialog.show()
+        })
+
+
 
         fragmentNurseAppointmentRescheduleBinding?.edtNurseToTime?.addTextChangedListener(object :
             TextWatcher {
@@ -253,7 +281,7 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
 //                fragmentSeedStockedBinding?.txtLsfSeedstockDateofStocking?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fromDate= fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()!!
-
+                toDate=fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()!!
             }, year, month, day)
 
             dpd.show()

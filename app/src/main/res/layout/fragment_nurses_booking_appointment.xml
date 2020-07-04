@@ -562,17 +562,18 @@
                                         android:textColor="@color/txt_color"
                                         android:text="Start Time :"/>
 
-                                    <com.customview.MyEditTextView
+                                    <com.customview.MyTextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:id="@+id/edt_nurse_from_time"
-                                        android:padding="@dimen/_5sdp"
                                         android:textSize="@dimen/_10ssp"
-                                        android:layout_marginStart="@dimen/_10sdp"
-                                        android:layout_marginEnd="@dimen/_40sdp"
                                         android:textColor="@color/txt_color"
-                                        android:background="@drawable/round_rect_grey_border"
-                                        android:hint="10:00 AM"/>
+                                        android:padding="@dimen/_5sdp"
+                                        android:hint="Select start time"
+                                        android:drawableEnd="@drawable/calendar_month"
+                                        android:layout_marginStart="@dimen/_5sdp"
+                                        />
+
 
                                 </LinearLayout>
 
@@ -590,17 +591,17 @@
                                         android:textColor="@color/txt_color"
                                         android:text="End Time :"/>
 
-                                    <com.customview.MyEditTextView
+                                    <com.customview.MyTextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:padding="@dimen/_5sdp"
-                                        android:layout_marginStart="@dimen/_10sdp"
-                                        android:layout_marginEnd="@dimen/_40sdp"
-                                        android:textColor="@color/txt_color"
-                                        android:textSize="@dimen/_10ssp"
                                         android:id="@+id/edt_nurse_to_time"
-                                        android:background="@drawable/round_rect_grey_border"
-                                        android:hint="10:00 AM"/>
+                                        android:textSize="@dimen/_10ssp"
+                                        android:textColor="@color/txt_color"
+                                        android:padding="@dimen/_5sdp"
+                                        android:hint="Select end time"
+                                        android:drawableEnd="@drawable/calendar_month"
+                                        android:layout_marginStart="@dimen/_5sdp"
+                                        />
 
                                 </LinearLayout>
 

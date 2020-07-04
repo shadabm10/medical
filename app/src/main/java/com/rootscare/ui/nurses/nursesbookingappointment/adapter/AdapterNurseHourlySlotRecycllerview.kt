@@ -27,7 +27,7 @@ class AdapterNurseHourlySlotRecycllerview (val hourlyList: ArrayList<ResultItem?
 
     private var lastChecked: CheckBox? = null
     private var lastCheckedPos = 0
-    private var selectedPosition = -1
+    private var selectedPosition = 0
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
     internal lateinit var recyclerViewItemClickWithView: OnHourlyItemClick

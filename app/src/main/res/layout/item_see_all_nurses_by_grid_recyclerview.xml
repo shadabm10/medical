@@ -33,7 +33,7 @@
                     >
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_80sdp"
+                        android:layout_height="@dimen/_90sdp"
                         android:id="@+id/img_nurse_list"
                         android:scaleType="fitXY"
                         android:src="@drawable/nursesphoto"

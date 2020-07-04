@@ -3,6 +3,8 @@ package com.rootscare.ui.nurses.nursesbookingappointment
 import android.Manifest
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -25,7 +27,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.dialog.CommonDialog
-import com.interfaces.*
+import com.interfaces.DropDownDialogCallBack
+import com.interfaces.OnHourlyItemClick
+import com.interfaces.OnNurseSlotClick
+import com.interfaces.OnPatientFamilyMemberListener
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.data.model.api.request.deletepatientfamilymemberrequest.DeletePatientFamilyMemberRequest
@@ -39,27 +44,18 @@ import com.rootscare.data.model.api.response.nurses.nursedetails.NurseDetailsRes
 import com.rootscare.data.model.api.response.nurses.nursehourlyslot.GetNurseHourlySlotResponse
 import com.rootscare.data.model.api.response.nurses.nurseviewtiming.NueseViewTimingsResponse
 import com.rootscare.databinding.FragmentNursesBookingAppointmentBinding
-import com.rootscare.databinding.FragmentSeeAllNursesListByGridBinding
 import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.FragmentBookingAppointment
-import com.rootscare.ui.bookingappointment.adapter.AdapterAddPatientListRecyclerview
 import com.rootscare.ui.bookingappointment.adapter.AdapterFromTimeRecyclerview
-import com.rootscare.ui.bookingappointment.adapter.AdapterToTimeRecyclerView
-import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBooking
 import com.rootscare.ui.bookingappointment.subfragment.editpatient.FragmentEditPatientFamilyMember
 import com.rootscare.ui.bookingcart.FragmentBookingCart
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
-import com.rootscare.ui.nurses.FragmentNursesListByGrid
-import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
-import com.rootscare.ui.nurses.FragmentNursesListByGridViewModel
 import com.rootscare.ui.nurses.addpatient.FragmentNurseAddPatient
 import com.rootscare.ui.nurses.nursesappointmentbookingdetails.FragmentNursesAppointmentBookingDetails
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterForNursesAddPatientListRecyclerview
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseHourlySlotRecycllerview
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseSlotTiimeRecyclerview
-
 import com.rootscare.utils.ManagePermissions
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -109,6 +105,8 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
 
     var nurseFromTime=""
     var nurseToTime=""
+
+    var format: String? = null
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -200,7 +198,63 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
             }
         })
 
+
+
+
+
         //End of Voice recording section
+
+
+        fragmentNursesBookingAppointmentBinding?.edtNurseFromTime?.setOnClickListener(View.OnClickListener {
+            val calendar = Calendar.getInstance()
+            val CalendarHour = calendar.get(Calendar.HOUR_OF_DAY)
+            val  CalendarMinute = calendar.get(Calendar.MINUTE)
+            val  timepickerdialog = TimePickerDialog(
+                context,
+                OnTimeSetListener { view, hourOfDay, minute ->
+                    var hourOfDay = hourOfDay
+                    if (hourOfDay == 0) {
+                        hourOfDay += 12
+                        format = "AM"
+                    } else if (hourOfDay == 12) {
+                        format = "PM"
+                    } else if (hourOfDay > 12) {
+                        hourOfDay -= 12
+                        format = "PM"
+                    } else {
+                        format = "AM"
+                    }
+                    fragmentNursesBookingAppointmentBinding?.edtNurseFromTime?.setText("$hourOfDay:$minute$format")
+                }, CalendarHour, CalendarMinute, false
+            )
+            timepickerdialog.show()
+        })
+
+
+        fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.setOnClickListener(View.OnClickListener {
+            val calendar = Calendar.getInstance()
+            val CalendarHour = calendar.get(Calendar.HOUR_OF_DAY)
+            val  CalendarMinute = calendar.get(Calendar.MINUTE)
+            val  timepickerdialog = TimePickerDialog(
+                context,
+                OnTimeSetListener { view, hourOfDay, minute ->
+                    var hourOfDay = hourOfDay
+                    if (hourOfDay == 0) {
+                        hourOfDay += 12
+                        format = "AM"
+                    } else if (hourOfDay == 12) {
+                        format = "PM"
+                    } else if (hourOfDay > 12) {
+                        hourOfDay -= 12
+                        format = "PM"
+                    } else {
+                        format = "AM"
+                    }
+                    fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.setText("$hourOfDay:$minute$format")
+                }, CalendarHour, CalendarMinute, false
+            )
+            timepickerdialog.show()
+        })
 
         fragmentNursesBookingAppointmentBinding?.txtDoctorbookingUploadPrescriptionimage?.setOnClickListener(View.OnClickListener {
             showPictureDialog()
