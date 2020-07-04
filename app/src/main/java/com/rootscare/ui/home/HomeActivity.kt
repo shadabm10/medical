@@ -44,6 +44,8 @@ import com.rootscare.ui.medicalrecords.FragmentMedicalRecords
 import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
 import com.rootscare.ui.notification.FragmentNotification
 import com.rootscare.ui.nurses.FragmentNursesListByGrid
+import com.rootscare.ui.nurses.addpatient.FragmentNurseAddPatient
+import com.rootscare.ui.nurses.editpatient.FragmentNurseEditPatient
 import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
 import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListing
 import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
@@ -444,20 +446,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
                     activityHomeBinding!!.drawerLayout.openDrawer(GravityCompat.START)
                 }
                 when (position) {
-//                    0 -> checkFragmentInBackstackAndOpen(ProfileFragment.newInstance())
-//                    1 -> checkFragmentInBackstackAndOpen(MyScheduleFragment.newInstance())
-//                    2 -> {
-//                    }
-//                    3 -> checkFragmentInBackstackAndOpen(ExamPortalFragment.newInstance())
-//                    4 -> checkFragmentInBackstackAndOpen(ResultPortalFragment.newInstance())
-//                    5 -> checkFragmentInBackstackAndOpen(AttendanceFragment.newInstance())
-//                    6 -> {
-//                    }
-//                    7 -> {
-//                    }
-//                    8 -> checkFragmentInBackstackAndOpen(FragmentMedia.newInstance())
-//                    9 -> checkFragmentInBackstackAndOpen(FragmentFeedBack.newInstance())
-//                    10 -> checkFragmentInBackstackAndOpen(FragmentStudentGKProtal.newInstance())
 
                     0 -> checkFragmentInBackstackAndOpen(FragmentMyUpCommingAppointment.newInstance())
                     1 -> checkFragmentInBackstackAndOpen(FragmentCancellMyUcomingAppointment.newInstance())
@@ -1102,6 +1090,54 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
         else if (fragment is FragmentNursesBookingAppointment) {
             //   drawerAdapter!!.selectItem(3)
             tootbar_text.text ="Roots Care"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+
+        else if (fragment is FragmentNurseAddPatient) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Add Patient"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+
+        else if (fragment is FragmentNurseEditPatient) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Edit Patient"
             tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
             toolbar_profile?.visibility=View.VISIBLE
             tootlebar_notification?.visibility=View.VISIBLE

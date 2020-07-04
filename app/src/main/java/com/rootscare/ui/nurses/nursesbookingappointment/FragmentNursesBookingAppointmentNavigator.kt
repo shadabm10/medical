@@ -1,6 +1,8 @@
 package com.rootscare.ui.nurses.nursesbookingappointment
 
+import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.bookingresponse.DoctorPrivateBooingResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.GetPatientFamilyListResponse
+import com.rootscare.data.model.api.response.nurses.nursebookappointment.NurseBookAppointmentResponse
 import com.rootscare.data.model.api.response.nurses.nursedetails.NurseDetailsResponse
 import com.rootscare.data.model.api.response.nurses.nursehourlyslot.GetNurseHourlySlotResponse
 import com.rootscare.data.model.api.response.nurses.nurseviewtiming.NueseViewTimingsResponse
@@ -11,5 +13,6 @@ interface FragmentNursesBookingAppointmentNavigator {
     fun successNueseViewTimingsResponse(nueseViewTimingsResponse: NueseViewTimingsResponse?)
     fun successGetNurseHourlySlotResponse(getNurseHourlySlotResponse: GetNurseHourlySlotResponse?)
     fun successNurseDetailsResponse(nurseDetailsResponse: NurseDetailsResponse?)
+    fun successNurseBookAppointmentResponse(nurseBookAppointmentResponse: NurseBookAppointmentResponse?)
     fun errorGetPatientFamilyListResponse(throwable: Throwable?)
 }

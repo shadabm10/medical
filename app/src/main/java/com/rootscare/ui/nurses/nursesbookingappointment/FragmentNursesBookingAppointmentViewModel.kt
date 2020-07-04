@@ -9,6 +9,9 @@ import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetai
 import com.rootscare.ui.base.BaseViewModel
 import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
 import com.rootscare.ui.nurses.nursesappointmentbookingdetails.FragmentNursesAppointmentBookingDetailsNavigator
+import io.reactivex.disposables.Disposable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class FragmentNursesBookingAppointmentViewModel: BaseViewModel<FragmentNursesBookingAppointmentNavigator>()  {
     fun apipatientfamilymember(getPatientFamilyMemberRequest: GetPatientFamilyMemberRequest) {
@@ -144,5 +147,34 @@ class FragmentNursesBookingAppointmentViewModel: BaseViewModel<FragmentNursesBoo
             })
 
         compositeDisposable.add(disposable)
+    }
+
+    //book nurse api call
+    fun apibookcartnurse(patient_id: RequestBody, family_member_id: RequestBody, nurse_id: RequestBody, from_date: RequestBody, to_date: RequestBody, from_time: RequestBody, to_time: RequestBody, price: RequestBody, symptom_recording: MultipartBody.Part? = null, symptom_text: RequestBody, upload_prescription: MultipartBody.Part? = null, appointment_type: RequestBody) {
+//        userId: RequestBody,first_name: RequestBody,last_name: RequestBody,id_number: RequestBody,status: RequestBody,image: MultipartBody.Part? = null
+//        val body = RequestBody.create(MediaType.parse("application/json"), "")
+        var disposable: Disposable? = null
+        if (symptom_recording != null) {
+
+
+            disposable = apiServiceWithGsonFactory.apibookcartnurse(patient_id,family_member_id,nurse_id,from_date,to_date,from_time,to_time,price,symptom_recording,symptom_text, upload_prescription!!,appointment_type)
+                .subscribeOn(_scheduler_io)
+                .observeOn(_scheduler_ui)
+                .subscribe({ response ->
+                    if (response != null) {
+                        // Store last login time
+                        Log.d("check_response", ": " + Gson().toJson(response))
+                        navigator.successNurseBookAppointmentResponse(response)
+                    } else {
+                        Log.d("check_response", ": null response")
+                    }
+                }, { throwable ->
+                    run {
+                        navigator.errorGetPatientFamilyListResponse(throwable)
+                        Log.d("check_response_error", ": " + throwable.message)
+                    }
+                })
+        }
+        compositeDisposable.add(disposable!!)
     }
 }

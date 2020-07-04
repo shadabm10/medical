@@ -57,6 +57,7 @@ import com.rootscare.data.model.api.response.loginresponse.LoginResponse
 import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFileDeleteResponse
 import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
 import com.rootscare.data.model.api.response.nationalityresponse.NationalityResponse
+import com.rootscare.data.model.api.response.nurses.nursebookappointment.NurseBookAppointmentResponse
 import com.rootscare.data.model.api.response.nurses.nursedetails.NurseDetailsResponse
 import com.rootscare.data.model.api.response.nurses.nursehourlyslot.GetNurseHourlySlotResponse
 import com.rootscare.data.model.api.response.nurses.nurselist.GetNurseListResponse
@@ -271,6 +272,21 @@ interface ApiService {
 
     @POST("api-get-hourly-rates")
     fun apigethourlyrates(@Body nurseHourlySlotRequestBody: NurseHourlySlotRequest): Single<GetNurseHourlySlotResponse>
+
+    @Multipart
+    @POST("api-book-cart-nurse")
+    fun apibookcartnurse(@Part("patient_id") patient_id: RequestBody,
+                                 @Part("family_member_id") family_member_id: RequestBody,
+                                 @Part("nurse_id") nurse_id: RequestBody,
+                                 @Part("from_date") from_date: RequestBody,
+                                 @Part("to_date") to_date: RequestBody,
+                                 @Part("from_time") from_time: RequestBody,
+                                 @Part("to_time") to_time: RequestBody,
+                                 @Part("price") price: RequestBody,
+                                 @Part symptom_recording: MultipartBody.Part,
+                                 @Part("symptom_text") symptom_text: RequestBody,
+                                 @Part upload_prescription: MultipartBody.Part,
+                                 @Part("appointment_type") appointment_type: RequestBody): Single<NurseBookAppointmentResponse>
 
 
 

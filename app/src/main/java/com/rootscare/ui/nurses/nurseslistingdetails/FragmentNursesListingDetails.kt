@@ -95,14 +95,14 @@ class FragmentNursesListingDetails : BaseFragment<FragmentNursesListingDetailsBi
                 )
                 fragmentNursesListingDetailsBinding?.llNurseViewTiming?.startAnimation(animSlideDown)
                 hidden=false
-                fragmentNursesListingDetailsBinding?.txtNursedetailsViewTimings?.setText("Close Timings")
+                fragmentNursesListingDetailsBinding?.txtNursedetailsViewTimings?.setText("Close Slots")
             }else{
                 val animSlideUp: Animation =
                     AnimationUtils.loadAnimation(activity?.applicationContext, R.anim.slide_up)
                 fragmentNursesListingDetailsBinding?.llNurseViewTiming?.startAnimation(animSlideUp)
                 fragmentNursesListingDetailsBinding?.llNurseViewTiming?.visibility=View.GONE
                 hidden=true
-                fragmentNursesListingDetailsBinding?.txtNursedetailsViewTimings?.setText("View Timings")
+                fragmentNursesListingDetailsBinding?.txtNursedetailsViewTimings?.setText("View Slots")
             }
 
         })

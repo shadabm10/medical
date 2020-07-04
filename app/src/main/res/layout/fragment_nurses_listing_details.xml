@@ -405,7 +405,7 @@
                                             android:id="@+id/txt_nursedetails_view_timings"
                                             android:textColor="@color/colorPrimaryDark"
                                             android:textSize="@dimen/_11ssp"
-                                            android:text="View Timings"/>
+                                            android:text="View Slots"/>
                                     </LinearLayout>
                                     <com.customview.MyTextView
                                         android:layout_width="match_parent"

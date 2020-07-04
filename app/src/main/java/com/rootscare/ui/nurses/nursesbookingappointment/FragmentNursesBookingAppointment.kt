@@ -34,6 +34,7 @@ import com.rootscare.data.model.api.request.nurse.hourlyslot.NurseHourlySlotRequ
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.GetPatientFamilyListResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.ResultItem
+import com.rootscare.data.model.api.response.nurses.nursebookappointment.NurseBookAppointmentResponse
 import com.rootscare.data.model.api.response.nurses.nursedetails.NurseDetailsResponse
 import com.rootscare.data.model.api.response.nurses.nursehourlyslot.GetNurseHourlySlotResponse
 import com.rootscare.data.model.api.response.nurses.nurseviewtiming.NueseViewTimingsResponse
@@ -47,6 +48,7 @@ import com.rootscare.ui.bookingappointment.adapter.AdapterFromTimeRecyclerview
 import com.rootscare.ui.bookingappointment.adapter.AdapterToTimeRecyclerView
 import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBooking
 import com.rootscare.ui.bookingappointment.subfragment.editpatient.FragmentEditPatientFamilyMember
+import com.rootscare.ui.bookingcart.FragmentBookingCart
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.ui.nurses.FragmentNursesListByGrid
@@ -59,6 +61,9 @@ import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseHour
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseSlotTiimeRecyclerview
 
 import com.rootscare.utils.ManagePermissions
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -90,7 +95,20 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
     var nurseFirstNmae=""
     var nurseLastName=""
     var dailyrate=""
+    var fromBookingTime:String=""
+    var toBookingTime:String=""
+    var nurseVisitPrice=""
+    var nurseHourlyprice=""
     var nationalityDropdownlist:ArrayList<String?>?=null
+
+    var prescriptionimage: RequestBody?=null
+    var prescriptionimagemultipartBody: MultipartBody.Part?=null
+
+    var symptomsRecordingFile: RequestBody?=null
+    var symptomsRecordingFilemultipartBody: MultipartBody.Part?=null
+
+    var nurseFromTime=""
+    var nurseToTime=""
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -257,6 +275,45 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
 
             })
         })
+
+        fragmentNursesBookingAppointmentBinding?.btnNurseBookNow?.setOnClickListener(View.OnClickListener {
+//
+            if (familymemberid.equals("")){
+//                familymemberid= fragmentBookingAppointmentViewModel?.appSharedPref?.userId!!
+                familymemberid= "0"
+            }
+
+            if (fragmentNursesBookingAppointmentBinding?.txtSelectSlotOrHour?.text?.toString().equals("Slots")){
+                nurseVisitPrice=dailyrate
+            }else if(fragmentNursesBookingAppointmentBinding?.txtSelectSlotOrHour?.text?.toString().equals("Hourly")){
+                nurseVisitPrice=nurseHourlyprice
+            }
+
+            if (fragmentNursesBookingAppointmentBinding?.txtSelectSlotOrHour?.text?.toString().equals("Slots")){
+                fromBookingTime=nurseFromTime
+                toBookingTime=nurseToTime
+            }else if(fragmentNursesBookingAppointmentBinding?.txtSelectSlotOrHour?.text?.toString().equals("Hourly")){
+                fromBookingTime=fragmentNursesBookingAppointmentBinding?.edtNurseFromTime?.text?.toString()!!
+                toBookingTime=fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.text?.toString()!!
+            }
+            if(!nurseVisitPrice.equals("") && !fromBookingTime.equals("") && !toBookingTime.equals("")){
+                CommonDialog.showDialog(this.activity!!, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+                        apiHitForNurseBookingAppointment()
+                    }
+
+                }, "Comfirm Appointment", "Are you sure for this nurse booking ?")
+            }else{
+                Toast.makeText(activity, "Please select slot/hour to continue booking.", Toast.LENGTH_SHORT).show()
+            }
+
+//            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+//                FragmentDoctorBookingDetails.newInstance())
+        })
     }
 
     private fun prepareforStop() {
@@ -419,6 +476,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
 
         contactListAdapter?.recyclerViewItemClickWithView= object : OnHourlyItemClick {
             override fun onConfirm(modelItem: com.rootscare.data.model.api.response.nurses.nursehourlyslot.ResultItem) {
+                nurseHourlyprice=modelItem?.price!!
              fragmentNursesBookingAppointmentBinding?.txtHourlyPrice?.setText("SR"+" "+modelItem?.price)
             }
         }
@@ -584,6 +642,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                 fragmentNursesBookingAppointmentBinding?.cardPrice?.visibility=View.VISIBLE
                 fragmentNursesBookingAppointmentBinding?.rlSlotPrice?.visibility=View.VISIBLE
                 dailyrate=nurseDetailsResponse?.result?.dailyRate!!
+                nurseVisitPrice=dailyrate
                 fragmentNursesBookingAppointmentBinding?.txtSlotPrice?.setText("SR"+" "+nurseDetailsResponse?.result?.dailyRate)
 //                fragmentNursesBookingAppointmentBinding?.txt
                 if(nurseDetailsResponse?.result?.image!=null && !nurseDetailsResponse?.result?.image.equals("")){
@@ -604,6 +663,16 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         }
     }
 
+    override fun successNurseBookAppointmentResponse(nurseBookAppointmentResponse: NurseBookAppointmentResponse?) {
+        baseActivity?.hideLoading()
+        if(nurseBookAppointmentResponse?.code.equals("200")){
+            Toast.makeText(activity, nurseBookAppointmentResponse?.message, Toast.LENGTH_SHORT).show()
+            (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentBookingCart.newInstance())
+        }else{
+            Toast.makeText(activity, nurseBookAppointmentResponse?.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     //Setup recyclerview for nurse view timing recyclerview
     private fun setNurseViewTimingListing(nurseTimingList: ArrayList<com.rootscare.data.model.api.response.nurses.nurseviewtiming.ResultItem?>?) {
         assert(fragmentNursesBookingAppointmentBinding?.recyclerViewRootscareFromTimeRecyclerview != null)
@@ -615,6 +684,8 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         recyclerView?.adapter = contactListAdapter
         contactListAdapter?.recyclerViewItemClickWithView= object : OnNurseSlotClick {
             override fun onConfirm(modelItem: com.rootscare.data.model.api.response.nurses.nurseviewtiming.ResultItem) {
+                nurseFromTime=modelItem?.startTime!!
+                nurseToTime=modelItem?.endTime!!
 
             }
 
@@ -880,6 +951,43 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }
+    }
+//Book Nurse Api Call
+    private fun apiHitForNurseBookingAppointment(){
+
+
+        baseActivity?.showLoading()
+        val patient_id = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentNursesBookingAppointmentViewModel?.appSharedPref?.userId)
+        val family_member_id = RequestBody.create(MediaType.parse("multipart/form-data"),familymemberid)
+        val nurse_id = RequestBody.create(MediaType.parse("multipart/form-data"),nurseId)
+        val from_date = RequestBody.create(MediaType.parse("multipart/form-data"),fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text?.toString())
+        val to_date = RequestBody.create(MediaType.parse("multipart/form-data"),fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text?.toString())
+        val from_time = RequestBody.create(MediaType.parse("multipart/form-data"),fromBookingTime)
+        val to_time = RequestBody.create(MediaType.parse("multipart/form-data"),toBookingTime)
+        val price = RequestBody.create(MediaType.parse("multipart/form-data"),nurseVisitPrice)
+        val symptom_text = RequestBody.create(MediaType.parse("multipart/form-data"),fragmentNursesBookingAppointmentBinding?.edtSymptomText?.text?.toString())
+        val appointment_type = RequestBody.create(MediaType.parse("multipart/form-data"),"offline")
+
+
+        if (imageFile != null) {
+            prescriptionimage = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
+            prescriptionimagemultipartBody = MultipartBody.Part.createFormData("upload_prescription", imageFile?.name, prescriptionimage)
+
+        } else{
+            prescriptionimage = RequestBody.create(MediaType.parse("multipart/form-data"), "")
+            prescriptionimagemultipartBody = MultipartBody.Part.createFormData("upload_prescription", "", prescriptionimage)
+        }
+
+        if (recordingFile != null) {
+            symptomsRecordingFile = RequestBody.create(MediaType.parse("multipart/form-data"), recordingFile)
+            symptomsRecordingFilemultipartBody = MultipartBody.Part.createFormData("symptom_recording", recordingFile?.name, symptomsRecordingFile)
+        } else{
+            symptomsRecordingFile = RequestBody.create(MediaType.parse("multipart/form-data"), "")
+            symptomsRecordingFilemultipartBody = MultipartBody.Part.createFormData("symptom_recording", "", symptomsRecordingFile)
+        }
+
+        fragmentNursesBookingAppointmentViewModel?. apibookcartnurse(patient_id,family_member_id,nurse_id,from_date,to_date,from_time,to_time,price,prescriptionimagemultipartBody,symptom_text, symptomsRecordingFilemultipartBody,appointment_type)
+
     }
 
 }

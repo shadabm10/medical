@@ -457,14 +457,14 @@
                     android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Select Time : "
+                    android:text="Select Time(Slots/Hourly) : "
                     />
 
                 <com.customview.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
-                    android:hint="Slots"
+                    android:text="Slots"
                     android:id="@+id/txt_select_slot_or_hour"
                     android:textSize="@dimen/_10ssp"
                     android:background="@drawable/rounded_edittext"
@@ -565,6 +565,7 @@
                                     <com.customview.MyEditTextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:id="@+id/edt_nurse_from_time"
                                         android:padding="@dimen/_5sdp"
                                         android:textSize="@dimen/_10ssp"
                                         android:layout_marginStart="@dimen/_10sdp"
@@ -597,6 +598,7 @@
                                         android:layout_marginEnd="@dimen/_40sdp"
                                         android:textColor="@color/txt_color"
                                         android:textSize="@dimen/_10ssp"
+                                        android:id="@+id/edt_nurse_to_time"
                                         android:background="@drawable/round_rect_grey_border"
                                         android:hint="10:00 AM"/>
 
