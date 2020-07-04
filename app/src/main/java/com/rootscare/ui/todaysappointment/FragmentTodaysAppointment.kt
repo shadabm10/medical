@@ -1,4 +1,4 @@
-package com.rootscare.ui.myupcomingappointment
+package com.rootscare.ui.todaysappointment
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dialog.CommonDialog
 import com.google.android.material.tabs.TabLayout
-import com.interfaces.OnClickWithTwoButton
 import com.interfaces.OnNurseAppointmentCancel
 import com.interfaces.OnUpcommingAppointmentBtnClickListner
 import com.rootscare.BR
@@ -20,30 +19,24 @@ import com.rootscare.data.model.api.request.appointmentrequest.AppointmentReques
 import com.rootscare.data.model.api.request.cancelappointmentrequest.CancelAppointmentRequest
 import com.rootscare.data.model.api.response.appointcancelresponse.AppointmentCancelResponse
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.*
-import com.rootscare.databinding.FragmentCancellMyUpcomingAppointmentBinding
-import com.rootscare.databinding.FragmentMyUpcommingAppointmentBinding
 import com.rootscare.databinding.FragmentUpcommingAppointmentNewBinding
 import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.interfaces.OnItemClikWithIdListener
-import com.rootscare.ui.appointment.adapter.*
-import com.rootscare.ui.appointment.subfragment.FragmentAppiontmentDetails
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.subfragment.editpatient.FragmentEditPatientFamilyMember
-import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointment
-import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointmentNavigator
-import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointmentViewModel
-import com.rootscare.ui.cancellappointment.adapter.AdapterCancelMyUpcomingAppiontment
 import com.rootscare.ui.home.HomeActivity
+import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
+import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointmentViewModel
+import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointmentnavigator
 import com.rootscare.ui.myupcomingappointment.adapter.*
 import com.rootscare.ui.nurses.appointmentreschedule.FragmentNurseAppointmentReschedule
 import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.recedule.doctor.FragmentDoctorAppointmentReschedule
-import com.rootscare.ui.submitfeedback.FragmentSubmitReview
 import java.util.*
 
-class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointmentNewBinding, FragmentMyUpCommingAppointmentViewModel>(), FragmentMyUpCommingAppointmentnavigator {
+class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBinding, FragmentTodaysAppointmentViewModel>(),
+    FragmentTodaysAppointmentNavigator {
     private var fragmentUpcommingAppointmentNewBinding: FragmentUpcommingAppointmentNewBinding? = null
-    private var fragmentMyUpCommingAppointmentViewModel: FragmentMyUpCommingAppointmentViewModel? = null
+    private var fragmentMyUpCommingAppointmentViewModel: FragmentTodaysAppointmentViewModel? = null
     var doctorAppointmentItemarrayList : ArrayList<DoctorAppointmentItem?>?=null
     var nursesAppointmentItemarrayList : ArrayList<NurseAppointmentItem?>? = null
     var physiotherapyAppointmentItemarrayList : ArrayList<PhysiotherapyAppointmentItem?>? = null
@@ -54,17 +47,17 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
         get() = BR.viewModel
     override val layoutId: Int
         get() = R.layout.fragment_upcomming_appointment_new
-    override val viewModel: FragmentMyUpCommingAppointmentViewModel
+    override val viewModel: FragmentTodaysAppointmentViewModel
         get() {
             fragmentMyUpCommingAppointmentViewModel =
-                ViewModelProviders.of(this).get(FragmentMyUpCommingAppointmentViewModel::class.java!!)
-            return fragmentMyUpCommingAppointmentViewModel as FragmentMyUpCommingAppointmentViewModel
+                ViewModelProviders.of(this).get(FragmentTodaysAppointmentViewModel::class.java!!)
+            return fragmentMyUpCommingAppointmentViewModel as FragmentTodaysAppointmentViewModel
         }
 
     companion object {
-        fun newInstance(): FragmentMyUpCommingAppointment {
+        fun newInstance(): FragmentTodaysAppointment {
             val args = Bundle()
-            val fragment = FragmentMyUpCommingAppointment()
+            val fragment = FragmentTodaysAppointment()
             fragment.arguments = args
             return fragment
         }
@@ -83,10 +76,10 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
         if(isNetworkConnected){
             baseActivity?.showLoading()
             var appointmentRequest= AppointmentRequest()
-           appointmentRequest?.userId=fragmentMyUpCommingAppointmentViewModel?.appSharedPref?.userId
+            appointmentRequest?.userId=fragmentMyUpCommingAppointmentViewModel?.appSharedPref?.userId
 //            appointmentRequest?.userId="11"
 
-            fragmentMyUpCommingAppointmentViewModel?.apipatientupcomingappointment(appointmentRequest)
+            fragmentMyUpCommingAppointmentViewModel?.apipatienttodayappointment(appointmentRequest)
 
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
@@ -121,10 +114,10 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
             val tab_item_tv = view.findViewById<TextView>(R.id.tab_item_tv)
             tab_item_tv.text = tabTitles[i]
             if (i == 0) {
-                tab_item_tv.setTextColor(ContextCompat.getColor(activity!!,R.color.background_white))
+                tab_item_tv.setTextColor(ContextCompat.getColor(activity!!, R.color.background_white))
                 view.background = resources.getDrawable(R.drawable.tab_background_selected)
             } else {
-                tab_item_tv.setTextColor(ContextCompat.getColor(activity!!,R.color.background_white))
+                tab_item_tv.setTextColor(ContextCompat.getColor(activity!!, R.color.background_white))
 //                tab_item_tv.setTextColor(resources.getColor(R.color.modified_black_1))
                 view.background = resources.getDrawable(R.drawable.tab_background_unselected)
             }
@@ -147,19 +140,25 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
                         Objects.requireNonNull(view).background =
                             resources.getDrawable(R.drawable.tab_background_selected)
                     } else {
-                        tab_item_tv.setTextColor(ContextCompat.getColor(activity!!,R.color.background_white))
+                        tab_item_tv.setTextColor(ContextCompat.getColor(activity!!, R.color.background_white))
 //                        tab_item_tv.setTextColor(resources.getColor(R.color.modified_black_1))
                         Objects.requireNonNull(view).background =
                             resources.getDrawable(R.drawable.tab_background_unselected)
                     }
                 }
                 if (tab.position == 0) {
-                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=View.VISIBLE
-                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=
+                        View.VISIBLE
+                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=
+                        View.GONE
 
 
 //                    addFragment(
@@ -168,55 +167,85 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
 //                        activityOrderBinding.containerLayout.getId()
 //                    )
                 } else if (tab.position == 1) {
-                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=View.VISIBLE
-                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=
+                        View.VISIBLE
+                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=
+                        View.GONE
 
 
 //                    )
                 } else if (tab.position == 2) {
-                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=View.VISIBLE
-                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=
+                        View.VISIBLE
+                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=
+                        View.GONE
                 }else if(tab.position == 3){
-                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=View.VISIBLE
-                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=
+                        View.VISIBLE
+                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=
+                        View.GONE
                 }else if(tab.position == 4){
-                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=View.VISIBLE
-                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=
+                        View.VISIBLE
+                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=
+                        View.GONE
                 }else if(tab.position == 5){
-                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=View.GONE
-                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=View.VISIBLE
+                    fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=
+                        View.GONE
+                    fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=
+                        View.VISIBLE
                 }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-        fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility=View.VISIBLE
-        fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility=View.GONE
-        fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility=View.GONE
-        fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility=View.GONE
-        fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility=View.GONE
-        fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility=View.GONE
+        fragmentUpcommingAppointmentNewBinding?.llDoctorAppointmentList?.visibility= View.VISIBLE
+        fragmentUpcommingAppointmentNewBinding?.llNursesAppointmentList?.visibility= View.GONE
+        fragmentUpcommingAppointmentNewBinding?.llHospitalAppointmentList?.visibility= View.GONE
+        fragmentUpcommingAppointmentNewBinding?.llPhysitherapyAppointmentList?.visibility= View.GONE
+        fragmentUpcommingAppointmentNewBinding?.llCaregiverAppointmentList?.visibility= View.GONE
+        fragmentUpcommingAppointmentNewBinding?.llBabysitterAppointmentList?.visibility= View.GONE
 
     }
 
@@ -323,13 +352,13 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
                         nurseAppointmentItem?.fromTime!!,
                         nurseAppointmentItem?.toTime!!,
                         nurseAppointmentItem?.fromDate!!,
-                    nurseAppointmentItem?.toDate!!))
+                        nurseAppointmentItem?.toDate!!))
             }
 
         }
 
     }
-//    "message": "User Type must be from the list. (doctor,hospital,nurse,caregiver,babysitter,physiotherapy,lab-technician)",
+    //    "message": "User Type must be from the list. (doctor,hospital,nurse,caregiver,babysitter,physiotherapy,lab-technician)",
     // Set up recycler view for Nurses Appointment listing if available
     private fun setUpHospitalAppointmentlistingRecyclerview(pathologyAppointmentList: ArrayList<PathologyAppointmentItem?>?) {
 //        trainerList: ArrayList<TrainerListItem?>?
@@ -569,7 +598,7 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
                 appointmentRequest?.userId=fragmentMyUpCommingAppointmentViewModel?.appSharedPref?.userId
 //            appointmentRequest?.userId="11"
 
-                fragmentMyUpCommingAppointmentViewModel?.apipatientupcomingappointment(appointmentRequest)
+                fragmentMyUpCommingAppointmentViewModel?.apipatienttodayappointment(appointmentRequest)
 
             }else{
                 Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
@@ -592,14 +621,16 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
     private fun  defaultDoctorListSetup(doctorAppointmentList: ArrayList<DoctorAppointmentItem?>?){
 
         if(doctorAppointmentList!=null && doctorAppointmentList!!.size>0){
-            fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.recyclerViewRootscareAppointmentlist?.visibility=View.VISIBLE
-            fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.tvNoDate?.visibility=View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.recyclerViewRootscareAppointmentlist?.visibility=
+                View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.tvNoDate?.visibility= View.GONE
             setUpAppointmentlistingRecyclerview(doctorAppointmentList)
 
 
         }else{
-            fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.recyclerViewRootscareAppointmentlist?.visibility=View.GONE
-            fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.tvNoDate?.visibility=View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.recyclerViewRootscareAppointmentlist?.visibility=
+                View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.tvNoDate?.visibility= View.VISIBLE
             fragmentUpcommingAppointmentNewBinding?.layoutDoctorList?.tvNoDate?.setText("No appointment for doctor booking.")
         }
 
@@ -608,14 +639,18 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
     private fun  defaultNursesListSetup(nurseAppointmentList: ArrayList<NurseAppointmentItem?>?){
 
         if(nurseAppointmentList!=null && nurseAppointmentList!!.size>0){
-            fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.recyclerViewRootscareNursesAppointmentlist?.visibility=View.VISIBLE
-            fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.tvNoDateNuurses?.visibility=View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.recyclerViewRootscareNursesAppointmentlist?.visibility=
+                View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.tvNoDateNuurses?.visibility=
+                View.GONE
             setUpNursesAppointmentlistingRecyclerview(nurseAppointmentList)
 
 
         }else{
-            fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.recyclerViewRootscareNursesAppointmentlist?.visibility=View.GONE
-            fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.tvNoDateNuurses?.visibility=View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.recyclerViewRootscareNursesAppointmentlist?.visibility=
+                View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.tvNoDateNuurses?.visibility=
+                View.VISIBLE
             fragmentUpcommingAppointmentNewBinding?.layoutNursesList?.tvNoDateNuurses?.setText("No appointment for nurse booking.")
         }
 
@@ -624,14 +659,18 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
     private fun  defaultPhysitherapyListSetup(nphysiotherapyAppointmentList: ArrayList<PhysiotherapyAppointmentItem?>?){
 
         if(nphysiotherapyAppointmentList!=null && nphysiotherapyAppointmentList!!.size>0){
-            fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.recyclerViewRootscarePhysitherapyAppointmentlist?.visibility=View.VISIBLE
-            fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.tvNoDatePhysitherapy?.visibility=View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.recyclerViewRootscarePhysitherapyAppointmentlist?.visibility=
+                View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.tvNoDatePhysitherapy?.visibility=
+                View.GONE
             setUpPhysitherapyAppointmentlistingRecyclerview(nphysiotherapyAppointmentList)
 
 
         }else{
-            fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.recyclerViewRootscarePhysitherapyAppointmentlist?.visibility=View.GONE
-            fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.tvNoDatePhysitherapy?.visibility=View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.recyclerViewRootscarePhysitherapyAppointmentlist?.visibility=
+                View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.tvNoDatePhysitherapy?.visibility=
+                View.VISIBLE
             fragmentUpcommingAppointmentNewBinding?.layoutPhysitherapyList?.tvNoDatePhysitherapy?.setText("No appointment for physiotherapy booking.")
         }
 
@@ -640,14 +679,18 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
     private fun  defaultCaregiverListSetup(caregiverAppointmentList: ArrayList<CaregiverAppointmentItem?>?){
 
         if(caregiverAppointmentList!=null && caregiverAppointmentList!!.size>0){
-            fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.recyclerViewRootscareCaregiverAppointmentlist?.visibility=View.VISIBLE
-            fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.tvNoDateCaregiver?.visibility=View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.recyclerViewRootscareCaregiverAppointmentlist?.visibility=
+                View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.tvNoDateCaregiver?.visibility=
+                View.GONE
             setUpCaregiverAppointmentlistingRecyclerview(caregiverAppointmentList)
 
 
         }else{
-            fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.recyclerViewRootscareCaregiverAppointmentlist?.visibility=View.GONE
-            fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.tvNoDateCaregiver?.visibility=View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.recyclerViewRootscareCaregiverAppointmentlist?.visibility=
+                View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.tvNoDateCaregiver?.visibility=
+                View.VISIBLE
             fragmentUpcommingAppointmentNewBinding?.layoutCaregiverList?.tvNoDateCaregiver?.setText("No appointment for caregiver booking.")
         }
 
@@ -656,14 +699,18 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
     private fun  defaultBabysitterListSetup(babysitterAppointmentList: ArrayList<BabysitterAppointmentItem?>?){
 
         if(babysitterAppointmentList!=null && babysitterAppointmentList!!.size>0){
-            fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.recyclerViewRootscareBabysitterAppointmentlist?.visibility=View.VISIBLE
-            fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.tvNoDateBabysitter?.visibility=View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.recyclerViewRootscareBabysitterAppointmentlist?.visibility=
+                View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.tvNoDateBabysitter?.visibility=
+                View.GONE
             setUpBabysitterAppointmentlistingRecyclerview(babysitterAppointmentList)
 
 
         }else{
-            fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.recyclerViewRootscareBabysitterAppointmentlist?.visibility=View.GONE
-            fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.tvNoDateBabysitter?.visibility=View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.recyclerViewRootscareBabysitterAppointmentlist?.visibility=
+                View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.tvNoDateBabysitter?.visibility=
+                View.VISIBLE
             fragmentUpcommingAppointmentNewBinding?.layoutBabysitterList?.tvNoDateBabysitter?.setText("No appointment for babysitter booking.")
         }
 
@@ -672,14 +719,18 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
     private fun  defaultPathologyListSetup(pathologyAppointmentList: ArrayList<PathologyAppointmentItem?>?){
 
         if(pathologyAppointmentList!=null && pathologyAppointmentList!!.size>0){
-            fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.recyclerViewRootscareHospitalAppointmentlist?.visibility=View.VISIBLE
-            fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.tvNoDateHospital?.visibility=View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.recyclerViewRootscareHospitalAppointmentlist?.visibility=
+                View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.tvNoDateHospital?.visibility=
+                View.GONE
             setUpHospitalAppointmentlistingRecyclerview(pathologyAppointmentList)
 
 
         }else{
-            fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.recyclerViewRootscareHospitalAppointmentlist?.visibility=View.GONE
-            fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.tvNoDateHospital?.visibility=View.VISIBLE
+            fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.recyclerViewRootscareHospitalAppointmentlist?.visibility=
+                View.GONE
+            fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.tvNoDateHospital?.visibility=
+                View.VISIBLE
             fragmentUpcommingAppointmentNewBinding?.layoutHospitalList?.tvNoDateHospital?.setText("No appointment for pathology booking.")
         }
 

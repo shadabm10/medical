@@ -69,6 +69,7 @@
                 android:hint="Search...."
                 android:singleLine="true"
                 android:maxLines="1"
+                android:id="@+id/edt_home_search"
                 android:textColorHint="@color/gray_light_dark"
                 android:paddingStart="@dimen/_10sdp"
                 android:textSize="@dimen/_8ssp"
@@ -153,7 +154,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/no_data"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_10ssp"
                     android:visibility="gone"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
@@ -226,7 +227,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/no_data"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_10ssp"
                     android:visibility="gone"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
@@ -298,7 +299,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/no_data"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_10ssp"
                     android:visibility="gone"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
@@ -369,7 +370,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/no_data"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_10ssp"
                     android:visibility="gone"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
@@ -442,7 +443,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/no_data"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_10ssp"
                     android:visibility="gone"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
@@ -517,7 +518,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/no_data"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_10ssp"
                     android:visibility="gone"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>

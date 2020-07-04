@@ -147,14 +147,14 @@
                                     android:layout_height="wrap_content"
                                     android:text="Fees : "
                                     android:textColor="@color/txt_color"
-                                    android:textSize="@dimen/_10ssp"/>
+                                    android:textSize="@dimen/_8ssp"/>
                                 <com.customview.MyTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/txt_booked_doctor_fees"
                                     android:layout_marginStart="@dimen/_3sdp"
                                     android:textColor="@color/colorPrimaryDark"
-                                    android:textSize="@dimen/_10ssp"/>
+                                    android:textSize="@dimen/_8ssp"/>
                             </LinearLayout>
                         </RelativeLayout>
                     </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.interfaces.OnClickWithTwoButton
 import com.rootscare.R
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.NurseAppointmentItem
 import com.rootscare.databinding.ItemAppointmentlistRecyclerviewBinding
@@ -26,7 +27,7 @@ class AdapterNursesAppointmentlistRecyclerview (val nurseAppointmentList: ArrayL
 
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
-    internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
+    internal lateinit var recyclerViewItemClick: OnClickWithTwoButton
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemAppointmentlistRecyclerviewBinding>(
@@ -49,9 +50,13 @@ class AdapterNursesAppointmentlistRecyclerview (val nurseAppointmentList: ArrayL
 
         private var local_position:Int = 0
         init {
-            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
-                recyclerViewItemClickWithView?.onItemClick(1)
+            itemView?.root?.btn_appointment_view_details?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClick?.onFirstItemClick(nurseAppointmentList?.get(local_position)?.id?.toInt()!!)
             })
+            itemView?.root?.btn_appointment_add_review?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClick?.onSecondItemClick(nurseAppointmentList?.get(local_position)?.nurseId?.toInt()!!)
+            })
+//
 
 
         }
@@ -65,7 +70,8 @@ class AdapterNursesAppointmentlistRecyclerview (val nurseAppointmentList: ArrayL
             itemView?.rootView?.txt_doctor_name?.setText(nurseAppointmentList?.get(pos)?.nurseName)
             itemView?.rootView?.txt_phone_no?.setText(nurseAppointmentList?.get(pos)?.patientContact)
             itemView?.rootView?.txt_booking_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.bookingDate))
-            itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.fromDate)+" "+"-"+" "+formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.toDate))
+            itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.fromDate))
+//            +" "+"-"+" "+formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.toDate)
         }
 
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {

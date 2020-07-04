@@ -18,6 +18,7 @@ import com.rootscare.data.model.api.request.doctorrequest.doctorsearchrequest.Se
 import com.rootscare.data.model.api.request.doctorrequest.getpatientfamilymemberrequest.GetPatientFamilyMemberRequest
 import com.rootscare.data.model.api.request.forgotpassword.forgotpasswordchangerequest.ForgotPasswordChangeRequest
 import com.rootscare.data.model.api.request.forgotpassword.forgotpasswordemailrequest.ForgotPasswordSendEmailRequest
+import com.rootscare.data.model.api.request.homesearch.HomeSearchRequest
 import com.rootscare.data.model.api.request.insertdoctorreviewratingrequest.InsertDoctorReviewRatingRequest
 import com.rootscare.data.model.api.request.loginrequest.LoginRequest
 import com.rootscare.data.model.api.request.medicalrecorddeleterequest.MedicalFileDeleteRequest
@@ -57,6 +58,7 @@ import com.rootscare.data.model.api.response.loginresponse.LoginResponse
 import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFileDeleteResponse
 import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
 import com.rootscare.data.model.api.response.nationalityresponse.NationalityResponse
+import com.rootscare.data.model.api.response.nurses.nurseappointmentdetails.NurseAppointmentDetailsResponse
 import com.rootscare.data.model.api.response.nurses.nursebookappointment.NurseBookAppointmentResponse
 import com.rootscare.data.model.api.response.nurses.nursedetails.NurseDetailsResponse
 import com.rootscare.data.model.api.response.nurses.nursehourlyslot.GetNurseHourlySlotResponse
@@ -132,6 +134,8 @@ interface ApiService {
     @POST("api-patient-home")
     fun apipatienthome(): Single<PatientHomeApiResponse>
 
+    @POST("api-patient-home-search")
+    fun apipatienthomesearch(@Body homeSearchRequestRequestBody: HomeSearchRequest): Single<PatientHomeApiResponse>
 
     @POST("api-department-list")
     fun apidepartmentlist(): Single<DoctorDepartmentListingResponse>
@@ -204,8 +208,16 @@ interface ApiService {
     @POST("api-appointment-details")
     fun apiappointmentdetails(@Body appointmentDetailsRequestBody: AppointmentDetailsRequest): Single<DoctorAppointmentResponse>
 
+
+    @POST("api-appointment-details")
+    fun apinurseappointmentdetails(@Body appointmentDetailsRequestBody: AppointmentDetailsRequest): Single<NurseAppointmentDetailsResponse>
+
     @POST("api-patient-upcoming-appointment")
     fun apipatientupcomingappointment(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>
+
+    @POST("api-patient-today-appointment")
+    fun apipatienttodayappointment(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>
+
 
     @POST("api-patient-upcoming-cancel-appointment")
     fun apipatientupcomingcancelappointment(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>

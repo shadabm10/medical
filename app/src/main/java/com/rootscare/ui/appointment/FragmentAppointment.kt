@@ -23,6 +23,8 @@ import com.rootscare.ui.appointment.subfragment.FragmentAppiontmentDetails
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
+import com.rootscare.ui.nurses.appointmentdetails.FragmentNurseAppointmentDetails
+import com.rootscare.ui.nurses.review.FragmentNurseReviewSubmit
 import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.profile.FragmentProfileNavigator
 import com.rootscare.ui.profile.FragmentProfileViewModel
@@ -243,9 +245,15 @@ class FragmentAppointment : BaseFragment<FragmentAppointmentBinding, FragmentApp
 //        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
         val contactListAdapter = AdapterNursesAppointmentlistRecyclerview(nurseAppointmentList,context!!)
         recyclerView.adapter = contactListAdapter
-        contactListAdapter?.recyclerViewItemClickWithView= object : OnItemClikWithIdListener {
-            override fun onItemClick(id: Int) {
-                (activity as HomeActivity).checkFragmentInBackstackAndOpen(FragmentAppiontmentDetails.newInstance("1"))
+        contactListAdapter?.recyclerViewItemClick= object : OnClickWithTwoButton {
+            override fun onFirstItemClick(id: Int) {
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentNurseAppointmentDetails.newInstance(id.toString()))
+            }
+
+            override fun onSecondItemClick(id: Int) {
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentNurseReviewSubmit.newInstance(id.toString()))
             }
 
         }

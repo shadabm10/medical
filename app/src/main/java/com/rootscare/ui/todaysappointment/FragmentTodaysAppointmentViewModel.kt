@@ -1,22 +1,23 @@
-package com.rootscare.ui.home.subfragment
+package com.rootscare.ui.todaysappointment
 
 import android.util.Log
 import com.google.gson.Gson
-import com.rootscare.data.model.api.request.homesearch.HomeSearchRequest
+import com.rootscare.data.model.api.request.appointmentrequest.AppointmentRequest
+import com.rootscare.data.model.api.request.cancelappointmentrequest.CancelAppointmentRequest
 import com.rootscare.ui.base.BaseViewModel
+import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointmentnavigator
 
-class HomeFragmentViewmodel : BaseViewModel<HomeFragmentNavigator>() {
-
-    fun apipatienthome() {
+class FragmentTodaysAppointmentViewModel: BaseViewModel<FragmentTodaysAppointmentNavigator>() {
+    fun apipatienttodayappointment(appointmentRequest: AppointmentRequest) {
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
-        val disposable = apiServiceWithGsonFactory.apipatienthome()
+        val disposable = apiServiceWithGsonFactory.apipatienttodayappointment(appointmentRequest)
             .subscribeOn(_scheduler_io)
             .observeOn(_scheduler_ui)
             .subscribe({ response ->
                 if (response != null) {
                     // Store last login time
                     Log.d("check_response", ": " + Gson().toJson(response))
-                    navigator.successPatientHomeApiResponse(response)
+                    navigator.successAppointmentHistoryResponse(response)
                     /* Saving access token after singup or login */
                     if (response.result!= null){
                     }
@@ -26,7 +27,7 @@ class HomeFragmentViewmodel : BaseViewModel<HomeFragmentNavigator>() {
                 }
             }, { throwable ->
                 run {
-                    navigator.errorPatientHomeApiResponse(throwable)
+                    navigator.errorAppointmentHistoryResponse(throwable)
                     Log.d("check_response_error", ": " + throwable.message)
                 }
             })
@@ -34,16 +35,17 @@ class HomeFragmentViewmodel : BaseViewModel<HomeFragmentNavigator>() {
         compositeDisposable.add(disposable)
     }
 
-    fun apipatienthomesearch(homeSearchRequestRequestBody: HomeSearchRequest) {
+
+    fun apicancelappointment(cancelAppointmentRequest: CancelAppointmentRequest) {
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
-        val disposable = apiServiceWithGsonFactory.apipatienthomesearch(homeSearchRequestRequestBody)
+        val disposable = apiServiceWithGsonFactory.apicancelappointment(cancelAppointmentRequest)
             .subscribeOn(_scheduler_io)
             .observeOn(_scheduler_ui)
             .subscribe({ response ->
                 if (response != null) {
                     // Store last login time
                     Log.d("check_response", ": " + Gson().toJson(response))
-                    navigator.successPatientHomeApiResponse(response)
+                    navigator.successAppointmentCancelResponse(response)
                     /* Saving access token after singup or login */
                     if (response.result!= null){
                     }
@@ -53,7 +55,7 @@ class HomeFragmentViewmodel : BaseViewModel<HomeFragmentNavigator>() {
                 }
             }, { throwable ->
                 run {
-                    navigator.errorPatientHomeApiResponse(throwable)
+                    navigator.errorAppointmentHistoryResponse(throwable)
                     Log.d("check_response_error", ": " + throwable.message)
                 }
             })

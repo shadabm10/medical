@@ -49,6 +49,7 @@ import com.rootscare.ui.nurses.editpatient.FragmentNurseEditPatient
 import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
 import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListing
 import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
+import com.rootscare.ui.nurses.review.FragmentNurseReviewSubmit
 import com.rootscare.ui.patientbookpaynow.FragmentPatientbookPayNow
 import com.rootscare.ui.patientprofilrsetting.FragmentPatientProfileSetting
 import com.rootscare.ui.paymenthistory.FragmentPaymentHistory
@@ -56,6 +57,7 @@ import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.reviewandrating.FragmentReviewAndRating
 import com.rootscare.ui.seealldoctorbygrid.FragmentSeeAllDoctorByGrid
 import com.rootscare.ui.submitfeedback.FragmentSubmitReview
+import com.rootscare.ui.todaysappointment.FragmentTodaysAppointment
 import com.rootscare.ui.viewprescription.FragmnetViewPrespriction
 import com.rootscare.utils.BottomNavigationViewHelper
 import kotlinx.android.synthetic.main.common_toolbar.*
@@ -413,17 +415,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
 //        Cancelled Appointment
 //        Cancel My Upcoming Appointment
-
-        strings.add(DrawerDatatype("My Upcoming Appointment", 0,R.drawable.my_appointment))
-        strings.add(DrawerDatatype("Cancelled Appointment", 1, R.drawable.cancel_appointment))
-        strings.add(DrawerDatatype("Appointment History", 2, R.drawable.appointment_history))
-        strings.add(DrawerDatatype("Medical Records", 3,R.drawable.medical_records))
-        strings.add(DrawerDatatype("View Prescription", 4, R.drawable.view_prescription))
-        strings.add(DrawerDatatype("Payment History", 5, R.drawable.payment_history))
+        strings.add(DrawerDatatype("My Todays Appointment", 0,R.drawable.appointment_history))
+        strings.add(DrawerDatatype("My Upcoming Appointment", 1,R.drawable.my_appointment))
+        strings.add(DrawerDatatype("Cancelled Appointment", 2, R.drawable.cancel_appointment))
+        strings.add(DrawerDatatype("Appointment History", 3, R.drawable.appointment_history))
+        strings.add(DrawerDatatype("Medical Records", 4,R.drawable.medical_records))
+        strings.add(DrawerDatatype("View Prescription", 5, R.drawable.view_prescription))
+        strings.add(DrawerDatatype("Payment History", 6, R.drawable.payment_history))
 //        strings.add(DrawerDatatype("Student LIVE Status", 6, 0))
-        strings.add(DrawerDatatype("Review and Rating", 6,R.drawable.review_and_rating))
-        strings.add(DrawerDatatype("Setting", 7, R.drawable.setting))
-        strings.add(DrawerDatatype("Logout", 8, R.drawable.logout_icon))
+        strings.add(DrawerDatatype("Review and Rating", 7,R.drawable.review_and_rating))
+        strings.add(DrawerDatatype("Setting", 8, R.drawable.setting))
+        strings.add(DrawerDatatype("Logout", 9, R.drawable.logout_icon))
         drawerAdapter = DrawerAdapter(this@HomeActivity, strings)
         activityHomeBinding!!.navigationDrawerRecyclerview.adapter = drawerAdapter
         drawerAdapter!!.setonClickListener(object : OnItemClickListener {
@@ -446,20 +448,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
                     activityHomeBinding!!.drawerLayout.openDrawer(GravityCompat.START)
                 }
                 when (position) {
-
-                    0 -> checkFragmentInBackstackAndOpen(FragmentMyUpCommingAppointment.newInstance())
-                    1 -> checkFragmentInBackstackAndOpen(FragmentCancellMyUcomingAppointment.newInstance())
-                    2 -> checkFragmentInBackstackAndOpen(FragmentAppointment.newInstance())
-                    3 -> checkFragmentInBackstackAndOpen(FragmentMedicalRecords.newInstance())
-                    4 -> checkFragmentInBackstackAndOpen(FragmnetViewPrespriction.newInstance())
-                    5 -> checkFragmentInBackstackAndOpen(FragmentPaymentHistory.newInstance())
-                    6 -> checkFragmentInBackstackAndOpen(FragmentReviewAndRating.newInstance())
-                    7 -> checkFragmentInBackstackAndOpen(FragmentPatientProfileSetting.newInstance())
-                    8 -> logout()
-//                    9 -> checkFragmentInBackstackAndOpen(FragmentStudentGKProtal.newInstance())
-//                    10 -> checkFragmentInBackstackAndOpen(FragmentReferAndEarn.newInstance())
-
-
+                    0 -> checkFragmentInBackstackAndOpen(FragmentTodaysAppointment.newInstance())
+                    1 -> checkFragmentInBackstackAndOpen(FragmentMyUpCommingAppointment.newInstance())
+                    2 -> checkFragmentInBackstackAndOpen(FragmentCancellMyUcomingAppointment.newInstance())
+                    3 -> checkFragmentInBackstackAndOpen(FragmentAppointment.newInstance())
+                    4 -> checkFragmentInBackstackAndOpen(FragmentMedicalRecords.newInstance())
+                    5 -> checkFragmentInBackstackAndOpen(FragmnetViewPrespriction.newInstance())
+                    6 -> checkFragmentInBackstackAndOpen(FragmentPaymentHistory.newInstance())
+                    7 -> checkFragmentInBackstackAndOpen(FragmentReviewAndRating.newInstance())
+                    8 -> checkFragmentInBackstackAndOpen(FragmentPatientProfileSetting.newInstance())
+                    9 -> logout()
                 }
             }
 
@@ -1039,6 +1037,30 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
         }
 
+        else if (fragment is FragmentTodaysAppointment) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Todays Appointment"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+
         else if (fragment is FragmentNursesListingDetails) {
             //   drawerAdapter!!.selectItem(3)
             tootbar_text.text ="Nurse Details"
@@ -1110,6 +1132,32 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
             })
 
         }
+
+        else if (fragment is FragmentNurseReviewSubmit) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Review"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+
+
 
         else if (fragment is FragmentNurseAddPatient) {
             //   drawerAdapter!!.selectItem(3)

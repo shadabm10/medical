@@ -1,6 +1,8 @@
 package com.rootscare.ui.home.subfragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -8,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rootscare.BR
 import com.rootscare.R
+import com.rootscare.data.model.api.request.homesearch.HomeSearchRequest
+import com.rootscare.data.model.api.request.nurse.searchbyname.NurseSearchByNameRequest
 import com.rootscare.data.model.api.response.patienthome.*
 import com.rootscare.databinding.FragmentHomeBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
@@ -89,6 +93,48 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewmodel>(),
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }
+
+
+        fragmentHomeBinding?.edtHomeSearch?.addTextChangedListener(object :
+            TextWatcher {
+            override fun afterTextChanged(s: Editable) { // you can call or do what you want with your EditText here
+// yourEditText...
+                if(s.toString().length==0){
+                    if(isNetworkConnected){
+                        baseActivity?.showLoading()
+//            patientProfileRequest?.userId="11"
+                        homeFragmentViewmodel?.apipatienthome()
+
+                    }else{
+                        Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                if(s.toString().length>2){
+                    if(isNetworkConnected){
+                        baseActivity?.showLoading()
+                        var homeSearchRequest= HomeSearchRequest()
+                        homeSearchRequest?.searchContent=fragmentHomeBinding?.edtHomeSearch?.text?.toString()
+                        homeFragmentViewmodel?.apipatienthomesearch(homeSearchRequest)
+                    }
+                }
+            }
+        })
 
     }
 
@@ -252,6 +298,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewmodel>(),
 
         }else{
             Toast.makeText(activity, patientHomeApiResponse?.message, Toast.LENGTH_SHORT).show()
+
+            fragmentHomeBinding?.recyclerViewRootCareHospitalList?.visibility=View.GONE
+            fragmentHomeBinding?.tvNoData?.visibility=View.VISIBLE
+            fragmentHomeBinding?.tvNoData?.setText("No Hospital List Found")
+
+            fragmentHomeBinding?.recyclerViewRootCareDoctorList?.visibility=View.GONE
+            fragmentHomeBinding?.tvDoctorsNoData?.visibility=View.VISIBLE
+            fragmentHomeBinding?.tvDoctorsNoData?.setText("No Doctor List Found")
+
+            fragmentHomeBinding?.recyclerViewRootCareNursesList?.visibility=View.GONE
+            fragmentHomeBinding?.tvNursesNoData?.visibility=View.VISIBLE
+            fragmentHomeBinding?.tvDoctorsNoData?.setText("No Nurses List Found")
+
+            fragmentHomeBinding?.recyclerViewRootCarePhysiotherapyList?.visibility=View.GONE
+            fragmentHomeBinding?.tvPhysiotherapyNoData?.visibility=View.VISIBLE
+            fragmentHomeBinding?.tvPhysiotherapyNoData?.setText("No Physiotherapy List Found")
+
+            fragmentHomeBinding?.recyclerViewRootCareCareGiverList?.visibility=View.GONE
+            fragmentHomeBinding?.tvCareGiverNoData?.visibility=View.VISIBLE
+            fragmentHomeBinding?.tvCareGiverNoData?.setText("No Caregiver List Found")
+
+            fragmentHomeBinding?.recyclerViewRootCareBabySitterList?.visibility=View.GONE
+            fragmentHomeBinding?.tvBabySitterNoData?.visibility=View.VISIBLE
+            fragmentHomeBinding?.tvBabySitterNoData?.setText("No Babysitter List Found")
+
+
         }
 
     }

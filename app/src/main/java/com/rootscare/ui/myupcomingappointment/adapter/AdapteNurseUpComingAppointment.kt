@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.interfaces.OnNurseAppointmentCancel
 import com.rootscare.R
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.NurseAppointmentItem
 import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
@@ -26,7 +27,7 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
 
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
-    internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
+    internal lateinit var recyclerViewItemClickWithView: OnNurseAppointmentCancel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemMyUpcomingappointmentRecyclerviewBinding>(
@@ -50,8 +51,13 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
         private var local_position:Int = 0
         init {
             itemView?.root?.btn_appointment_cancel?.setOnClickListener(View.OnClickListener {
-                recyclerViewItemClickWithView?.onItemClick(pathologyAppointmentList?.get(local_position)?.id?.toInt()!!)
+                recyclerViewItemClickWithView?.onCancelBtnClick(pathologyAppointmentList?.get(local_position)?.id!!)
             })
+
+            itemView?.root?.btn_appointment_reschedule?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClickWithView?.onRescheduleBtnClick(pathologyAppointmentList?.get(local_position)!!)
+            })
+
 //            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
 //                recyclerViewItemClickWithView?.onItemClick(1)
 //            })
