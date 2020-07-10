@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
         android:background="@color/common_bg"
         >
         <ScrollView
@@ -19,6 +20,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/ll_main"
                 android:orientation="vertical">
                 <androidx.cardview.widget.CardView
                     android:id="@+id/crdview_order_medicine"
@@ -570,7 +572,7 @@
                                         android:textColor="@color/txt_color"
                                         android:padding="@dimen/_5sdp"
                                         android:hint="Select start time"
-                                        android:drawableEnd="@drawable/calendar_month"
+                                        android:drawableEnd="@drawable/stopwatch"
                                         android:layout_marginStart="@dimen/_5sdp"
                                         />
 
@@ -599,7 +601,7 @@
                                         android:textColor="@color/txt_color"
                                         android:padding="@dimen/_5sdp"
                                         android:hint="Select end time"
-                                        android:drawableEnd="@drawable/calendar_month"
+                                        android:drawableEnd="@drawable/stopwatch"
                                         android:layout_marginStart="@dimen/_5sdp"
                                         />
 

@@ -3,18 +3,19 @@ package com.rootscare.ui.seealldoctorbygrid
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
+import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dialog.CommonDialog
-import com.google.gson.Gson
 import com.interfaces.DropdownRowItemItemClickOnConfirm
 import com.interfaces.OnClickWithTwoButton
 import com.rootscare.BR
@@ -33,8 +34,6 @@ import com.rootscare.ui.doctorlistingdetails.FragmentDoctorListingDetails
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.ui.seealldoctorbygrid.adapter.AdapterSeeAllDoctorByGridRecyclerView
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FragmentSeeAllDoctorByGrid : BaseFragment<FragmentSeeAllDoctorByGridBinding, FragmentSeeAllDoctorByGridViewModel>(),
@@ -76,6 +75,22 @@ class FragmentSeeAllDoctorByGrid : BaseFragment<FragmentSeeAllDoctorByGridBindin
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                 FragmentDoctorCategoriesListing.newInstance())
         })
+        fragmentSeeAllDoctorByGridBinding?.llMain?.setOnClickListener(View.OnClickListener {
+//            val inputMethodManager =
+//                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputMethodManager.hideSoftInputFromWindow(
+//                activity!!.currentFocus!!.windowToken,
+//                0
+//            )
+            baseActivity?.hideKeyboard()
+        })
+//        val inputMethodManager: InputMethodManager = activity!!.getSystemService(
+//            Activity.INPUT_METHOD_SERVICE
+//        ) as InputMethodManager
+//        inputMethodManager.hideSoftInputFromWindow(
+//            activity!!.currentFocus!!.windowToken, 0
+//        )
+
 
         //All department api call
         if(isNetworkConnected){

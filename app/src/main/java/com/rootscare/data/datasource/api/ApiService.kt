@@ -219,6 +219,9 @@ interface ApiService {
     @POST("api-patient-today-appointment")
     fun apipatienttodayappointment(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>
 
+    @POST("api-patient-all-appointment")
+    fun apipatientallappointment(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>
+
 
     @POST("api-patient-upcoming-cancel-appointment")
     fun apipatientupcomingcancelappointment(@Body appointmentRequestBody: AppointmentRequest): Single<AppointmentHistoryResponse>

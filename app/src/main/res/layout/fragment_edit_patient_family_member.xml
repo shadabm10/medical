@@ -9,13 +9,15 @@
     </data>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+       >
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/ll_main">
                 <androidx.cardview.widget.CardView
                     android:id="@+id/crdview_doctorappoitment_list"
                     android:layout_width="match_parent"

@@ -1253,14 +1253,26 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
             imgFile = new File(imgDecodableString);
         } else if (resultCode == Activity.RESULT_CANCELED) {
 //            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_SHORT).show();
-        }*/if (resultCode == Activity.RESULT_OK) {
+        }*/
+         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_CAMERA){
-                onCaptureImageResult(data!!)
+              //  onCaptureImageResult(data!!)
+
+                try {
+                    onCaptureImageResult(data!!)
+                } catch (e: Exception) {
+                    println("Exception===>${e.toString()}")
+                }
             }
 
 
             else if (requestCode == SELECT_FILE) {
-                onSelectFromGalleryResult(data)
+                try {
+                    onSelectFromGalleryResult(data)
+                } catch (e: Exception) {
+                    println("Exception===>${e.toString()}")
+                }
+
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 if(data!=null){
                     val result = CropImage.getActivityResult(data)

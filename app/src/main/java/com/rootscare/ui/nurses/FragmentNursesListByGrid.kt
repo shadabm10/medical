@@ -3,12 +3,14 @@ package com.rootscare.ui.nurses
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
+import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
@@ -69,6 +71,15 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentSeeAllNursesListByGridBinding = viewDataBinding
+        fragmentSeeAllNursesListByGridBinding?.llMain?.setOnClickListener(View.OnClickListener {
+//            val inputMethodManager =
+//                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputMethodManager.hideSoftInputFromWindow(
+//                activity!!.currentFocus!!.windowToken,
+//                0
+//            )
+            baseActivity?.hideKeyboard()
+        })
         fragmentSeeAllNursesListByGridBinding?.btnRootscareMoreNurses?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                 FragmentNursesCategoryListing.newInstance(fragmentSeeAllNursesListByGridBinding?.edtNurseSearchByName?.text?.toString()!!))

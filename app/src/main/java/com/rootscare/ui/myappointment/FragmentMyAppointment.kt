@@ -1,4 +1,4 @@
-package com.rootscare.ui.todaysappointment
+package com.rootscare.ui.myappointment
 
 import android.os.Bundle
 import android.util.Log
@@ -24,19 +24,16 @@ import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
-import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointmentViewModel
-import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointmentnavigator
 import com.rootscare.ui.myupcomingappointment.adapter.*
 import com.rootscare.ui.nurses.appointmentreschedule.FragmentNurseAppointmentReschedule
 import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.recedule.doctor.FragmentDoctorAppointmentReschedule
 import java.util.*
 
-class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBinding, FragmentTodaysAppointmentViewModel>(),
-    FragmentTodaysAppointmentNavigator {
+class FragmentMyAppointment : BaseFragment<FragmentUpcommingAppointmentNewBinding, FragmentMyAppointmentViewModel>(),
+    FragmentMyAppointmentNavigator {
     private var fragmentUpcommingAppointmentNewBinding: FragmentUpcommingAppointmentNewBinding? = null
-    private var fragmentMyUpCommingAppointmentViewModel: FragmentTodaysAppointmentViewModel? = null
+    private var fragmentMyUpCommingAppointmentViewModel: FragmentMyAppointmentViewModel? = null
     var doctorAppointmentItemarrayList : ArrayList<DoctorAppointmentItem?>?=null
     var nursesAppointmentItemarrayList : ArrayList<NurseAppointmentItem?>? = null
     var physiotherapyAppointmentItemarrayList : ArrayList<PhysiotherapyAppointmentItem?>? = null
@@ -47,17 +44,17 @@ class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBi
         get() = BR.viewModel
     override val layoutId: Int
         get() = R.layout.fragment_upcomming_appointment_new
-    override val viewModel: FragmentTodaysAppointmentViewModel
+    override val viewModel: FragmentMyAppointmentViewModel
         get() {
             fragmentMyUpCommingAppointmentViewModel =
-                ViewModelProviders.of(this).get(FragmentTodaysAppointmentViewModel::class.java!!)
-            return fragmentMyUpCommingAppointmentViewModel as FragmentTodaysAppointmentViewModel
+                ViewModelProviders.of(this).get(FragmentMyAppointmentViewModel::class.java!!)
+            return fragmentMyUpCommingAppointmentViewModel as FragmentMyAppointmentViewModel
         }
 
     companion object {
-        fun newInstance(): FragmentTodaysAppointment {
+        fun newInstance(): FragmentMyAppointment {
             val args = Bundle()
-            val fragment = FragmentTodaysAppointment()
+            val fragment = FragmentMyAppointment()
             fragment.arguments = args
             return fragment
         }
@@ -79,7 +76,7 @@ class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBi
             appointmentRequest?.userId=fragmentMyUpCommingAppointmentViewModel?.appSharedPref?.userId
 //            appointmentRequest?.userId="11"
 
-            fragmentMyUpCommingAppointmentViewModel?.apipatienttodayappointment(appointmentRequest)
+            fragmentMyUpCommingAppointmentViewModel?.apipatientallappointment(appointmentRequest)
 
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
@@ -545,7 +542,6 @@ class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBi
                 doctorAppointmentItemarrayList=appointmentHistoryResponse?.result?.doctorAppointment
             }
             if (appointmentHistoryResponse?.result?.nurseAppointment!=null && appointmentHistoryResponse?.result?.nurseAppointment.size>0){
-
                 nursesAppointmentItemarrayList=appointmentHistoryResponse?.result?.nurseAppointment
             }
             if(appointmentHistoryResponse?.result?.physiotherapyAppointment!=null && appointmentHistoryResponse?.result?.physiotherapyAppointment.size>0){
@@ -603,7 +599,7 @@ class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBi
                 appointmentRequest?.userId=fragmentMyUpCommingAppointmentViewModel?.appSharedPref?.userId
 //            appointmentRequest?.userId="11"
 
-                fragmentMyUpCommingAppointmentViewModel?.apipatienttodayappointment(appointmentRequest)
+                fragmentMyUpCommingAppointmentViewModel?.apipatientallappointment(appointmentRequest)
 
             }else{
                 Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()

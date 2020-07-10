@@ -150,6 +150,8 @@
                                 <com.customview.MyTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:maxLines="2"
+                                    android:singleLine="true"
                                     android:id="@+id/txt_nursedetais_qualification"
                                     android:layout_marginTop="@dimen/_3sdp"
                                     android:textColor="@color/white"

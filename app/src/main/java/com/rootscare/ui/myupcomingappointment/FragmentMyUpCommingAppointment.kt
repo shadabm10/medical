@@ -504,32 +504,36 @@ class FragmentMyUpCommingAppointment : BaseFragment<FragmentUpcommingAppointment
     override fun successAppointmentHistoryResponse(appointmentHistoryResponse: AppointmentHistoryResponse?) {
         baseActivity?.hideLoading()
         if(appointmentHistoryResponse?.code.equals("200")){
-
-
+            doctorAppointmentItemarrayList = ArrayList<DoctorAppointmentItem?>()
+            nursesAppointmentItemarrayList = ArrayList<NurseAppointmentItem?>()
+            physiotherapyAppointmentItemarrayList= ArrayList<PhysiotherapyAppointmentItem?>()
+            caregiverAppointmentItemArrayList = ArrayList<CaregiverAppointmentItem?>()
+            babysitterAppointmentItemArrayList = ArrayList<BabysitterAppointmentItem?>()
+            pathologyAppointmentItemArrayList = ArrayList<PathologyAppointmentItem?>()
             if (appointmentHistoryResponse?.result?.doctorAppointment!=null && appointmentHistoryResponse?.result?.doctorAppointment.size>0){
-                doctorAppointmentItemarrayList = ArrayList<DoctorAppointmentItem?>()
+
                 doctorAppointmentItemarrayList=appointmentHistoryResponse?.result?.doctorAppointment
             }
             if (appointmentHistoryResponse?.result?.nurseAppointment!=null && appointmentHistoryResponse?.result?.nurseAppointment.size>0){
-                nursesAppointmentItemarrayList = ArrayList<NurseAppointmentItem?>()
+
                 nursesAppointmentItemarrayList=appointmentHistoryResponse?.result?.nurseAppointment
             }
             if(appointmentHistoryResponse?.result?.physiotherapyAppointment!=null && appointmentHistoryResponse?.result?.physiotherapyAppointment.size>0){
-                physiotherapyAppointmentItemarrayList= ArrayList<PhysiotherapyAppointmentItem?>()
+
                 physiotherapyAppointmentItemarrayList=appointmentHistoryResponse?.result?.physiotherapyAppointment
             }
 
             if(appointmentHistoryResponse?.result?.caregiverAppointment!=null && appointmentHistoryResponse?.result?.caregiverAppointment.size>0){
-                caregiverAppointmentItemArrayList = ArrayList<CaregiverAppointmentItem?>()
+
                 caregiverAppointmentItemArrayList=appointmentHistoryResponse?.result?.caregiverAppointment
             }
             if(appointmentHistoryResponse?.result?.babysitterAppointment!=null && appointmentHistoryResponse?.result?.babysitterAppointment?.size>0){
-                babysitterAppointmentItemArrayList = ArrayList<BabysitterAppointmentItem?>()
+
                 babysitterAppointmentItemArrayList = appointmentHistoryResponse?.result?.babysitterAppointment
             }
 
             if(appointmentHistoryResponse?.result?.pathologyAppointment!=null && appointmentHistoryResponse?.result?.pathologyAppointment?.size>0){
-                pathologyAppointmentItemArrayList = ArrayList<PathologyAppointmentItem?>()
+
                 pathologyAppointmentItemArrayList=appointmentHistoryResponse?.result?.pathologyAppointment
             }
             defaultDoctorListSetup(doctorAppointmentItemarrayList)

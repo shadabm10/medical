@@ -1,10 +1,12 @@
 package com.rootscare.ui.login.subfragment.loginfragment
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.rootscare.BR
@@ -51,6 +53,14 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentLoginBinding = viewDataBinding
+        fragmentLoginBinding?.llMain?.setOnClickListener(View.OnClickListener {
+            val inputMethodManager =
+                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                activity!!.currentFocus!!.windowToken,
+                0
+            )
+        })
         fragmentLoginViewModel?.appSharedPref?.isloginremember="false"
         fragmentLoginBinding?.checkboxLoginremember?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -164,7 +174,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
 
         if (!isValidMobile(phone)) {
             //  activityLoginBinding?.edtEmailOrPhone?.setError("Invalid mobile number")
-            Toast.makeText(activity, "Invalid mobile number", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Invalid Email ID / Invalid Mobile No", Toast.LENGTH_SHORT).show()
             return false
         }
         if (!isValidPassword(password) ) {

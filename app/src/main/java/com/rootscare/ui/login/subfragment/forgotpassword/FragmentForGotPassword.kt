@@ -1,9 +1,11 @@
 package com.rootscare.ui.login.subfragment.forgotpassword
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.rootscare.BR
@@ -49,6 +51,14 @@ class FragmentForGotPassword: BaseFragment<FragmentForgotPasswordBinding, Fragme
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentForgotPasswordBinding = viewDataBinding
+        fragmentForgotPasswordBinding?.llMain?.setOnClickListener(View.OnClickListener {
+            val inputMethodManager =
+                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                activity!!.currentFocus!!.windowToken,
+                0
+            )
+        })
         fragmentForgotPasswordBinding?.llEmailContent?.visibility=View.VISIBLE
 
         fragmentForgotPasswordBinding?.btnForgotpasswordSendMail?.setOnClickListener(View.OnClickListener {

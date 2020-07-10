@@ -1,8 +1,10 @@
 package com.rootscare.ui.doctorlistingdetails
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,6 +25,7 @@ import com.rootscare.ui.doctorlistingdetails.adapter.AdapterDoctordetailsSpecili
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.ui.submitfeedback.FragmentSubmitReview
+
 
 class FragmentDoctorListingDetails : BaseFragment<FragmentDoctorListingDetailsBinding, FragmentDoctorListingDetailsViewModel>(),
     FragmentDoctorListingDetailsNavigator {

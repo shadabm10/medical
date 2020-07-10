@@ -26,6 +26,7 @@ import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.bookingcart.adapter.AdapterBookingCartRecyclerview
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
+import com.rootscare.ui.myappointment.FragmentMyAppointment
 import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
 import com.rootscare.ui.notification.FragmentNotification
 import com.rootscare.ui.notification.FragmentNotificationViewModel
@@ -255,7 +256,7 @@ class FragmentBookingCart: BaseFragment<FragmentBookingCartBinding, FragmentBook
 
                 override fun onConfirm() {
                     (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                        HomeFragment.newInstance())
+                        FragmentMyAppointment.newInstance())
 
                 }
 

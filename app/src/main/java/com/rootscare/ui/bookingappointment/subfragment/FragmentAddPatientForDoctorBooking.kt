@@ -1,26 +1,24 @@
 package com.rootscare.ui.bookingappointment.subfragment
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.media.MediaPlayer
-import android.media.MediaRecorder
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.Handler
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.rootscare.BR
@@ -95,6 +93,15 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentAddPatientForDoctorBookingBinding = viewDataBinding
+        fragmentAddPatientForDoctorBookingBinding?.llMain?.setOnClickListener(View.OnClickListener {
+//            val inputMethodManager =
+//                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputMethodManager.hideSoftInputFromWindow(
+//                activity!!.currentFocus!!.windowToken,
+//                0
+//            )
+            baseActivity?.hideKeyboard()
+        })
         val list = listOf<String>(
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -174,44 +181,59 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
          {
          return
          }*/
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                val contentURI = data!!.data
+        if(resultCode != Activity.RESULT_CANCELED){
+            if (requestCode == GALLERY) {
+                if (data != null) {
+                    val contentURI = data!!.data
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
+                        val path = saveImage(bitmap)
+                        bitmapToFile(bitmap)
+                        Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
+
+                        fragmentAddPatientForDoctorBookingBinding?.imgRootscarePatientProfileImage?.setImageBitmap(bitmap)
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+            } else if (requestCode == CAMERA) {
+                val thumbnail = data!!.extras!!.get("data") as Bitmap
+                fragmentAddPatientForDoctorBookingBinding?.imgRootscarePatientProfileImage?.setImageBitmap(thumbnail)
+                saveImage(thumbnail)
+                bitmapToFile(thumbnail)
+                Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
+            }
+
+            if (requestCode == REQUEST_CAMERA){
+
                 try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
-                    val path = saveImage(bitmap)
-                    bitmapToFile(bitmap)
-                    Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
-
-                    fragmentAddPatientForDoctorBookingBinding?.imgRootscarePatientProfileImage?.setImageBitmap(bitmap)
-
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+                    onCaptureImageResult(data!!)
+                } catch (e: Exception) {
+                    println("Exception===>${e.toString()}")
                 }
 
             }
+            else if (requestCode == SELECT_FILE) {
+                if(data!=null){
+                    onSelectFromGalleryResult(data)
+                }
 
-        } else if (requestCode == CAMERA) {
-            val thumbnail = data!!.extras!!.get("data") as Bitmap
-            fragmentAddPatientForDoctorBookingBinding?.imgRootscarePatientProfileImage?.setImageBitmap(thumbnail)
-            saveImage(thumbnail)
-            bitmapToFile(thumbnail)
-            Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
-        }
+            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                if(data!=null){
+                    val result = CropImage.getActivityResult(data)
+                    val resultUri = result.uri
+                    Picasso.get().load(resultUri).into(fragmentAddPatientForDoctorBookingBinding?.imgRootscarePatientProfileImage)
+                    imageFile = File(result.uri.path)
+                    println("resultUri===>$resultUri")
+                }
 
-        if (requestCode == REQUEST_CAMERA) onCaptureImageResult(data!!) else if (requestCode == SELECT_FILE) {
-            onSelectFromGalleryResult(data)
-        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if(data!=null){
-                val result = CropImage.getActivityResult(data)
-                val resultUri = result.uri
-                Picasso.get().load(resultUri).into(fragmentAddPatientForDoctorBookingBinding?.imgRootscarePatientProfileImage)
-                imageFile = File(result.uri.path)
-                println("resultUri===>$resultUri")
             }
-
         }
+
     }
 
     fun saveImage(myBitmap: Bitmap): String {
@@ -457,25 +479,31 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
     }
 
     private fun onCaptureImageResult(data: Intent) {
-        thumbnail = data.extras!!["data"] as Bitmap?
-        bytes = ByteArrayOutputStream()
-        thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        imageFile = File(
-            Environment.getExternalStorageDirectory(),
-            System.currentTimeMillis().toString() + ".jpg"
-        )
-        val fo: FileOutputStream
-        try {
-            imageFile?.createNewFile()
-            fo = FileOutputStream(imageFile)
-            fo.write(bytes?.toByteArray())
-            fo.close()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
+        if(data!=null){
+            thumbnail = data.extras!!["data"] as Bitmap?
+            bytes = ByteArrayOutputStream()
+
+            thumbnail?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            imageFile = File(
+                Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis().toString() + ".jpg"
+            )
+            val fo: FileOutputStream
+            try {
+                imageFile?.createNewFile()
+                fo = FileOutputStream(imageFile)
+                fo.write(bytes?.toByteArray())
+                fo.close()
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            OpenPictureEditActivity()
         }
-        OpenPictureEditActivity()
+
+
+
 
         /*      im_upload.setImageBitmap(thumbnail);
         im_editbutton.setVisibility(View.GONE);

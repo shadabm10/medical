@@ -1,10 +1,12 @@
 package com.rootscare.ui.home.subfragment
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -57,6 +59,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewmodel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentHomeBinding = viewDataBinding
+
+        fragmentHomeBinding?.llMain?.setOnClickListener(View.OnClickListener {
+//            val inputMethodManager =
+//                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputMethodManager.hideSoftInputFromWindow(
+//                activity!!.currentFocus!!.windowToken,
+//                0
+//            )
+            baseActivity?.hideKeyboard()
+        })
 
         fragmentHomeBinding?.llHomeDoctorSeeAll?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(

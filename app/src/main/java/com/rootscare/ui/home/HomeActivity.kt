@@ -2,6 +2,7 @@ package com.rootscare.ui.home
 
 import android.Manifest
 import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +43,7 @@ import com.rootscare.ui.doctorlistingdetails.FragmentDoctorListingDetails
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.ui.login.LoginActivity
 import com.rootscare.ui.medicalrecords.FragmentMedicalRecords
+import com.rootscare.ui.myappointment.FragmentMyAppointment
 import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
 import com.rootscare.ui.notification.FragmentNotification
 import com.rootscare.ui.nurses.FragmentNursesListByGrid
@@ -68,6 +71,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
     private var homeViewModel: HomeActivityViewModel? = null
     private var drawerAdapter: DrawerAdapter? = null
     private var check_for_close = false
+    private var isOpen=false
 
     private var useramne: String = ""
     private var useremail: String = ""
@@ -106,7 +110,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
 
             R.id.navigation_booking -> {
-                checkFragmentInBackstackAndOpen(FragmentAppointment.newInstance())
+                checkFragmentInBackstackAndOpen(FragmentMyAppointment.newInstance())
                 Handler().postDelayed({ showSelectionOfBottomNavigationItem() }, 100)
                 return@OnNavigationItemSelectedListener true
             }
@@ -470,7 +474,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
     override fun onBackPressed() {
         if (activityHomeBinding!!.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             activityHomeBinding!!.drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
+        }
+        else {
             if (supportFragmentManager.backStackEntryCount == 1 || supportFragmentManager.findFragmentById(R.id.layout_container) is HomeFragment) {
                 if (check_for_close) {
                     finish()
@@ -478,11 +483,47 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
                 check_for_close = true
                 Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
                 Handler().postDelayed({ check_for_close = false }, 2000)
-            } else {
+            } else if(supportFragmentManager.findFragmentById(R.id.layout_container) is FragmentBookingAppointment){
+
+
+                    CommonDialog.showDialog(this@HomeActivity, object :
+                        DialogClickCallback {
+                        override fun onDismiss() {
+                        }
+
+                        override fun onConfirm() {
+                           // finish()
+                            checkFragmentInBackstackAndOpen(HomeFragment.newInstance())
+
+                         //   getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        }
+
+                    }, "Warning !!", "Once you back your all selected data will be disappear")
+
+
+
+            } else if(supportFragmentManager.findFragmentById(R.id.layout_container) is FragmentNursesBookingAppointment){
+                CommonDialog.showDialog(this@HomeActivity, object :
+                    DialogClickCallback {
+                    override fun onDismiss() {
+                    }
+
+                    override fun onConfirm() {
+                        checkFragmentInBackstackAndOpen(HomeFragment.newInstance())
+
+                        //   getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
+
+                }, "Warning !!", "Once you back your all selected data will be disappear")
+            }
+
+            else {
                 super.onBackPressed()
                 showSelectionOfBottomNavigationItem()
             }
         }
+
+
     }
 
 
@@ -563,7 +604,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 //            menu.findItem(R.id.navigation_booking).setIcon(R.drawable.booking_deselect);
 //            menu.findItem(R.id.navigation_cart).setIcon(R.drawable.cart_deselect);
 //            menu.findItem(R.id.navigation_profile).setIcon(R.drawable.profile_select);
-        }else if (fragment is FragmentAppointment) {
+        }else if (fragment is FragmentMyAppointment) {
             menu.findItem(R.id.navigation_booking).isChecked = true
         }
         else if (fragment is FragmentBookingCart) {
@@ -1061,6 +1102,30 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
         }
 
+        else if (fragment is FragmentMyAppointment) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="My Appointment"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+
         else if (fragment is FragmentNursesListingDetails) {
             //   drawerAdapter!!.selectItem(3)
             tootbar_text.text ="Nurse Details"
@@ -1209,6 +1274,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
 
     }
+
 
     fun checkFragmentInBackstackAndOpen(fragment: Fragment) {
         val name_fragment_in_backstack = fragment.javaClass.name

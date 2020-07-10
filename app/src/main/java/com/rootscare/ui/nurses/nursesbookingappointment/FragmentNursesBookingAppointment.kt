@@ -1,6 +1,8 @@
 package com.rootscare.ui.nurses.nursesbookingappointment
 
 import android.Manifest
+import android.app.Activity
+import android.app.Activity.RESULT_CANCELED
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -19,6 +21,7 @@ import android.provider.MediaStore
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -96,6 +99,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
     var toBookingTime:String=""
     var nurseVisitPrice=""
     var nurseHourlyprice=""
+    var hourlyDuration=0
     var nationalityDropdownlist:ArrayList<String?>?=null
 
     var prescriptionimage: RequestBody?=null
@@ -108,6 +112,13 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
     var nurseToTime=""
 
     var format: String? = null
+    var displayHourOfTheDay=""
+    var displaySecondHourOfTheDay=""
+    var displayMinute=""
+    var displaySecondMinute=""
+    var nextHour:Int=0
+    var nextminute:Int=0
+
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -135,6 +146,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentNursesBookingAppointmentBinding = viewDataBinding
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getPermissionToRecordAudio()
         }
@@ -164,7 +176,16 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         apiHitForNurseViewTiming()
         apiHitForNurseDetails()
 //        setUpFromTimeListingRecyclerview()
+        fragmentNursesBookingAppointmentBinding?.llMain?.setOnClickListener(View.OnClickListener {
+//            val inputMethodManager =
+//                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputMethodManager.hideSoftInputFromWindow(
+//                activity!!.currentFocus!!.windowToken,
+//                0
+//            )
 
+            baseActivity?.hideKeyboard()
+        })
         fragmentNursesBookingAppointmentBinding?.btnAddPatient?.setOnClickListener(View.OnClickListener {
 //
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
@@ -214,6 +235,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                 context,
                 OnTimeSetListener { view, hourOfDay, minute ->
                     var hourOfDay = hourOfDay
+                    nextHour=hourOfDay+hourlyDuration
                     if (hourOfDay == 0) {
                         hourOfDay += 12
                         format = "AM"
@@ -225,37 +247,91 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                     } else {
                         format = "AM"
                     }
-                    fragmentNursesBookingAppointmentBinding?.edtNurseFromTime?.setText("$hourOfDay:$minute$format")
-                }, CalendarHour, CalendarMinute, false
-            )
-            timepickerdialog.show()
-        })
-
-
-        fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.setOnClickListener(View.OnClickListener {
-            val calendar = Calendar.getInstance()
-            val CalendarHour = calendar.get(Calendar.HOUR_OF_DAY)
-            val  CalendarMinute = calendar.get(Calendar.MINUTE)
-            val  timepickerdialog = TimePickerDialog(
-                context,
-                OnTimeSetListener { view, hourOfDay, minute ->
-                    var hourOfDay = hourOfDay
-                    if (hourOfDay == 0) {
-                        hourOfDay += 12
+                    if (nextHour == 0) {
+                        nextHour += 12
                         format = "AM"
-                    } else if (hourOfDay == 12) {
+                    } else if (nextHour == 12) {
                         format = "PM"
-                    } else if (hourOfDay > 12) {
-                        hourOfDay -= 12
+                    } else if (nextHour > 12) {
+                        nextHour -= 12
                         format = "PM"
                     } else {
                         format = "AM"
                     }
-                    fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.setText("$hourOfDay:$minute$format")
+
+                    if(hourOfDay<10){
+                    displayHourOfTheDay="0"+hourOfDay
+
+                }else{
+                    displayHourOfTheDay=hourOfDay.toString()
+                }
+
+                    if(minute<10){
+                        displayMinute="0"+minute
+
+                    }else{
+                        displayMinute=minute.toString()
+                    }
+
+                    if(nextHour<10){
+                        displaySecondHourOfTheDay="0"+nextHour
+
+                    }else{
+                        displaySecondHourOfTheDay=nextHour.toString()
+                    }
+                    if(minute<10){
+                        displaySecondMinute="0"+minute
+
+                    }else{
+                        displaySecondMinute=minute.toString()
+                    }
+
+                    fragmentNursesBookingAppointmentBinding?.edtNurseFromTime?.setText("$displayHourOfTheDay:$displayMinute$format")
+                    fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.setText("$displaySecondHourOfTheDay:$displaySecondMinute$format")
                 }, CalendarHour, CalendarMinute, false
             )
             timepickerdialog.show()
         })
+
+
+//        fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.setOnClickListener(View.OnClickListener {
+//            val calendar = Calendar.getInstance()
+//            val CalendarHour = calendar.get(Calendar.HOUR_OF_DAY)
+//            val  CalendarMinute = calendar.get(Calendar.MINUTE)
+//            val  timepickerdialog = TimePickerDialog(
+//                context,
+//                OnTimeSetListener { view, hourOfDay, minute ->
+//                    var hourOfDay = hourOfDay
+//                    if (hourOfDay == 0) {
+//                        hourOfDay += 12
+//                        format = "AM"
+//                    } else if (hourOfDay == 12) {
+//                        format = "PM"
+//                    } else if (hourOfDay > 12) {
+//                        hourOfDay -= 12
+//                        format = "PM"
+//                    } else {
+//                        format = "AM"
+//                    }
+//
+//
+//                    if(hourOfDay<10){
+//                        displaySecondHourOfTheDay="0"+hourOfDay
+//
+//                    }else{
+//                        displaySecondHourOfTheDay=hourOfDay.toString()
+//                    }
+//                    if(minute<10){
+//                        displaySecondMinute="0"+minute
+//
+//                    }else{
+//                        displaySecondMinute=minute.toString()
+//                    }
+//                    fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.setText("$displaySecondHourOfTheDay:$displaySecondMinute$format")
+//                }, CalendarHour, CalendarMinute, false
+//            )
+//            timepickerdialog.show()
+//        })
 
         fragmentNursesBookingAppointmentBinding?.txtDoctorbookingUploadPrescriptionimage?.setOnClickListener(View.OnClickListener {
             showPictureDialog()
@@ -533,7 +609,12 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
 
         contactListAdapter?.recyclerViewItemClickWithView= object : OnHourlyItemClick {
             override fun onConfirm(modelItem: com.rootscare.data.model.api.response.nurses.nursehourlyslot.ResultItem) {
+                fragmentNursesBookingAppointmentBinding?.edtNurseFromTime?.setText("")
+                fragmentNursesBookingAppointmentBinding?.edtNurseToTime?.setText("")
                 nurseHourlyprice=modelItem?.price!!
+                val index: Int = modelItem.duration?.indexOf(" ")!!
+                val firstString: String =  modelItem?.duration.substring(0, index)!!
+                hourlyDuration=firstString.toInt()
              fragmentNursesBookingAppointmentBinding?.txtHourlyPrice?.setText("SR"+" "+modelItem?.price)
             }
         }
@@ -663,6 +744,10 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                 fragmentNursesBookingAppointmentBinding?.recyclerViewRootscareHourlyTimeRecyclerview?.visibility=View.VISIBLE
                 fragmentNursesBookingAppointmentBinding?.tvNoDateHourlytime?.visibility=View.GONE
                 nurseHourlyprice=getNurseHourlySlotResponse?.result?.get(0)?.price!!
+                val index: Int = getNurseHourlySlotResponse?.result?.get(0)?.duration?.indexOf(" ")!!
+                val firstString: String =  getNurseHourlySlotResponse?.result?.get(0)?.duration?.substring(0, index)!!
+//                Toast.makeText(activity,firstString, Toast.LENGTH_SHORT).show()
+                hourlyDuration=firstString.toInt()
                 setUpHourlyTimeListingRecyclerview(getNurseHourlySlotResponse?.result)
             }else{
                 fragmentNursesBookingAppointmentBinding?.llHourlyTime?.visibility=View.VISIBLE
@@ -807,31 +892,38 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
          {
          return
          }*/
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                val contentURI = data!!.data
-                try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
-                    val path = saveImage(bitmap)
-                    bitmapToFile(bitmap)
-                    Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
+        if(resultCode != RESULT_CANCELED){
+            if (requestCode == GALLERY) {
+                if (data != null) {
+                    val contentURI = data!!.data
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
+                        val path = saveImage(bitmap)
+                        bitmapToFile(bitmap)
+                        Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
 
 //                    fra?.imgRootscareProfileImage?.setImageBitmap(bitmap)
 
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
 
             }
 
-        } else if (requestCode == CAMERA) {
-            val thumbnail = data!!.extras!!.get("data") as Bitmap
-            //    fragmentProfileBinding?.imgRootscareProfileImage?.setImageBitmap(thumbnail)
-            saveImage(thumbnail)
-            bitmapToFile(thumbnail)
-            Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
+            else if (requestCode == CAMERA) {
+                val thumbnail = data!!.extras!!.get("data") as Bitmap
+                //    fragmentProfileBinding?.imgRootscareProfileImage?.setImageBitmap(thumbnail)
+                saveImage(thumbnail)
+                bitmapToFile(thumbnail)
+                Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
+
+
+            }
         }
+
     }
 
     fun saveImage(myBitmap: Bitmap): String {
@@ -852,8 +944,6 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
             val f = File(wallpaperDirectory, ((Calendar.getInstance()
                 .getTimeInMillis()).toString() + ".jpg"))
             //     File file = new File("/storage/emulated/0/Download/Corrections 6.jpg");
-
-
             f.createNewFile()
             // imageFile=f
 

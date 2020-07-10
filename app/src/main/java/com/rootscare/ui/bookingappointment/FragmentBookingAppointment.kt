@@ -1,6 +1,7 @@
 package com.rootscare.ui.bookingappointment
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
@@ -17,7 +18,9 @@ import android.os.*
 import android.provider.MediaStore
 import android.transition.TransitionManager
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
@@ -45,7 +48,10 @@ import com.rootscare.data.model.api.response.doctorallapiresponse.doctordetailsr
 import com.rootscare.databinding.FragmentBookingBinding
 import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.adapter.*
+import com.rootscare.ui.bookingappointment.adapter.AdapterAddPatientListRecyclerview
+import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotDivision
+import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotRecyclerview
+import com.rootscare.ui.bookingappointment.adapter.AdapterFromTimeRecyclerview
 import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBooking
 import com.rootscare.ui.bookingappointment.subfragment.editpatient.FragmentEditPatientFamilyMember
 import com.rootscare.ui.bookingcart.FragmentBookingCart
@@ -126,6 +132,8 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentBookingBinding = viewDataBinding
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getPermissionToRecordAudio()
         }
@@ -147,7 +155,15 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
             doctorId = arguments?.getString("doctorid")!!
             Log.d("Doctor Id", ": " + doctorId )
         }
-
+        fragmentBookingBinding?.llMain?.setOnClickListener(View.OnClickListener {
+//            val inputMethodManager =
+//                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputMethodManager.hideSoftInputFromWindow(
+//                activity!!.currentFocus!!.windowToken,
+//                0
+//            )
+            baseActivity?.hideKeyboard()
+        })
         if(isNetworkConnected){
             baseActivity?.showLoading()
             var getPatientFamilyMemberRequest= GetPatientFamilyMemberRequest()
@@ -736,31 +752,40 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
          {
          return
          }*/
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                val contentURI = data!!.data
-                try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
-                    val path = saveImage(bitmap)
-                    bitmapToFile(bitmap)
-                    Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
+        if(resultCode != Activity.RESULT_CANCELED){
+            if (requestCode == GALLERY) {
+                if (data != null) {
+                    val contentURI = data!!.data
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, contentURI)
+                        val path = saveImage(bitmap)
+                        bitmapToFile(bitmap)
+                        Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
 
 //                    fra?.imgRootscareProfileImage?.setImageBitmap(bitmap)
 
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(activity, "Failed!", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+            } else if (requestCode == CAMERA) {
+
+                try {
+                    val thumbnail = data!!.extras!!.get("data") as Bitmap
+                    //    fragmentProfileBinding?.imgRootscareProfileImage?.setImageBitmap(thumbnail)
+                    saveImage(thumbnail)
+                    bitmapToFile(thumbnail)
+                    Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    println("Exception===>${e.toString()}")
                 }
 
             }
-
-        } else if (requestCode == CAMERA) {
-            val thumbnail = data!!.extras!!.get("data") as Bitmap
-        //    fragmentProfileBinding?.imgRootscareProfileImage?.setImageBitmap(thumbnail)
-            saveImage(thumbnail)
-            bitmapToFile(thumbnail)
-            Toast.makeText(activity, "Image Saved!", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     fun saveImage(myBitmap: Bitmap): String {
@@ -930,8 +955,14 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
 
     }
 
-   
-
-
+//    fun onTouchEvent(event: MotionEvent?): Boolean {
+//        val imm =
+//            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.hideSoftInputFromWindow(
+//            activity?.getWindow()?.getDecorView()?.getRootView()?.getWindowToken(),
+//            0
+//        )
+//        return true
+//    }
 
 }

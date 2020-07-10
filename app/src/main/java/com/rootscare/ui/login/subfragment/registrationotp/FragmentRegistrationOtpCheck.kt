@@ -1,8 +1,10 @@
 package com.rootscare.ui.login.subfragment.registrationotp
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.latikaseafood.ui.base.AppData
@@ -46,6 +48,15 @@ class FragmentRegistrationOtpCheck: BaseFragment<FragmentRegistrationOtpBinding,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentRegistrationOtpBinding = viewDataBinding
+
+        fragmentRegistrationOtpBinding?.llMain?.setOnClickListener(View.OnClickListener {
+            val inputMethodManager =
+                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                activity!!.currentFocus!!.windowToken,
+                0
+            )
+        })
 
         fragmentRegistrationOtpBinding?.btnRootscarePatientregistration?.setOnClickListener(View.OnClickListener {
 //            Toast.makeText(activity, fragmentRegistrationOtpBinding?.firstPinView?.text?.toString(), Toast.LENGTH_SHORT).show()

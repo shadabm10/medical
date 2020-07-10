@@ -150,6 +150,8 @@
                                     android:id="@+id/txt_doctordetails_qualification"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:maxLines="2"
+                                    android:singleLine="true"
                                     android:layout_marginTop="@dimen/_3sdp"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_10ssp" />
@@ -337,7 +339,7 @@
                                             android:id="@+id/txt_doctordetails_doctorfees"
                                             android:textColor="@color/colorPrimaryDark"
                                             android:textSize="@dimen/_10ssp"
-                                            android:text="SR 600"/>
+                                            android:text=""/>
 
                                     </LinearLayout>
                                     <View

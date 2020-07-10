@@ -135,7 +135,15 @@ dependencies {
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
 
+    // Add the Firebase Crashlytics SDK.
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.0'
+
+    implementation 'com.google.firebase:firebase-messaging:20.2.1'
+
 }
+apply plugin: 'com.google.gms.google-services'
+// Apply the Crashlytics Gradle plugin
+apply plugin: 'com.google.firebase.crashlytics'
 
 repositories {
     mavenCentral()

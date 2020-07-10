@@ -2,6 +2,7 @@ package com.rootscare.ui.addmedicalrecords
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -315,118 +316,121 @@ class FragmentAddMedicalRecord : BaseFragment<FragmentAddMedicalRecordsBinding, 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (!isImageCaptureFlow) {
-            if (requestCode == AppConstants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
-                if (resultCode == RESULT_OK) {
-                    val resultUri =  data!!.data
-                    var file: File? = File(resultUri?.path)
-                    if(resultUri!=null){
-                        FileNameInputDialog(this!!.activity!!, object : FileNameInputDialog.CallbackAfterDateTimeSelect {
-                            override fun selectDateTime(dateTime: String) {
-                                val imageSelectionModel = AddlabTestImageSelectionModel()
-                                val file = FileUtil.from(context as HomeActivity, resultUri!!)
-                                val fileCacheDir =
-                                    File(activity?.cacheDir, resultUri.lastPathSegment)
-                                if(file.exists()){
-                                    imageSelectionModel.file = file
-                                    imageSelectionModel.filePath = file?.absolutePath
-                                    imageSelectionModel.rawFileName = file?.name
-                                    imageSelectionModel.fileName = "${DateTimeUtils.getFormattedDate(Date(),"dd/MM/yyyy_HH:mm:ss")}_${file?.name}"
-                                    imageSelectionModel.fileNameAsOriginal = dateTime
+        if(resultCode != Activity.RESULT_CANCELED){
+            if (!isImageCaptureFlow) {
+                if (requestCode == AppConstants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
+                    if (resultCode == RESULT_OK) {
+                        val resultUri =  data!!.data
+                        var file: File? = File(resultUri?.path)
+                        if(resultUri!=null){
+                            FileNameInputDialog(this!!.activity!!, object : FileNameInputDialog.CallbackAfterDateTimeSelect {
+                                override fun selectDateTime(dateTime: String) {
+                                    val imageSelectionModel = AddlabTestImageSelectionModel()
+                                    val file = FileUtil.from(context as HomeActivity, resultUri!!)
+                                    val fileCacheDir =
+                                        File(activity?.cacheDir, resultUri.lastPathSegment)
+                                    if(file.exists()){
+                                        imageSelectionModel.file = file
+                                        imageSelectionModel.filePath = file?.absolutePath
+                                        imageSelectionModel.rawFileName = file?.name
+                                        imageSelectionModel.fileName = "${DateTimeUtils.getFormattedDate(Date(),"dd/MM/yyyy_HH:mm:ss")}_${file?.name}"
+                                        imageSelectionModel.fileNameAsOriginal = dateTime
 
-                                    if (resultUri?.path?.contains("pdf")!!) {
-                                        imageSelectionModel.type = "pdf"
-                                    } else if (resultUri?.path?.contains("png")!! || resultUri?.path?.contains("jpg")!!) {
-                                        imageSelectionModel.type = "image"
-                                    }else if(resultUri?.path?.contains("PDF")!!){
-                                        imageSelectionModel.type = "pdf"
+                                        if (resultUri?.path?.contains("pdf")!!) {
+                                            imageSelectionModel.type = "pdf"
+                                        } else if (resultUri?.path?.contains("png")!! || resultUri?.path?.contains("jpg")!!) {
+                                            imageSelectionModel.type = "image"
+                                        }else if(resultUri?.path?.contains("PDF")!!){
+                                            imageSelectionModel.type = "pdf"
+                                        }
+                                        dataFileList.add(imageSelectionModel)
+                                        setUpRecyclerview()
+                                        imageListingReflectData()
+                                        Log.d("check_path", ": ${imageSelectionModel.filePath}")
+                                        Log.d("check_file_get", ": $file")
+                                        hideKeyboard()
+                                    }else{
+                                        Log.d("file_does_not_exists", ": " + true)
                                     }
-                                    dataFileList.add(imageSelectionModel)
-                                    setUpRecyclerview()
-                                    imageListingReflectData()
-                                    Log.d("check_path", ": ${imageSelectionModel.filePath}")
-                                    Log.d("check_file_get", ": $file")
-                                    hideKeyboard()
-                                }else{
-                                    Log.d("file_does_not_exists", ": " + true)
-                                }
 
-                            }
-                        }).show(activity?.supportFragmentManager!!)
-                    }
+                                }
+                            }).show(activity?.supportFragmentManager!!)
+                        }
 //                    if (file != null && file.exists()) {
 //
 //
 //                    }
+                    }
                 }
-            }
 
-        } else {
+            } else {
 //            mCameraIntentHelper!!.onActivityResult(requestCode, resultCode, intent)
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                val imageSelectionModel = AddlabTestImageSelectionModel()
-                val result = CropImage.getActivityResult(data)
-                if (resultCode == RESULT_OK) {
-                    imageSelectionModel.imageDataFromCropLibrary = result
-                    val resultUri = result.uri
-                    if (resultUri != null) { // Get file from cache directory
-                        Log.d(TAG, "--check_urii--  $resultUri")
-                        FileNameInputDialog(
-                            this!!.activity!!,
-                            object : FileNameInputDialog.CallbackAfterDateTimeSelect {
-                                override fun selectDateTime(dateTime: String) {
-                                    val fileCacheDir =
-                                        File(activity?.cacheDir, resultUri.lastPathSegment)
-                                    if (fileCacheDir.exists()) {
+                if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                    val imageSelectionModel = AddlabTestImageSelectionModel()
+                    val result = CropImage.getActivityResult(data)
+                    if (resultCode == RESULT_OK) {
+                        imageSelectionModel.imageDataFromCropLibrary = result
+                        val resultUri = result.uri
+                        if (resultUri != null) { // Get file from cache directory
+                            Log.d(TAG, "--check_urii--  $resultUri")
+                            FileNameInputDialog(
+                                this!!.activity!!,
+                                object : FileNameInputDialog.CallbackAfterDateTimeSelect {
+                                    override fun selectDateTime(dateTime: String) {
+                                        val fileCacheDir =
+                                            File(activity?.cacheDir, resultUri.lastPathSegment)
+                                        if (fileCacheDir.exists()) {
 //                                    imageSelectionModel.file = fileCacheDir
-                                        imageSelectionModel.file =
-                                            MyImageCompress.compressImageFilGottenFromCache(
-                                                activity,
-                                                resultUri,
-                                                10
-                                            )
-                                        imageSelectionModel.filePath = resultUri.toString()
-                                        imageSelectionModel.rawFileName = resultUri.lastPathSegment
-                                        var tempNameExtension = ""
-                                        if (resultUri.lastPathSegment?.contains(".jpg")!!) {
-                                            tempNameExtension = ".jpg"
-                                        } else if (resultUri.lastPathSegment?.contains(".png")!!) {
-                                            tempNameExtension = ".png"
-                                        }
-                                        imageSelectionModel.fileName =
-                                            "${dateTime}_${DateTimeUtils.getFormattedDate(
-                                                Date(),
-                                                "dd/MM/yyyy_HH:mm:ss"
-                                            )}${tempNameExtension}"
+                                            imageSelectionModel.file =
+                                                MyImageCompress.compressImageFilGottenFromCache(
+                                                    activity,
+                                                    resultUri,
+                                                    10
+                                                )
+                                            imageSelectionModel.filePath = resultUri.toString()
+                                            imageSelectionModel.rawFileName = resultUri.lastPathSegment
+                                            var tempNameExtension = ""
+                                            if (resultUri.lastPathSegment?.contains(".jpg")!!) {
+                                                tempNameExtension = ".jpg"
+                                            } else if (resultUri.lastPathSegment?.contains(".png")!!) {
+                                                tempNameExtension = ".png"
+                                            }
+                                            imageSelectionModel.fileName =
+                                                "${dateTime}_${DateTimeUtils.getFormattedDate(
+                                                    Date(),
+                                                    "dd/MM/yyyy_HH:mm:ss"
+                                                )}${tempNameExtension}"
 //                                    imageSelectionModel.fileNameAsOriginal = "${dateTime}${tempNameExtension}"
-                                        imageSelectionModel.fileNameAsOriginal = "${dateTime}"
-                                        if (activity?.contentResolver?.getType(resultUri) == null) {
-                                            imageSelectionModel.type = "image"
-                                        } else {
-                                            imageSelectionModel.type =
-                                                activity?.contentResolver?.getType(resultUri)
-                                        }
-                                        dataFileList.add(imageSelectionModel)
+                                            imageSelectionModel.fileNameAsOriginal = "${dateTime}"
+                                            if (activity?.contentResolver?.getType(resultUri) == null) {
+                                                imageSelectionModel.type = "image"
+                                            } else {
+                                                imageSelectionModel.type =
+                                                    activity?.contentResolver?.getType(resultUri)
+                                            }
+                                            dataFileList.add(imageSelectionModel)
 //                                    dataFileList.add(modifyImageSize(imageSelectionModel))
-                                        setUpRecyclerview()
+                                            setUpRecyclerview()
 //                            filesListingAdapter?.data?.add(imageSelectionModel)
 //                            fileListing.add(imageSelectionModel)
-                                        imageListingReflectData()
-                                        Log.d("check_path", ": $resultUri")
-                                        Log.d("check_file_get", ": $fileCacheDir")
-                                    } else {
-                                        Log.d("file_does_not_exists", ": " + true)
+                                            imageListingReflectData()
+                                            Log.d("check_path", ": $resultUri")
+                                            Log.d("check_file_get", ": $fileCacheDir")
+                                        } else {
+                                            Log.d("file_does_not_exists", ": " + true)
+                                        }
+                                        hideKeyboard()
                                     }
-                                    hideKeyboard()
-                                }
-                            }).show(activity?.supportFragmentManager!!)
+                                }).show(activity?.supportFragmentManager!!)
+                        }
+                    } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                        val error = result.error
+                        Log.d("check_error", ": " + error.message)
                     }
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    val error = result.error
-                    Log.d("check_error", ": " + error.message)
                 }
             }
         }
+
 
     }
 
