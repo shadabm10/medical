@@ -24,30 +24,37 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.customview.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_review"
-                android:padding="@dimen/_2sdp"
-                android:text="Palaika C "
+                android:id="@+id/ll_text"
+                android:layout_alignStart="@+id/ratingBardoctordetailseview"
                 android:layout_alignParentStart="true"
-                android:textSize="@dimen/_10ssp"
-                android:textColor="@color/txt_color"/>
+                android:padding="@dimen/_2sdp">
+                <com.customview.MyTextView
+                    android:layout_width="@dimen/_180sdp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_review"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/txt_color"/>
+
+            </LinearLayout>
+
             <RatingBar
                 android:id="@+id/ratingBardoctordetailseview"
                 style="@style/customRatingBar"
-                android:layout_gravity="start"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_alignParentEnd="true"
                 android:numStars="5"
-                android:rating="5.0"
+                android:stepSize="0.1"
                 android:isIndicator="true"
                 android:progressTint="@color/review_star"
-                android:stepSize="1.0" />
+               />
         </RelativeLayout>
 
 

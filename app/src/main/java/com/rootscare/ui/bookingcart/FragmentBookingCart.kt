@@ -249,7 +249,7 @@ class FragmentBookingCart: BaseFragment<FragmentBookingCartBinding, FragmentBook
         baseActivity?.hideLoading()
         if(checkoutDoctorBookingResponse?.code.equals("200")){
         //    Toast.makeText(activity, checkoutDoctorBookingResponse?.message, Toast.LENGTH_SHORT).show()
-            CommonDialog.showDialog(activity!!, object :
+            CommonDialog.showDialogWithSingleButton(activity!!, object :
                 DialogClickCallback {
                 override fun onDismiss() {
                 }

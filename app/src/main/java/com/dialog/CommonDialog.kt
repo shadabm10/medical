@@ -157,6 +157,23 @@ object CommonDialog {
         //changeFont(activity, alertDialogBuilder)
     }
 
+    fun showDialogWithSingleButton(activity: Context, dialogClickCallback: DialogClickCallback, dialog_title: String,
+                   dialog_message: String) {
+        val alertDialogBuilder = AlertDialog.Builder(activity)
+        alertDialogBuilder.setTitle(dialog_title)
+        alertDialogBuilder.setMessage(dialog_message)
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setPositiveButton(R.string.ok) { dialogInterface, i ->
+            dialogClickCallback.onConfirm()
+            dialogInterface.dismiss()
+        }
+//        alertDialogBuilder.setNegativeButton(R.string.no) { dialog, which ->
+//            dialogClickCallback.onDismiss()
+//            dialog.dismiss()
+//        }
+        alertDialogBuilder.show()
+    }
+
 
         // Show Image uploading progress
     var dialog: Dialog? = null

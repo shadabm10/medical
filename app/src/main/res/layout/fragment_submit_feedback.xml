@@ -68,7 +68,6 @@
                         android:layout_alignParentStart="true"
                         android:numStars="5"
                         android:isIndicator="false"
-                        android:rating="5.0"
                         android:progressTint="@color/review_star"
                         android:stepSize="1.0" />
 

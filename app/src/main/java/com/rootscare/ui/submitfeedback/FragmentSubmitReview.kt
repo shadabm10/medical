@@ -80,7 +80,7 @@ class FragmentSubmitReview : BaseFragment<FragmentSubmitFeedbackBinding, Fragmen
 //            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
 //                FragmentDoctorListingDetails.newInstance(doctorId))
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentAppointment.newInstance())
+                HomeFragment.newInstance())
         }else{
             Toast.makeText(activity, doctorReviewRatingSubmiteResponse?.message, Toast.LENGTH_SHORT).show()
         }
@@ -98,12 +98,10 @@ class FragmentSubmitReview : BaseFragment<FragmentSubmitFeedbackBinding, Fragmen
         if(isNetworkConnected){
             baseActivity?.showLoading()
             var insertDoctorReviewRatingRequest= InsertDoctorReviewRatingRequest()
-
             insertDoctorReviewRatingRequest.userId = fragmentSubmitReviewViewModel!!.appSharedPref!!.userId
             insertDoctorReviewRatingRequest.doctorId=doctorId
             insertDoctorReviewRatingRequest?.rating=fragmentSubmitFeedbackBinding?.ratingBarteacherFeedback?.rating?.toString()
             insertDoctorReviewRatingRequest?.review=fragmentSubmitFeedbackBinding?.edtReattingComment?.text?.toString()?.trim()
-
             fragmentSubmitReviewViewModel?.apiinsertdoctorreview(insertDoctorReviewRatingRequest)
 
         }else{
