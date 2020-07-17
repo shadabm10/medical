@@ -54,12 +54,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
         super.onViewCreated(view, savedInstanceState)
         fragmentLoginBinding = viewDataBinding
         fragmentLoginBinding?.llMain?.setOnClickListener(View.OnClickListener {
-            val inputMethodManager =
-                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(
-                activity!!.currentFocus!!.windowToken,
-                0
-            )
+        baseActivity?.hideKeyboard()
         })
         fragmentLoginViewModel?.appSharedPref?.isloginremember="false"
         fragmentLoginBinding?.checkboxLoginremember?.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -74,6 +69,10 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
 //                fragmentLoginViewModel?.appSharedPref?.isloginremember="false"
             }
         }
+
+
+
+
 
 
 

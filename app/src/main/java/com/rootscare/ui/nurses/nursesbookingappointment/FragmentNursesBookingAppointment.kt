@@ -119,6 +119,10 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
     var nextHour:Int=0
     var nextminute:Int=0
 
+    var selectedYear=0
+    var selectedmonth=0
+    var selectedday=0
+
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -357,7 +361,11 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
             var month = c.get(Calendar.MONTH)
             val day = c.get(Calendar.DAY_OF_MONTH)
 //            datePicker.setMinDate(System.currentTimeMillis() - 1000)
-
+            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+                c.set(selectedYear, selectedmonth, selectedday);
+            }else{
+                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE));
+            }
 
             val dpd = DatePickerDialog(this!!.activity!!, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
@@ -375,6 +383,10 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                 }else{
                     dayStr=dayOfMonth.toString()
                 }
+
+                selectedYear=year
+                selectedmonth=monthOfYear
+                selectedday=dayOfMonth
 //                fragmentSeedStockedBinding?.txtLsfSeedstockDateofStocking?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.setText("" + year + "-" + monthstr + "-" + dayStr)
 
@@ -389,6 +401,12 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
             //Get the DatePicker instance from DatePickerDialog
             //Get the DatePicker instance from DatePickerDialog
             val dp = dpd.datePicker
+            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+                dp.updateDate(selectedYear, selectedmonth, selectedday)
+            }else{
+                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
+//                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
+            }
             dp.minDate=System.currentTimeMillis() - 1000
         })
 //        apiHitForNurseHourlySlot()
@@ -502,6 +520,9 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         mPlayer?.setOnCompletionListener(MediaPlayer.OnCompletionListener {
             fragmentNursesBookingAppointmentBinding?.imageViewPlay?.setImageResource(R.drawable.play)
             isPlaying = false
+            mPlayer!!.seekTo(mPlayer?.getDuration()!!)
+            fragmentNursesBookingAppointmentBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime() -mPlayer?.getDuration()!!)
+            lastProgress = mPlayer?.getDuration()!!
             fragmentNursesBookingAppointmentBinding?.chronometerTimer?.stop()
         })
         fragmentNursesBookingAppointmentBinding?.seekBar?.setOnSeekBarChangeListener(object :

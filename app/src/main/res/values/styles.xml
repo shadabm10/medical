@@ -139,10 +139,18 @@
         <item name="colorControlActivated">#c51162</item>
     </style>
 <!--    style="?android:attr/ratingBarStyleSmall"-->
-    <style name="RatingBar" parent="android:style/Widget.Material.RatingBar.Small"
-        >
+    <style name="RatingBar" parent="android:style/Widget.Material.RatingBar.Small">
         <item name="colorControlNormal">#f57c00</item>
         <item name="colorControlActivated">#c51162</item>
+    </style>
+
+    <style name="mycustomRatingBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="colorControlNormal">#f57c00</item>
+        <item name="colorControlActivated">#c51162</item>
+        <item name="android:minHeight">57dip</item>
+        <item name="android:maxHeight">57dip</item>
+
     </style>
 
     <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">

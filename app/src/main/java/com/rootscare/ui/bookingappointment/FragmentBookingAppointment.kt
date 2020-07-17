@@ -10,7 +10,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaPlayer
-import android.media.MediaPlayer.OnCompletionListener
 import android.media.MediaRecorder
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -18,11 +17,9 @@ import android.os.*
 import android.provider.MediaStore
 import android.transition.TransitionManager
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
+import android.widget.DatePicker
 import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -102,7 +99,10 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
     private var clinicId=""
     private var clinicFromTime=""
     private var clinicToTime=""
-
+    var selectedYear=0
+    var selectedmonth=0
+    var selectedday=0
+    var flag=0
 
     override val bindingVariable: Int
         get() = BR.viewModel
@@ -243,9 +243,13 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
             val year = c.get(Calendar.YEAR)
             var month = c.get(Calendar.MONTH)
             val day = c.get(Calendar.DAY_OF_MONTH)
+
 //            datePicker.setMinDate(System.currentTimeMillis() - 1000)
-
-
+            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+                c.set(selectedYear, selectedmonth, selectedday);
+            }else{
+                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE));
+            }
             val dpd = DatePickerDialog(this!!.activity!!, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
                 // Display Selected date in textbox
@@ -262,6 +266,11 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
                 }else{
                     dayStr=dayOfMonth.toString()
                 }
+                selectedYear=year
+                selectedmonth=monthOfYear
+                selectedday=dayOfMonth
+
+
 //                fragmentSeedStockedBinding?.txtLsfSeedstockDateofStocking?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fragmentBookingBinding?.txtDoctorBookingSelectdate?.setText("" + year + "-" + monthstr + "-" + dayStr)
 
@@ -269,12 +278,21 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
                     selectDoctorSlotApiCall(fragmentBookingBinding?.txtDoctorBookingSelectdate?.text?.toString()!!)
                 }
 
+
             }, year, month, day)
 
             dpd.show()
+
             //Get the DatePicker instance from DatePickerDialog
             //Get the DatePicker instance from DatePickerDialog
             val dp = dpd.datePicker
+            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+                dp.updateDate(selectedYear, selectedmonth, selectedday)
+            }else{
+                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
+//                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
+            }
+
             dp.minDate=System.currentTimeMillis() - 1000
         })
 
@@ -356,12 +374,16 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         fragmentBookingBinding?.seekBar?.setMax(mPlayer?.getDuration()!!)
         seekUpdation()
         fragmentBookingBinding?.chronometerTimer?.start()
-        mPlayer?.setOnCompletionListener(OnCompletionListener {
+        mPlayer?.setOnCompletionListener(MediaPlayer.OnCompletionListener {
             fragmentBookingBinding?.imageViewPlay?.setImageResource(R.drawable.play)
             isPlaying = false
+            mPlayer!!.seekTo(mPlayer?.getDuration()!!)
+            fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime() -mPlayer?.getDuration()!!)
+            lastProgress = mPlayer?.getDuration()!!
             fragmentBookingBinding?.chronometerTimer?.stop()
         })
-        fragmentBookingBinding?.seekBar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+        fragmentBookingBinding?.seekBar?.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
                 seekBar: SeekBar,
                 progress: Int,
@@ -402,7 +424,7 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         mRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
         mRecorder?.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         val root = Environment.getExternalStorageDirectory()
-       val file  =
+        val file  =
             File(root.absolutePath + "/VoiceRecorderSimplifiedCoding/Audios")
 
 
@@ -410,7 +432,7 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         fileName =
             root.absolutePath + "/VoiceRecorderSimplifiedCoding/Audios/" + (System.currentTimeMillis().toString() + ".mp4")
         Log.d("filename", fileName)
-        recordingFile=File(fileName)
+        recordingFile= File(fileName)
         Log.d("recording file",  recordingFile!!.name)
         if (!file!!.exists()) {
             file!!.mkdirs()
@@ -565,6 +587,22 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
                 if(modelData?.slot!=null && modelData?.slot?.size>0){
                     fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
                     fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
+                    for (i in 0 until modelData?.slot?.size!!) {
+                        if(modelData?.slot?.get(i)?.status.equals("Booked")){
+                            flag=1
+                        }else{
+                            flag=0
+                        }
+
+                    }
+                    if(flag==1){
+                        fragmentBookingBinding?.txtSlotHeading?.setText("No Slots Available:")
+                        Toast.makeText(activity, "No slots available for this time.", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(activity, "Slots available for this time.", Toast.LENGTH_LONG).show()
+                        fragmentBookingBinding?.txtSlotHeading?.setText("Available Slots:")
+                    }
+
                     setUpToTimeListingRecyclerview(modelData?.slot)
                 }else{
                     fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
@@ -599,7 +637,7 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
     override fun successDoctorPrivateSlotResponse(doctorPrivateSlotResponse: DoctorPrivateSlotResponse?) {
         baseActivity?.hideLoading()
         if(doctorPrivateSlotResponse?.code.equals("200")){
-            Toast.makeText(activity, doctorPrivateSlotResponse?.message, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(activity, doctorPrivateSlotResponse?.message, Toast.LENGTH_SHORT).show()
             if (doctorPrivateSlotResponse?.result!=null && doctorPrivateSlotResponse?.result?.size>0){
 
                 fragmentBookingBinding?.btnAppointmentBooking?.visibility=View.VISIBLE
@@ -611,12 +649,31 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
 //                clinicFromTime= doctorPrivateSlotResponse?.result?.get(0)?.timeFrom!!
 //                clinicToTime= doctorPrivateSlotResponse?.result?.get(0)?.timeTo!!
                 setUpDoctorSloytListingRecyclerview(doctorPrivateSlotResponse?.result)
+
+
                 if(doctorPrivateSlotResponse?.result?.get(0)?.slot!=null && doctorPrivateSlotResponse?.result?.get(0)?.slot?.size!!>0){
                     fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
                     fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
+
+                    for (i in 0 until doctorPrivateSlotResponse?.result?.get(0)?.slot?.size!!) {
+                        if(doctorPrivateSlotResponse?.result?.get(0)?.slot?.get(i)?.status.equals("Booked")){
+                          flag=1
+                        }else{
+                            flag=0
+                        }
+
+                    }
+                    if(flag==1){
+                        fragmentBookingBinding?.txtSlotHeading?.setText("No Slots Available:")
+                        Toast.makeText(activity, "No slots available for this clinic.", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(activity, "Slots available for this clinic.", Toast.LENGTH_LONG).show()
+                        fragmentBookingBinding?.txtSlotHeading?.setText("Available Slots:")
+                    }
                     setUpToTimeListingRecyclerview(doctorPrivateSlotResponse?.result?.get(0)?.slot)
 
                 }else{
+                    fragmentBookingBinding?.txtSlotHeading?.setText("No Slots Available:")
                     fragmentBookingBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
                     fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.VISIBLE
                     fragmentBookingBinding?.tvSelectTimeslotby30minuteNoDate?.text="No slot available for booking."

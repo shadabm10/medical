@@ -79,7 +79,7 @@
                                 android:textSize="@dimen/_14sdp"
                                 android:textStyle="bold"
                                 android:textColor="@color/background_white"
-                                android:text="Mr.Singh"/>
+                                android:text=""/>
                             <com.customview.MyTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

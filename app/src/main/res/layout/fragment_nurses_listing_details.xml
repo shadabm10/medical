@@ -117,6 +117,7 @@
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:isIndicator="true"
                                     android:numStars="5"
+                                    android:progressBackgroundTint="@android:color/darker_gray"
                                     android:progressTint="@color/review_star"
                                     android:stepSize="1.0" />
 

@@ -43,16 +43,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(), S
         super.onCreate(savedInstanceState)
         splashViewModel!!.navigator = this
         activitySplashBinding = viewDataBinding
-        try { // get input stream
-            val ims: InputStream = assets.open("splash_bg_new.png")
-            // load image as Drawable
-            val d = Drawable.createFromStream(ims, null)
-            // set image to ImageView
-            activitySplashBinding?.imgSplash?.setImageDrawable(d)
-            ims.close()
-        } catch (ex: IOException) {
-            return
-        }
+//        try { // get input stream
+//            val ims: InputStream = assets.open("splash_bg_new.png")
+//            // load image as Drawable
+//            val d = Drawable.createFromStream(ims, null)
+//            // set image to ImageView
+//            activitySplashBinding?.imgSplash?.setImageDrawable(d)
+//            ims.close()
+//        } catch (ex: IOException) {
+//            return
+//        }
 
 //
 

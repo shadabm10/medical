@@ -3,6 +3,7 @@ package com.rootscare.ui.submitfeedback
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.RatingBar.OnRatingBarChangeListener
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.dialog.CommonDialog
@@ -12,13 +13,10 @@ import com.rootscare.data.model.api.request.insertdoctorreviewratingrequest.Inse
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorreviewsubmitresponse.DoctorReviewRatingSubmiteResponse
 import com.rootscare.databinding.FragmentSubmitFeedbackBinding
 import com.rootscare.interfaces.DialogClickCallback
-import com.rootscare.ui.appointment.FragmentAppointment
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.doctorbookingdetails.FragmentDoctorBookingDetails
-import com.rootscare.ui.doctorlistingdetails.FragmentDoctorListingDetails
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
-import com.rootscare.ui.patientbookpaynow.FragmentPatientbookPayNow
+
 
 class FragmentSubmitReview : BaseFragment<FragmentSubmitFeedbackBinding, FragmentSubmitReviewViewModel>(),
     FragmentSubmitReviewNavigator  {
@@ -57,6 +55,35 @@ class FragmentSubmitReview : BaseFragment<FragmentSubmitFeedbackBinding, Fragmen
             doctorId = arguments?.getString("doctorid")!!
             Log.d("Doctor Id", ": " + doctorId )
         }
+
+        fragmentSubmitFeedbackBinding?.ratingBarteacherFeedback?.setOnRatingBarChangeListener(OnRatingBarChangeListener { ratingBar, rating, fromUser ->
+//            txtRatingValue.setText(
+//                rating.toString()
+
+
+//            )
+            fragmentSubmitFeedbackBinding?.ratingBarteacherFeedback?.rating=rating
+        })
+
+//        fragmentSubmitFeedbackBinding?.ratingBarteacherFeedback?.setOnTouchListener(OnTouchListener { v, event ->
+//            if (event.action == MotionEvent.ACTION_UP) {
+//                val touchPositionX = event.x
+//                val width: Float =
+//                    fragmentSubmitFeedbackBinding?.ratingBarteacherFeedback?.getWidth()?.toFloat()!!
+//                val starsf = touchPositionX / width * 5.0f
+//                val stars = starsf.toInt() + 1
+//                fragmentSubmitFeedbackBinding?.ratingBarteacherFeedback?.setRating(stars.toFloat())
+//                Toast.makeText(activity, "test", Toast.LENGTH_SHORT).show()
+//                v.isPressed = false
+//            }
+//            if (event.action == MotionEvent.ACTION_DOWN) {
+//                v.isPressed = true
+//            }
+//            if (event.action == MotionEvent.ACTION_CANCEL) {
+//                v.isPressed = false
+//            }
+//            true
+//        })
         fragmentSubmitFeedbackBinding?.btnSubmitReview?.setOnClickListener(View.OnClickListener {
             CommonDialog.showDialog(this.activity!!, object :
                 DialogClickCallback {

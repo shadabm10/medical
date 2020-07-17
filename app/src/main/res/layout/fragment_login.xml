@@ -117,6 +117,7 @@
                         android:textSize="@dimen/_12sdp"
                         android:textStyle="bold"
                         android:gravity="center"
+                        android:id="@+id/txt_create_new_account"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:text="Create a new account"/>
 

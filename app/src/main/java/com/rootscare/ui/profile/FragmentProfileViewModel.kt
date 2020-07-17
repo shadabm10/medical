@@ -149,4 +149,6 @@ class FragmentProfileViewModel : BaseViewModel<FragmentProfileNavigator>() {
 
         compositeDisposable.add(disposable)
     }
+
+   
 }

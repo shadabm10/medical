@@ -305,6 +305,10 @@ interface ApiService {
                                  @Part("appointment_type") appointment_type: RequestBody): Single<NurseBookAppointmentResponse>
 
 
+    @Multipart
+    @POST("api-edit-patient-profile-image")
+    fun apieditpatientprofileimage(@Part("user_id") user_id: RequestBody,
+                                   @Part image: MultipartBody.Part): Single<PatientProfileResponse>
 
 
 
