@@ -26,6 +26,7 @@ import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
 import com.rootscare.ui.recedule.doctor.adapter.AdapterDoctorPrivateSlot
+import com.rootscare.utils.AppConstants
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +44,10 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
     private var toTime:String=""
     private var clinicname:String=""
     private var appointmentId:String=""
+    var selectedYear=0
+    var selectedmonth=0
+    var selectedday=0
+    var flag=0
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -118,13 +123,51 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
             Log.d("clinicName", ": " + clinicname )
         }
         // Set todays date and get clinic list and doctor according to todays date
-        var c = Calendar.getInstance().getTime();
-        System.out.println("Current time => " + c);
+//        var c = Calendar.getInstance().getTime();
+//        System.out.println("Current time => " + c);
+//
+//        var df = SimpleDateFormat("yyyy-MM-dd");
+//        var formattedDate = df.format(c);
+        selectDoctorSlotApiCall(appointmentDate)
 
-        var df = SimpleDateFormat("yyyy-MM-dd");
-        var formattedDate = df.format(c);
-        selectDoctorSlotApiCall(formattedDate)
+//        val sdf = SimpleDateFormat("YYYY-MM-dd")
+//        val firstDate = sdf.parse(appointmentDate)
+//       selectedYear= firstDate.year
+//        selectedmonth=firstDate.month
+//        selectedday=firstDate.day
 
+//        try {
+//            val sdf = SimpleDateFormat("YYYY-MM-dd")
+//            val d = sdf.parse(appointmentDate)
+//            val cal = Calendar.getInstance()
+//            cal.time = d
+//            selectedmonth = checkDigit(cal[Calendar.MONTH] + 1)?.toInt()!!
+//            selectedday = checkDigit(cal[Calendar.DATE])?.toInt()!!
+//            selectedYear = checkDigit(cal[Calendar.YEAR])?.toInt()!!
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+
+       // val dob = "01/08/1990"
+
+        var month = 0
+        var dd = 0
+        var yer = 0
+
+        try {
+            val sdf = SimpleDateFormat("YYYY-MM-dd")
+            val d = sdf.parse(appointmentDate)
+            val cal = Calendar.getInstance()
+            cal.time = d
+            selectedmonth = cal[Calendar.MONTH]+1
+            selectedday = cal[Calendar.DATE]
+            selectedYear = cal[Calendar.YEAR]
+            println("Month - " + String.format("%02d", month + 1))
+            println("Day - " + String.format("%02d", selectedday))
+            println("Year - $selectedYear")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setOnClickListener(View.OnClickListener {
             // TODO Auto-generated method stub
@@ -152,6 +195,9 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
                     dayStr=dayOfMonth.toString()
                 }
 
+                selectedYear=year
+                selectedmonth=monthOfYear
+                selectedday=dayOfMonth
 //                fragmentSeedStockedBinding?.txtLsfSeedstockDateofStocking?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 appointmentDate= fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()!!
@@ -165,6 +211,13 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
             //Get the DatePicker instance from DatePickerDialog
             //Get the DatePicker instance from DatePickerDialog
             val dp = dpd.datePicker
+            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+                dp.updateDate(selectedYear, selectedmonth, selectedday)
+            }
+            else{
+                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
+//                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
+            }
             dp.minDate=System.currentTimeMillis() - 1000
         })
 
@@ -187,6 +240,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
                     }
 
                     override fun onConfirm() {
+                        AppConstants.IS_DOCTORRESCHEDULE=true
                         if(isNetworkConnected){
                             baseActivity?.showLoading()
                             var doctorAppointmentRescheduleRequest= DoctorAppointmentRescheduleRequest()
@@ -246,6 +300,22 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
                     fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.VISIBLE
                     fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.text="No slot available for booking."
                 }
+
+                for (i in 0 until modelData?.slot?.size!!) {
+                    if(modelData?.slot?.get(i)?.status.equals("Booked")){
+                        flag=1
+                    }else{
+                        flag=0
+                    }
+
+                }
+                if(flag==1){
+                    fragmentDoctorAppointmentRescheduleBinding?.txtSlotHeading?.setText("No Slots Available:")
+                    Toast.makeText(activity, "No slots available for this time.", Toast.LENGTH_LONG).show()
+                }else{
+                    Toast.makeText(activity, "Slots available for this time.", Toast.LENGTH_LONG).show()
+                    fragmentDoctorAppointmentRescheduleBinding?.txtSlotHeading?.setText("Available Slots:")
+                }
 //
 
             }
@@ -304,7 +374,21 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
                     fragmentDoctorAppointmentRescheduleBinding?.recyclerViewTimeslotby30minute?.visibility=View.VISIBLE
                     fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.GONE
                     setUpToTimeListingRecyclerview(doctorPrivateSlotResponse?.result?.get(0)?.slot)
+                    for (i in 0 until doctorPrivateSlotResponse?.result?.get(0)?.slot?.size!!) {
+                        if(doctorPrivateSlotResponse?.result?.get(0)?.slot?.get(i)?.status.equals("Booked")){
+                            flag=1
+                        }else{
+                            flag=0
+                        }
 
+                    }
+                    if(flag==1){
+                        fragmentDoctorAppointmentRescheduleBinding?.txtSlotHeading?.setText("No Slots Available:")
+                        Toast.makeText(activity, "No slots available for this clinic.", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(activity, "Slots available for this clinic.", Toast.LENGTH_LONG).show()
+                        fragmentDoctorAppointmentRescheduleBinding?.txtSlotHeading?.setText("Available Slots:")
+                    }
                 }else{
                     fragmentDoctorAppointmentRescheduleBinding?.recyclerViewTimeslotby30minute?.visibility=View.GONE
                     fragmentDoctorAppointmentRescheduleBinding?.tvSelectTimeslotby30minuteNoDate?.visibility=View.VISIBLE
@@ -331,10 +415,12 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
     override fun successDoctorRescheduleResponse(doctorRescheduleResponse: DoctorRescheduleResponse?) {
         baseActivity?.hideLoading()
         if (doctorRescheduleResponse?.code.equals("200")){
+
             Toast.makeText(activity, doctorRescheduleResponse?.message, Toast.LENGTH_SHORT).show()
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                 FragmentMyUpCommingAppointment.newInstance())
         }else{
+          //  AppConstants.IS_DOCTORRESCHEDULE=false
             Toast.makeText(activity, doctorRescheduleResponse?.message, Toast.LENGTH_SHORT).show()
         }
     }
@@ -360,5 +446,9 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
         }else{
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun checkDigit(number: Int): String? {
+        return if (number <= 9) "0$number" else number.toString()
     }
 }

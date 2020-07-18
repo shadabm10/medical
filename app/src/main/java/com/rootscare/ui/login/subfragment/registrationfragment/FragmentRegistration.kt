@@ -52,12 +52,13 @@ class FragmentRegistration : BaseFragment<FragmentRegistrationBinding, FragmentR
         fragmentRegistrationBinding = viewDataBinding
 
         fragmentRegistrationBinding?.llMain?.setOnClickListener(View.OnClickListener {
-            val inputMethodManager =
-                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(
-                activity!!.currentFocus!!.windowToken,
-                0
-            )
+//            val inputMethodManager =
+//                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputMethodManager.hideSoftInputFromWindow(
+//                activity!!.currentFocus!!.windowToken,
+//                0
+//            )
+            baseActivity?.hideKeyboard()
         })
       //  (activity as LoginActivity?)!!.setCurrentItem(1, true)
        // fragmentRegistrationBinding?.llRegMainContain?.visibility=View.VISIBLE

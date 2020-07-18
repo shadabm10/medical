@@ -70,7 +70,7 @@
                         android:isIndicator="false"
                         android:rating="0"
                         android:progressTint="@color/review_star"
-                        android:stepSize="0.5" />
+                        android:stepSize="1.0" />
 
                 </RelativeLayout>
                 <com.customview.MyEditTextView

@@ -1,30 +1,26 @@
 package com.rootscare.ui.myupcomingappointment.adapter
 
 import android.content.Context
+import android.graphics.Color
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.interfaces.OnUpcommingAppointmentBtnClickListner
 import com.rootscare.R
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.DoctorAppointmentItem
-import com.rootscare.databinding.ItemCancellAppointmentBinding
 import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
-import com.rootscare.interfaces.OnItemClikWithIdListener
-import com.rootscare.ui.cancellappointment.adapter.AdapterCancelMyUpcomingAppiontment
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
-import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
+import com.rootscare.utils.AppConstants
+import kotlinx.android.synthetic.main.item_doctor_slot_divission.view.*
 import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.*
-import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_appointment_date
-import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_booking_date
-import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_doctor_name
-import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_patient_name
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAppointmentItem?>?,internal var context: Context) : RecyclerView.Adapter<AdapteMyUpComingAppointment.ViewHolder>() {
     //    val trainerList: ArrayList<TrainerListItem?>?,
@@ -75,6 +71,21 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
                 itemView?.rootView?.txt_upcomming_appointment?.setText(doctorAppointmentList?.get(pos)?.orderId)
             }else{
                 itemView?.rootView?.txt_upcomming_appointment?.setText("")
+            }
+            if(AppConstants.IS_DOCTORRESCHEDULE){
+                val handler = Handler()
+                handler.postDelayed({
+                    AppConstants.IS_DOCTORRESCHEDULE=false
+                    itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#ffffff"))
+//                   itemView?.rootView?.txt_appointment_date?.
+                    // Execute a comethode in the intervel 3sec
+                }, 3000)
+//                itemView?.rootView?.txt_appointment_date?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_with_green_bg) )
+
+                itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#D2F2F5"))
+            }else{
+                itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#ffffff"))
+
             }
 
             if(doctorAppointmentList?.get(pos)?.patientName!=null && !doctorAppointmentList?.get(pos)?.patientName.equals("")){

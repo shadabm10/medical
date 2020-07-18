@@ -169,6 +169,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_7sdp"
+                                android:visibility="gone"
                                 android:src="@drawable/recording_line"/>
                         </LinearLayout>
 

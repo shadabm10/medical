@@ -1,6 +1,8 @@
 package com.rootscare.ui.myupcomingappointment.adapter
 
 import android.content.Context
+import android.graphics.Color
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import com.rootscare.data.model.api.response.appointmenthistoryresponse.NurseApp
 import com.rootscare.databinding.ItemMyUpcomingappointmentRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
+import com.rootscare.utils.AppConstants
 import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.txt_appointment_date
@@ -76,6 +79,22 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
                 itemView?.rootView?.txt_upcomming_appointment?.setText(pathologyAppointmentList?.get(pos)?.orderId)
             }else{
                 itemView?.rootView?.txt_upcomming_appointment?.setText("")
+            }
+
+            if(AppConstants.IS_NURSE_RESCHEDULE){
+                val handler = Handler()
+                handler.postDelayed({
+                    AppConstants.IS_NURSE_RESCHEDULE=false
+                    itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#ffffff"))
+//                   itemView?.rootView?.txt_appointment_date?.
+                    // Execute a comethode in the intervel 3sec
+                }, 3000)
+//                itemView?.rootView?.txt_appointment_date?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_with_green_bg) )
+
+                itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#D2F2F5"))
+            }else{
+                itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#ffffff"))
+
             }
 
             if(pathologyAppointmentList?.get(pos)?.patientName!=null && !pathologyAppointmentList?.get(pos)?.patientName.equals("")){

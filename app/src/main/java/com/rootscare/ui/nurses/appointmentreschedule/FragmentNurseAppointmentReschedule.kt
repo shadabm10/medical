@@ -33,6 +33,7 @@ import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseHourlySlotRecycllerview
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseSlotTiimeRecyclerview
 import com.rootscare.ui.recedule.doctor.FragmentDoctorAppointmentReschedule
+import com.rootscare.utils.AppConstants
 import java.util.*
 
 class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentRescheduleBinding, FragmentNurseAppointmentRescheduleViewModel>(),
@@ -57,6 +58,10 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
     var monthstr: String=""
     var dayStr: String=""
     var format: String? = null
+
+    var selectedYear=0
+    var selectedmonth=0
+    var selectedday=0
     var nationalityDropdownlist:ArrayList<String?>?=null
     override val bindingVariable: Int
         get() = BR.viewModel
@@ -354,29 +359,40 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
                 }else{
                     dayStr=dayOfMonth.toString()
                 }
-
+                selectedYear=year
+                selectedmonth=monthOfYear
+                selectedday=dayOfMonth
 //                fragmentSeedStockedBinding?.txtLsfSeedstockDateofStocking?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fromDate= fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()!!
                 toDate=fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()!!
-                if(isNetworkConnected){
-                    baseActivity?.showLoading()
-                    val nurseSlotRequest= NurseSlotRequest()
-                    nurseSlotRequest?.userId=fragmentNurseAppointmentRescheduleViewModel?.appSharedPref?.userId
-                    nurseSlotRequest?.serviceProviderId=nurseId
-                    nurseSlotRequest?.serviceType="nurse"
-                    nurseSlotRequest?.fromDate=fromDate
-                    nurseSlotRequest?.toDate=toDate
-                    fragmentNurseAppointmentRescheduleViewModel?.taskbasedslots(nurseSlotRequest)
-                }else{
-                    Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                if(fragmentNurseAppointmentRescheduleBinding?.txtSelectSlotOrHour?.text?.toString().equals("Slots")){
+                    if(isNetworkConnected){
+                        baseActivity?.showLoading()
+                        val nurseSlotRequest= NurseSlotRequest()
+                        nurseSlotRequest?.userId=fragmentNurseAppointmentRescheduleViewModel?.appSharedPref?.userId
+                        nurseSlotRequest?.serviceProviderId=nurseId
+                        nurseSlotRequest?.serviceType="nurse"
+                        nurseSlotRequest?.fromDate=fromDate
+                        nurseSlotRequest?.toDate=toDate
+                        fragmentNurseAppointmentRescheduleViewModel?.taskbasedslots(nurseSlotRequest)
+                    }else{
+                        Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
+                    }
                 }
+
             }, year, month, day)
 
             dpd.show()
             //Get the DatePicker instance from DatePickerDialog
             //Get the DatePicker instance from DatePickerDialog
             val dp = dpd.datePicker
+            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+                dp.updateDate(selectedYear, selectedmonth, selectedday)
+            }else{
+                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
+//                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
+            }
             dp.minDate=System.currentTimeMillis() - 1000
         })
 
@@ -390,6 +406,7 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
                     }
 
                     override fun onConfirm() {
+                        AppConstants.IS_NURSE_RESCHEDULE=true
                         if(isNetworkConnected){
                             baseActivity?.showLoading()
                             var doctorAppointmentRescheduleRequest= DoctorAppointmentRescheduleRequest()

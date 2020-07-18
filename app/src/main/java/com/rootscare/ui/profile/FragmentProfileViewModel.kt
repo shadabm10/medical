@@ -101,7 +101,8 @@ class FragmentProfileViewModel : BaseViewModel<FragmentProfileNavigator>() {
 //        val body = RequestBody.create(MediaType.parse("application/json"), "")
         var disposable: Disposable? = null
         if (image != null) {
-            disposable = apiServiceWithGsonFactory.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,image,age,address,gender,nationality,height,weight,marital_status)
+//            image,
+            disposable = apiServiceWithGsonFactory.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,age,address,gender,nationality,height,weight,marital_status)
                 .subscribeOn(_scheduler_io)
                 .observeOn(_scheduler_ui)
                 .subscribe({ response ->
@@ -150,5 +151,30 @@ class FragmentProfileViewModel : BaseViewModel<FragmentProfileNavigator>() {
         compositeDisposable.add(disposable)
     }
 
-   
+    fun apieditpatientprofileimage(userId: RequestBody,image: MultipartBody.Part? = null) {
+
+//        userId: RequestBody,first_name: RequestBody,last_name: RequestBody,id_number: RequestBody,status: RequestBody,image: MultipartBody.Part? = null
+//        val body = RequestBody.create(MediaType.parse("application/json"), "")
+        var disposable: Disposable? = null
+        if (image != null) {
+            disposable = apiServiceWithGsonFactory.apieditpatientprofileimage(userId,image)
+                .subscribeOn(_scheduler_io)
+                .observeOn(_scheduler_ui)
+                .subscribe({ response ->
+                    if (response != null) {
+                        // Store last login time
+                        Log.d("check_response", ": " + Gson().toJson(response))
+                        navigator.successPatientProfileResponse(response)
+                    } else {
+                        Log.d("check_response", ": null response")
+                    }
+                }, { throwable ->
+                    run {
+                        navigator.errorPatientProfileResponse(throwable)
+                        Log.d("check_response_error", ": " + throwable.message)
+                    }
+                })
+        }
+        compositeDisposable.add(disposable!!)
+    }
 }

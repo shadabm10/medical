@@ -1148,8 +1148,28 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
                 if(data!=null){
                     val result = CropImage.getActivityResult(data)
                     val resultUri = result.uri
-                    Picasso.get().load(resultUri).into(fragmentProfileBinding?.imgRootscareProfileImage)
+                 //   Picasso.get().load(resultUri).into(fragmentProfileBinding?.imgRootscareProfileImage)
                     imageFile = File(result.uri.path)
+
+                    baseActivity?.showLoading()
+                    val userId = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileViewModel!!.appSharedPref!!.userId)
+
+//        val status = RequestBody.create(MediaType.parse("multipart/form-data"), fragmentProfileBinding?.layoutProfilePersonal?.txtProfilePersonalStatus?.text?.toString())
+//        val status = RequestBody.create(MediaType.parse("multipart/form-data"),"1")
+
+                    if (imageFile != null) {
+                        val image = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
+                        var multipartBody = MultipartBody.Part.createFormData("image", imageFile?.name, image)
+//            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)
+                        fragmentProfileViewModel?.apieditpatientprofileimage(userId,multipartBody)
+
+                    } else{
+                        val image = RequestBody.create(MediaType.parse("multipart/form-data"), "")
+                        var multipartBody = MultipartBody.Part.createFormData("image", imagefilename, image)
+//            fragmentProfileViewModel?.apieditpatientprofilepersonal(userId,first_name,last_name,id_number,status,multipartBody)
+                        fragmentProfileViewModel?.apieditpatientprofileimage(userId,multipartBody)
+                        //Toast.makeText(activity, "Image can not be blank", Toast.LENGTH_SHORT).show()
+                    }
                     println("resultUri===>$resultUri")
                 }
 

@@ -60,30 +60,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(), S
         Handler().postDelayed({
             /* Create an Intent that will start the Menu-Activity. */
             runOnUiThread {
-                //     startActivity(IntroActivity.newIntent(this@SplashActivity))
-//                if (splashViewModel?.appSharedPref?.isIntoPageOn!!) {
-//                    startActivity(IntroActivity.newIntent(this@SplashActivity))
-//                } else{
-//
-//                    //startActivity(LoginActivity.newIntent(this@SplashActivity))
-//                    if (!splashViewModel?.appSharedPref?.userId.equals("") && splashViewModel?.appSharedPref?.userId!=null){
-//                        if(splashViewModel?.appSharedPref?.userType!=null){
-//                            if(splashViewModel?.appSharedPref?.userType.equals("subscriber")){
-//                                startActivity(HomeActivity.newIntent(this@SplashActivity))
-//                            }else if(splashViewModel?.appSharedPref?.userType.equals("Trainer")){
-//                                startActivity(TrainerHomeActivity.newIntent(this@SplashActivity))
-//                            }
-//                        }else{
-//                            startActivity(ActivityLogInOption.newIntent(this@SplashActivity))
-//                        }
-//
-//
-//                    } else{
-//                        startActivity(ActivityLogInOption.newIntent(this@SplashActivity))
-//                    }
-//
-//                }
-
                 if(!splashViewModel?.appSharedPref?.isloginremember.equals("") && splashViewModel?.appSharedPref?.isloginremember!=null){
                     if(splashViewModel?.appSharedPref?.isloginremember.equals("true")){
                         startActivity(HomeActivity.newIntent(this@SplashActivity))

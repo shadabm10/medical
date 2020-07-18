@@ -54,6 +54,9 @@ class FragmentAddMedicalRecord : BaseFragment<FragmentAddMedicalRecordsBinding, 
     var monthstr: String=""
     var dayStr: String=""
     private var filesListingAdapter: FilesListingAdapter? = null
+    var selectedYear=0
+    var selectedmonth=0
+    var selectedday=0
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
@@ -108,6 +111,9 @@ class FragmentAddMedicalRecord : BaseFragment<FragmentAddMedicalRecordsBinding, 
                 }else{
                     dayStr=dayOfMonth.toString()
                 }
+                selectedYear=year
+                selectedmonth=monthOfYear
+                selectedday=dayOfMonth
 //                fragmentSeedStockedBinding?.txtLsfSeedstockDateofStocking?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 fragmentAddMedicalRecordsBinding?.tvSelectTestDate?.setText("" + year + "-" + monthstr + "-" + dayStr)
                 screeningDate=fragmentAddMedicalRecordsBinding?.tvSelectTestDate?.text?.toString()
@@ -119,6 +125,13 @@ class FragmentAddMedicalRecord : BaseFragment<FragmentAddMedicalRecordsBinding, 
             //Get the DatePicker instance from DatePickerDialog
             //Get the DatePicker instance from DatePickerDialog
             val dp = dpd.datePicker
+            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+                dp.updateDate(selectedYear, selectedmonth, selectedday)
+            }else{
+                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
+//                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
+            }
+
             //dp.minDate=System.currentTimeMillis() - 1000
         })
         fragmentAddMedicalRecordsBinding?.imageviewUploadSign?.setOnClickListener {

@@ -28,6 +28,7 @@ import com.rootscare.ui.myupcomingappointment.adapter.*
 import com.rootscare.ui.nurses.appointmentreschedule.FragmentNurseAppointmentReschedule
 import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.recedule.doctor.FragmentDoctorAppointmentReschedule
+import com.rootscare.utils.AppConstants
 import java.util.*
 
 class FragmentMyAppointment : BaseFragment<FragmentUpcommingAppointmentNewBinding, FragmentMyAppointmentViewModel>(),
@@ -287,6 +288,7 @@ class FragmentMyAppointment : BaseFragment<FragmentUpcommingAppointmentNewBindin
             }
 
             override fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem) {
+
                 (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                     FragmentDoctorAppointmentReschedule.newInstance(modelDoctorAppointmentItem?.id!!,modelDoctorAppointmentItem?.doctorId!!,
                         modelDoctorAppointmentItem?.doctorName!!,

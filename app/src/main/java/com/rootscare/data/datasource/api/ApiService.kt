@@ -121,7 +121,6 @@ interface ApiService {
                                 @Part("first_name") first_name: RequestBody,
                                 @Part("last_name") last_name: RequestBody,
                                 @Part("id_number") id_number: RequestBody,
-                                @Part image: MultipartBody.Part,
                                       @Part("age") age: RequestBody,
                                       @Part("address") address: RequestBody,
                                       @Part("gender") gender: RequestBody,
@@ -130,7 +129,7 @@ interface ApiService {
                                       @Part("weight") weight: RequestBody,
                                       @Part("marital_status") marital_status: RequestBody): Single<PatientProfileResponse>
 
-//    @Part("status") status: RequestBody,
+//    @Part("status") status: RequestBody,    @Part image: MultipartBody.Part,
 
     @POST("api-patient-home")
     fun apipatienthome(): Single<PatientHomeApiResponse>

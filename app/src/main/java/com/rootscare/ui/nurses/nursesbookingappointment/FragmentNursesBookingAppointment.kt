@@ -219,6 +219,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                 isPlaying = true
                 startPlaying()
             } else {
+                fragmentNursesBookingAppointmentBinding?.chronometerTimer?.stop()
                 isPlaying = false
                 stopPlaying()
             }
@@ -391,7 +392,10 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
                 fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.setText("" + year + "-" + monthstr + "-" + dayStr)
 
                 if(!fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text?.toString().equals("") && fragmentNursesBookingAppointmentBinding?.txtDoctorBookingSelectdate?.text!=null ){
-                    apiHitForNurseViewTiming()
+                    if(fragmentNursesBookingAppointmentBinding?.txtSelectSlotOrHour?.text?.toString().equals("Slots")){
+                        apiHitForNurseViewTiming()
+                    }
+
                     //selectDoctorSlotApiCall(fragmentBookingBinding?.txtDoctorBookingSelectdate?.text?.toString()!!)
                 }
 
@@ -515,15 +519,23 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         fragmentNursesBookingAppointmentBinding?.seekBar?.setProgress(lastProgress)
         mPlayer?.seekTo(lastProgress)
         fragmentNursesBookingAppointmentBinding?.seekBar?.setMax(mPlayer?.getDuration()!!)
+//        seekUpdation()
         seekUpdation()
+
+//        fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime())
         fragmentNursesBookingAppointmentBinding?.chronometerTimer?.start()
         mPlayer?.setOnCompletionListener(MediaPlayer.OnCompletionListener {
             fragmentNursesBookingAppointmentBinding?.imageViewPlay?.setImageResource(R.drawable.play)
             isPlaying = false
-            mPlayer!!.seekTo(mPlayer?.getDuration()!!)
-            fragmentNursesBookingAppointmentBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime() -mPlayer?.getDuration()!!)
+//            mPlayer!!.seekTo(mPlayer?.getDuration()!!)
+//            fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime() -mPlayer?.getDuration()!!)
             lastProgress = mPlayer?.getDuration()!!
             fragmentNursesBookingAppointmentBinding?.chronometerTimer?.stop()
+            val handler = Handler()
+            handler.postDelayed({
+                fragmentNursesBookingAppointmentBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime())
+                mPlayer!!.seekTo(0) }, 100)
+
         })
         fragmentNursesBookingAppointmentBinding?.seekBar?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -550,6 +562,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         if (mPlayer != null) {
             val mCurrentPosition = mPlayer?.getCurrentPosition()
             fragmentNursesBookingAppointmentBinding?.seekBar?.setProgress(mCurrentPosition!!)
+            fragmentNursesBookingAppointmentBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime() - mPlayer?.getCurrentPosition()!!)
             lastProgress = mCurrentPosition!!
         }
         mHandler.postDelayed(runnable, 100)
@@ -597,6 +610,8 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         fragmentNursesBookingAppointmentBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime())
         fragmentNursesBookingAppointmentBinding?.chronometerTimer?.start()
     }
+
+    //End of voice recording
     // Set up recycler view for service listing if available
     private fun setUpFromTimeListingRecyclerview() {
 //        trainerList: ArrayList<TrainerListItem?>?

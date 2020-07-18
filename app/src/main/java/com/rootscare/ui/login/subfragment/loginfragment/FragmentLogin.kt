@@ -69,6 +69,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
 //                fragmentLoginViewModel?.appSharedPref?.isloginremember="false"
             }
         }
+        
 
 
 
@@ -142,6 +143,10 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding, FragmentLoginViewModel>
 
         fragmentLoginBinding?.txtForgotPassword?.setOnClickListener(View.OnClickListener {
             (activity as LoginActivity?)!!.setCurrentItem(3, true)
+        })
+
+        fragmentLoginBinding?.txtCreateNewAccount?.setOnClickListener(View.OnClickListener {
+            (activity as LoginActivity?)!!.setCurrentItem(1, true)
         })
     }
 

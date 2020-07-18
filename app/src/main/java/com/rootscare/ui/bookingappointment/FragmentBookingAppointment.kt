@@ -18,7 +18,6 @@ import android.provider.MediaStore
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.View
-import android.widget.DatePicker
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -317,6 +316,7 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
                 isPlaying = true
                 startPlaying()
             } else {
+                fragmentBookingBinding?.chronometerTimer?.stop()
                 isPlaying = false
                 stopPlaying()
             }
@@ -372,15 +372,23 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         fragmentBookingBinding?.seekBar?.setProgress(lastProgress)
         mPlayer?.seekTo(lastProgress)
         fragmentBookingBinding?.seekBar?.setMax(mPlayer?.getDuration()!!)
+//        seekUpdation()
         seekUpdation()
+
+//        fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime())
         fragmentBookingBinding?.chronometerTimer?.start()
         mPlayer?.setOnCompletionListener(MediaPlayer.OnCompletionListener {
             fragmentBookingBinding?.imageViewPlay?.setImageResource(R.drawable.play)
             isPlaying = false
-            mPlayer!!.seekTo(mPlayer?.getDuration()!!)
-            fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime() -mPlayer?.getDuration()!!)
+//            mPlayer!!.seekTo(mPlayer?.getDuration()!!)
+//            fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime() -mPlayer?.getDuration()!!)
             lastProgress = mPlayer?.getDuration()!!
             fragmentBookingBinding?.chronometerTimer?.stop()
+            val handler = Handler()
+            handler.postDelayed({
+                fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime())
+                mPlayer!!.seekTo(0) }, 100)
+
         })
         fragmentBookingBinding?.seekBar?.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -407,6 +415,7 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         if (mPlayer != null) {
             val mCurrentPosition = mPlayer?.getCurrentPosition()
             fragmentBookingBinding?.seekBar?.setProgress(mCurrentPosition!!)
+            fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime() - mPlayer?.getCurrentPosition()!!)
             lastProgress = mCurrentPosition!!
         }
         mHandler.postDelayed(runnable, 100)
@@ -454,6 +463,8 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         fragmentBookingBinding?.chronometerTimer?.setBase(SystemClock.elapsedRealtime())
         fragmentBookingBinding?.chronometerTimer?.start()
     }
+
+    //End of voice recording
 
     // Set up recycler view for service listing if available
     private fun setUpAddPatientListingRecyclerview(patientfamilymemberList: ArrayList<ResultItem?>?) {
