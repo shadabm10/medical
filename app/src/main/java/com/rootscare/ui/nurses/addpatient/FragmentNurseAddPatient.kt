@@ -122,7 +122,10 @@ class FragmentNurseAddPatient  : BaseFragment<FragmentAddPatientForDoctorBooking
         }
         fragmentAddPatientForDoctorBookingBinding?.edtPatientProfileImage?.setOnClickListener(View.OnClickListener {
             //  showPictureDialog()
-            captureImage()
+            if(checkAndRequestPermissionsTest()){
+                captureImage()
+            }
+//            captureImage()
         })
         fragmentAddPatientForDoctorBookingBinding?.radioPatientGenderFemale?.setOnClickListener(View.OnClickListener {
             selectedGender="Female"

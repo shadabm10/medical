@@ -173,7 +173,10 @@ class FragmentNurseEditPatient : BaseFragment<FragmentEditPatientFamilyMemberBin
 
         fragmentEditPatientFamilyMemberBinding?.edtPatientProfileImage?.setOnClickListener(View.OnClickListener {
             //  showPictureDialog()
-            captureImage()
+            if(checkAndRequestPermissionsTest()){
+                captureImage()
+            }
+
         })
         fragmentEditPatientFamilyMemberBinding?.radioPatientGenderFemale?.setOnClickListener(View.OnClickListener {
             selectedGender="Female"

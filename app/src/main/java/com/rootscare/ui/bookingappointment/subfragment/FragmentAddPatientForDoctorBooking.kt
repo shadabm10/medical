@@ -49,7 +49,7 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
     private var selectedGender="Female"
     var imageFile: File? = null
     private var doctorId:String=""
-
+    private var isImageCaptureFlow = false
 
     private val PICK_IMAGE_REQUEST = 1
 
@@ -122,7 +122,10 @@ class FragmentAddPatientForDoctorBooking : BaseFragment<FragmentAddPatientForDoc
         }
         fragmentAddPatientForDoctorBookingBinding?.edtPatientProfileImage?.setOnClickListener(View.OnClickListener {
           //  showPictureDialog()
-            captureImage()
+            if(checkAndRequestPermissionsTest()){
+                captureImage()
+            }
+
         })
         fragmentAddPatientForDoctorBookingBinding?.radioPatientGenderFemale?.setOnClickListener(View.OnClickListener {
             selectedGender="Female"

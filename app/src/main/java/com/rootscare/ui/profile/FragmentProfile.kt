@@ -185,10 +185,16 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding, FragmentProfileView
                 val granted = checkAndRequestPermissionsTest()
                 println("granted===>$granted")
                 if (granted == true) {
-                    captureImage()
+                    if(checkAndRequestPermissionsTest()){
+                        captureImage()
+                    }
+
                 }
             } else {
-                captureImage()
+                if(checkAndRequestPermissionsTest()){
+                    captureImage()
+                }
+
             }
         })
 
