@@ -4,5 +4,5 @@ import com.rootscare.data.model.api.response.appointmenthistoryresponse.DoctorAp
 
 interface OnUpcommingAppointmentBtnClickListner {
     fun onCancelBtnClick(id: String)
-    fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem)
+    fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem,clickposation:String)
 }

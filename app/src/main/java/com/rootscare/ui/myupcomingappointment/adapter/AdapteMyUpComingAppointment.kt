@@ -58,7 +58,7 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
             })
 
             itemView?.root?.btn_appointment_reschedule?.setOnClickListener(View.OnClickListener {
-                recyclerViewItemClickWithView?.onRescheduleBtnClick(doctorAppointmentList?.get(local_position)!!)
+                recyclerViewItemClickWithView?.onRescheduleBtnClick(doctorAppointmentList?.get(local_position)!!,local_position.toString())
             })
 //
 
@@ -72,21 +72,26 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
             }else{
                 itemView?.rootView?.txt_upcomming_appointment?.setText("")
             }
-            if(AppConstants.IS_DOCTORRESCHEDULE){
-                val handler = Handler()
-                handler.postDelayed({
-                    AppConstants.IS_DOCTORRESCHEDULE=false
-                    itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#ffffff"))
+            if(pos==AppConstants.DoctorrescheculeClickPosation){
+                if(AppConstants.IS_DOCTORRESCHEDULE){
+                    val handler = Handler()
+                    handler.postDelayed({
+                        AppConstants.IS_DOCTORRESCHEDULE=false
+                        itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#ffffff"))
 //                   itemView?.rootView?.txt_appointment_date?.
-                    // Execute a comethode in the intervel 3sec
-                }, 3000)
+                        // Execute a comethode in the intervel 3sec
+                    }, 3000)
 //                itemView?.rootView?.txt_appointment_date?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_with_green_bg) )
 
-                itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#D2F2F5"))
+                    itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#D2F2F5"))
+                }else{
+                    itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#ffffff"))
+
+                }
             }else{
                 itemView?.rootView?.txt_appointment_date?.setBackgroundColor(Color.parseColor("#ffffff"))
-
             }
+
 
             if(doctorAppointmentList?.get(pos)?.patientName!=null && !doctorAppointmentList?.get(pos)?.patientName.equals("")){
                 itemView?.rootView?.txt_patient_name?.setText(doctorAppointmentList?.get(pos)?.patientName)

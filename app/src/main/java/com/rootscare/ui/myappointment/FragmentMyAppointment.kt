@@ -287,8 +287,8 @@ class FragmentMyAppointment : BaseFragment<FragmentUpcommingAppointmentNewBindin
 
             }
 
-            override fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem) {
-
+            override fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem,clickposation:String) {
+                AppConstants.DoctorrescheculeClickPosation=clickposation.toInt()
                 (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                     FragmentDoctorAppointmentReschedule.newInstance(modelDoctorAppointmentItem?.id!!,modelDoctorAppointmentItem?.doctorId!!,
                         modelDoctorAppointmentItem?.doctorName!!,
@@ -343,8 +343,8 @@ class FragmentMyAppointment : BaseFragment<FragmentUpcommingAppointmentNewBindin
                 }, "Cancel Appointment", "Are you sure to cancel this appointment?")
             }
 
-            override fun onRescheduleBtnClick(nurseAppointmentItem: NurseAppointmentItem) {
-
+            override fun onRescheduleBtnClick(nurseAppointmentItem: NurseAppointmentItem,clickposation:String) {
+                AppConstants.NurserescheculeClickPosation=clickposation.toInt()
                 (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                     FragmentNurseAppointmentReschedule.newInstance(nurseAppointmentItem?.id!!,nurseAppointmentItem?.nurseId!!,
                         nurseAppointmentItem?.patientName!!,

@@ -29,6 +29,8 @@ object AppConstants {
     const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 17
     var IS_DOCTORRESCHEDULE = false
     var IS_NURSE_RESCHEDULE = false
+    var DoctorrescheculeClickPosation=0
+    var NurserescheculeClickPosation=0
 
 }// This utility class is not publicly instantiable
 

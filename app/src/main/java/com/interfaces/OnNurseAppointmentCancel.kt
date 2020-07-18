@@ -5,5 +5,5 @@ import com.rootscare.data.model.api.response.appointmenthistoryresponse.NurseApp
 
 interface OnNurseAppointmentCancel {
     fun onCancelBtnClick(id: String)
-    fun onRescheduleBtnClick(nurseAppointmentItem: NurseAppointmentItem)
+    fun onRescheduleBtnClick(nurseAppointmentItem: NurseAppointmentItem,clickposation:String)
 }
