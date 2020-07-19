@@ -150,31 +150,47 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
 
        // val dob = "01/08/1990"
 
-        var month = 0
-        var dd = 0
-        var yer = 0
+        val currentString = appointmentDate
+        val separated =
+            currentString.split("-".toRegex()).toTypedArray()
+        var yearString=separated[0]
+        var monthString=separated[1]
+        var dayString=separated[2]
 
-        try {
-            val sdf = SimpleDateFormat("YYYY-MM-dd")
-            val d = sdf.parse(appointmentDate)
-            val cal = Calendar.getInstance()
-            cal.time = d
-            selectedmonth = cal[Calendar.MONTH]+1
-            selectedday = cal[Calendar.DATE]
-            selectedYear = cal[Calendar.YEAR]
-            println("Month - " + String.format("%02d", month + 1))
-            println("Day - " + String.format("%02d", selectedday))
-            println("Year - $selectedYear")
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        System.out.println("First String => " + separated[0])
+        System.out.println("Second String => " + separated[1])
+        System.out.println("Third String => " + separated[2])
+         // this will contain "Fruit"
+
+        selectedmonth = yearString.toInt()
+            selectedday = monthString.toInt()
+            selectedYear = dayString.toInt()
+
+//        var month = 0
+//        var dd = 0
+//        var yer = 0
+//
+//        try {
+//            val sdf = SimpleDateFormat("YYYY-MM-dd")
+//            val d = sdf.parse(appointmentDate)
+//            val cal = Calendar.getInstance()
+//            cal.time = d
+//            selectedmonth = cal[Calendar.MONTH]+1
+//            selectedday = cal[Calendar.DATE]
+//            selectedYear = cal[Calendar.YEAR]
+//            println("Month - " + String.format("%02d", month + 1))
+//            println("Day - " + String.format("%02d", selectedday))
+//            println("Year - $selectedYear")
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
 
         fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setOnClickListener(View.OnClickListener {
             // TODO Auto-generated method stub
-            val c = Calendar.getInstance()
-            val year = c.get(Calendar.YEAR)
-            var month = c.get(Calendar.MONTH)
-            val day = c.get(Calendar.DAY_OF_MONTH)
+//            val c = Calendar.getInstance()
+//            val year = c.get(Calendar.YEAR)
+//            var month = c.get(Calendar.MONTH)
+//            val day = c.get(Calendar.DAY_OF_MONTH)
 //            datePicker.setMinDate(System.currentTimeMillis() - 1000)
 
 
@@ -205,7 +221,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
                     selectDoctorSlotApiCall( fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.text?.toString()!!)
                 }
 
-            }, year, month, day)
+            }, selectedYear, selectedmonth, selectedday)
 
             dpd.show()
             //Get the DatePicker instance from DatePickerDialog
@@ -214,10 +230,10 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
             if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
                 dp.updateDate(selectedYear, selectedmonth, selectedday)
             }
-            else{
-                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
-//                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
-            }
+//            else{
+//                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
+////                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
+//            }
             dp.minDate=System.currentTimeMillis() - 1000
         })
 
