@@ -126,14 +126,14 @@ class FragmentNursesCategoryListing : BaseFragment<FragmentNursesCategorylisting
                 before: Int,
                 count: Int
             ) {
-                if(s.toString().length>2){
+//                if(s.toString().length>2){
                     if(isNetworkConnected){
                         baseActivity?.showLoading()
                         var nurseSearchByNameRequest= NurseSearchByNameRequest()
                         nurseSearchByNameRequest?.searchContent=fragmentNursesCategorylistingBinding?.edtNurseSearchByName?.text?.toString()
                         fragmentNursesCategoryListingViewModel?.apisearchnurse(nurseSearchByNameRequest)
                     }
-                }
+//                }
             }
         })
         //End Of Search by name api call
