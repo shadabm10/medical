@@ -14,7 +14,6 @@
             android:layout_width="@dimen/_130sdp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
-            android:layout_weight="1"
             app:cardCornerRadius="@dimen/_12sdp"
             android:elevation="@dimen/_10sdp"
             >
@@ -22,18 +21,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
-                    android:id="@+id/img_contentimage"
-                    android:scaleType="fitXY"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/prescription"/>
+                    android:layout_height="@dimen/_90sdp"
+                    android:background="@color/colorfooter">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_90sdp"
+                        android:id="@+id/img_contentimage"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/prescription"/>
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
                     android:orientation="vertical">
                     >
                     <com.customview.MyTextView
@@ -41,6 +46,16 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/txt_description"
                         android:gravity="center"
+                        android:maxLines="1"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        android:text=""/>
+                    <com.customview.MyTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txt_prescription_date"
+                        android:gravity="center"
+                        android:maxLines="1"
                         android:textSize="@dimen/_10ssp"
                         android:textColor="@color/black"
                         android:text=""/>

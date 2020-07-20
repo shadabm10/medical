@@ -34,6 +34,7 @@ import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseHour
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseSlotTiimeRecyclerview
 import com.rootscare.ui.recedule.doctor.FragmentDoctorAppointmentReschedule
 import com.rootscare.utils.AppConstants
+import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentRescheduleBinding, FragmentNurseAppointmentRescheduleViewModel>(),
@@ -144,6 +145,22 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
         }else{
             fragmentNurseAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setText("")
         }
+
+        var dt = fromDate // Start date
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val c = Calendar.getInstance()
+        c.time = sdf.parse(dt)
+        c.add(Calendar.DATE, 0) // number of days to add
+
+        dt = sdf.format(c.time) // dt is now the new date
+        selectedmonth=c[Calendar.MONTH]
+        println("SELECTED Month - " + String.format("%02d", selectedmonth + 1))
+        selectedday=c[Calendar.DAY_OF_MONTH]
+        println("SELECTED Day - " + String.format("%02d", selectedday))
+        selectedYear=c[Calendar.YEAR]
+        println("SELECTED Year - $selectedYear")
+
 
         if(bookingfromTime!=null && !bookingfromTime.equals("")){
             fragmentNurseAppointmentRescheduleBinding?.edtRescheduleStartTime?.setText(bookingfromTime)
@@ -381,18 +398,18 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
                     }
                 }
 
-            }, year, month, day)
+            }, selectedYear, selectedmonth, selectedday)
 
             dpd.show()
             //Get the DatePicker instance from DatePickerDialog
             //Get the DatePicker instance from DatePickerDialog
             val dp = dpd.datePicker
-            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
-                dp.updateDate(selectedYear, selectedmonth, selectedday)
-            }else{
-                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
-//                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
-            }
+//            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+//                dp.updateDate(selectedYear, selectedmonth, selectedday)
+//            }else{
+//                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
+////                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
+//            }
             dp.minDate=System.currentTimeMillis() - 1000
         })
 

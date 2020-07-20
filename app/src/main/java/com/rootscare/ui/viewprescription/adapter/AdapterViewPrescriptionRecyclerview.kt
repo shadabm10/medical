@@ -20,7 +20,11 @@ import com.rootscare.ui.myupcomingappointment.adapter.AdapteMyUpComingAppointmen
 import com.rootscare.ui.showimagelarger.TransaprentPopUpActivityForImageShow
 import com.rootscare.utils.AnimUtils
 import com.rootscare.utils.AppConstants
+import kotlinx.android.synthetic.main.item_home_caregiver_recyclerviewlist.view.*
+import kotlinx.android.synthetic.main.item_medical_records_file_upload.view.*
 import kotlinx.android.synthetic.main.item_view_prespriction_recyclerview.view.*
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -89,9 +93,38 @@ class AdapterViewPrescriptionRecyclerview (val prescriptionList: ArrayList<Resul
             }else{
                 itemView?.txt_description?.setText("")
             }
+            if (prescriptionList?.get(pos)?.createdDate!=null && !prescriptionList?.get(pos)?.createdDate.equals("")){
+                itemView?.txt_prescription_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",prescriptionList?.get(pos)?.createdDate))
+            }else{
+                itemView?.txt_prescription_date?.setText("")
+            }
+            if (!prescriptionList?.get(local_position)?.ePrescription?.toLowerCase(Locale.ROOT)!!.contains("pdf")) {
+                Glide.with(context)
+                    .load(context.getString(R.string.api_base)+"uploads/images/" + (prescriptionList?.get(local_position)?.ePrescription))
+                    .into(itemView?.rootView?.img_contentimage!!)
+            }else{
+                Glide.with(context)
+                    .load(R.drawable.pdf_file_logo)
+                    .into(itemView?.rootView?.img_contentimage!!)
+            }
 
 
 
+        }
+
+        fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {
+            var parsed: Date? = null
+            var outputDate = ""
+            val df_input =
+                SimpleDateFormat(inputFormat, Locale.getDefault())
+            val df_output =
+                SimpleDateFormat(outputFormat, Locale.getDefault())
+            try {
+                parsed = df_input.parse(inputDate)
+                outputDate = df_output.format(parsed)
+            } catch (e: ParseException) {
+            }
+            return outputDate
         }
     }
 

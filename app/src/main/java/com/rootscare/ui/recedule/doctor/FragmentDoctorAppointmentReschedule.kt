@@ -1,6 +1,7 @@
 package com.rootscare.ui.recedule.doctor
 
 import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -30,6 +31,7 @@ import com.rootscare.utils.AppConstants
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointmentRescheduleBinding, FragmentDoctorAppointmentRescheduleViewModel>(),
     FragmentDoctorAppointmentRescheduleNavigator {
     private var fragmentDoctorAppointmentRescheduleBinding: FragmentDoctorAppointmentRescheduleBinding? = null
@@ -47,6 +49,8 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
     var selectedYear=0
     var selectedmonth=0
     var selectedday=0
+
+
     var flag=0
     override val bindingVariable: Int
         get() = BR.viewModel
@@ -68,7 +72,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
             args.putString("doctorName",doctorName)
             args.putString("appointmentdate",appointmentdate)
             args.putString("fromdate",fromdate)
-            args.putString("todate",fromdate)
+            args.putString("todate",todate)
             args.putString("clinicName",clinicName)
 
             val fragment = FragmentDoctorAppointmentReschedule()
@@ -150,21 +154,21 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
 
        // val dob = "01/08/1990"
 
-        val currentString = appointmentDate
-        val separated =
-            currentString.split("-".toRegex()).toTypedArray()
-        var yearString=separated[0]
-        var monthString=separated[1]
-        var dayString=separated[2]
-
-        System.out.println("First String => " + separated[0])
-        System.out.println("Second String => " + separated[1])
-        System.out.println("Third String => " + separated[2])
-         // this will contain "Fruit"
-
-        selectedmonth = yearString.toInt()
-            selectedday = monthString.toInt()
-            selectedYear = dayString.toInt()
+//        val currentString = appointmentDate
+//        val separated =
+//            currentString.split("-".toRegex()).toTypedArray()
+//        var yearString=separated[0]
+//        var monthString=separated[1]
+//        var dayString=separated[2]
+//
+//        System.out.println("First String => " + separated[0])
+//        System.out.println("Second String => " + separated[1])
+//        System.out.println("Third String => " + separated[2])
+//         // this will contain "Fruit"
+//
+//        selectedmonth = yearString.toInt()
+//            selectedday = monthString.toInt()
+//            selectedYear = dayString.toInt()
 
 //        var month = 0
 //        var dd = 0
@@ -176,14 +180,30 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
 //            val cal = Calendar.getInstance()
 //            cal.time = d
 //            selectedmonth = cal[Calendar.MONTH]+1
-//            selectedday = cal[Calendar.DATE]
+//            selectedday = cal[Calendar.DAY_OF_MONTH]
 //            selectedYear = cal[Calendar.YEAR]
-//            println("Month - " + String.format("%02d", month + 1))
+//            println("Month - " + String.format("%02d", selectedmonth + 1))
 //            println("Day - " + String.format("%02d", selectedday))
 //            println("Year - $selectedYear")
 //        } catch (e: Exception) {
 //            e.printStackTrace()
 //        }
+
+        var dt = appointmentDate // Start date
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val c = Calendar.getInstance()
+        c.time = sdf.parse(dt)
+        c.add(Calendar.DATE, 0) // number of days to add
+
+        dt = sdf.format(c.time) // dt is now the new date
+        selectedmonth=c[Calendar.MONTH]
+        println("SELECTED Month - " + String.format("%02d", selectedmonth + 1))
+        selectedday=c[Calendar.DAY_OF_MONTH]
+        println("SELECTED Day - " + String.format("%02d", selectedday))
+        selectedYear=c[Calendar.YEAR]
+        println("SELECTED Year - $selectedYear")
+
 
         fragmentDoctorAppointmentRescheduleBinding?.edtRescheduleAppointmentdate?.setOnClickListener(View.OnClickListener {
             // TODO Auto-generated method stub
@@ -223,17 +243,19 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
 
             }, selectedYear, selectedmonth, selectedday)
 
+
             dpd.show()
+        //    dpd.setOnDateSetListener { view, year, month, dayOfMonth ->  }
             //Get the DatePicker instance from DatePickerDialog
             //Get the DatePicker instance from DatePickerDialog
             val dp = dpd.datePicker
-            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
-                dp.updateDate(selectedYear, selectedmonth, selectedday)
-            }
-//            else{
-//                dp.updateDate(year,  c.get(Calendar.MONTH), c.get(Calendar.DATE))
-////                c.set(year, c.get(Calendar.MONTH), c.get(Calendar.DATE))
+//            dp.init(selectedYear, selectedmonth, selectedday, null);
+//
+//            if(selectedYear!=0 && selectedmonth!=0 && selectedday!=0){
+//dp.updateDate(selectedYear, selectedmonth, selectedday)
 //            }
+//
+//            dpd.datePicker.minDate = Date().time
             dp.minDate=System.currentTimeMillis() - 1000
         })
 

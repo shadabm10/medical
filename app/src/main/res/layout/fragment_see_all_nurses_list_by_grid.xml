@@ -174,17 +174,15 @@
                                 android:id="@+id/spinnerSpeciality"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:minHeight="50dp"
+                                android:minHeight="30dp"
                                 android:layout_marginStart="5dp"
                                 android:layout_marginEnd="5dp"
                                 android:layout_marginTop="5dp"
-                                android:background="@null"
                                 android:overlapAnchor="false"
                                 android:spinnerMode="dropdown"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_speciality_filter" />
-
 
                             <com.customview.MyTextView
                                 android:id="@+id/tv_filter_submit"

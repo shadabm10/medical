@@ -67,6 +67,18 @@ class AdapteMyUpComingAppointment (val doctorAppointmentList: ArrayList<DoctorAp
         fun onBind(pos: Int) {
             Log.d(TAG, " true")
             local_position = pos
+
+            if(doctorAppointmentList?.get(pos)?.acceptanceStatus.equals("Pending")){
+                itemView?.rootView?.btn_appointment_cancel?.visibility=View.VISIBLE
+                itemView?.rootView?.btn_appointment_reschedule?.visibility=View.VISIBLE
+                itemView?.rootView?.btn_accepted?.visibility=View.GONE
+            }else{
+                itemView?.rootView?.btn_appointment_cancel?.visibility=View.GONE
+                itemView?.rootView?.btn_appointment_reschedule?.visibility=View.GONE
+                itemView?.rootView?.btn_accepted?.visibility=View.VISIBLE
+                itemView?.rootView?.btn_accepted?.setEnabled(false);
+                itemView?.rootView?.btn_accepted?.setText(doctorAppointmentList?.get(pos)?.acceptanceStatus)
+            }
             if(doctorAppointmentList?.get(pos)?.orderId!=null && !doctorAppointmentList?.get(pos)?.orderId.equals("")){
                 itemView?.rootView?.txt_upcomming_appointment?.setText(doctorAppointmentList?.get(pos)?.orderId)
             }else{

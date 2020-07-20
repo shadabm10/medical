@@ -112,14 +112,14 @@ class FragmentNursesListByGrid : BaseFragment<FragmentSeeAllNursesListByGridBind
                 before: Int,
                 count: Int
             ) {
-                if(s.toString().length>2){
+               // if(s.toString().length>2){
                     if(isNetworkConnected){
                         baseActivity?.showLoading()
                         var nurseSearchByNameRequest= NurseSearchByNameRequest()
                         nurseSearchByNameRequest?.searchContent=fragmentSeeAllNursesListByGridBinding?.edtNurseSearchByName?.text?.toString()
                         fragmentNursesListByGridViewModel?.apisearchnurse(nurseSearchByNameRequest)
                     }
-                }
+             //   }
             }
         })
         //End Of Search by name api call

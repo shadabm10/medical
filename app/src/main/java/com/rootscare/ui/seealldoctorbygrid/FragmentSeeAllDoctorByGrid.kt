@@ -180,14 +180,14 @@ class FragmentSeeAllDoctorByGrid : BaseFragment<FragmentSeeAllDoctorByGridBindin
                 before: Int,
                 count: Int
             ) {
-                if(s.toString().length>3){
+             //   if(s.toString().length>3){
                     if(isNetworkConnected){
                         baseActivity?.showLoading()
                         var seeAllDoctorSearch= SeeAllDoctorSearch()
                         seeAllDoctorSearch?.searchContent=fragmentSeeAllDoctorByGridBinding?.edtSearchDoctor?.text?.toString()
                         fragmentSeeAllDoctorByGridViewModel?.apisearchdoctor(seeAllDoctorSearch)
                     }
-                }
+                //}
             }
         })
     }

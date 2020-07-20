@@ -65,11 +65,13 @@ class AdapterNurseSlotTiimeRecyclerview(val nurseTimingList: ArrayList<ResultIte
 
             if(selectedPosition==pos){
                 if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    itemView?.rootView?.txt_nurse_view_timings?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.rounded_with_border) )
-                    itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_with_border))
+                    itemView?.rootView?.txt_nurse_view_timings?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.rounded_green_btn) )
+                    itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_green_btn))
+                    itemView?.rootView?.txt_nurse_view_timings?.setTextColor(Color.parseColor("#ffffff"));
                 } else {
-                    itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_with_border))
-                    itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_with_border))
+                    itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_green_btn))
+                    itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_green_btn))
+                    itemView?.rootView?.txt_nurse_view_timings?.setTextColor(Color.parseColor("#ffffff"));
                 }
             }
                // itemView?.rootView?.setBackgroundColor(Color.parseColor("#D2F2F5"))
@@ -77,9 +79,11 @@ class AdapterNurseSlotTiimeRecyclerview(val nurseTimingList: ArrayList<ResultIte
                 if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     itemView?.rootView?.txt_nurse_view_timings?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.rounded_blue_broder) )
                     itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_blue_broder))
+                    itemView?.rootView?.txt_nurse_view_timings?.setTextColor(Color.parseColor("#515C6F"));
                 } else {
                     itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_blue_broder))
                     itemView?.rootView?.txt_nurse_view_timings?.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_blue_broder))
+                    itemView?.rootView?.txt_nurse_view_timings?.setTextColor(Color.parseColor("#515C6F"));
                 }
             }
                 itemView?.rootView?.setBackgroundColor(Color.parseColor("#ffffff"))

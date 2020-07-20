@@ -31,6 +31,7 @@ import com.rootscare.ui.myupcomingappointment.adapter.*
 import com.rootscare.ui.nurses.appointmentreschedule.FragmentNurseAppointmentReschedule
 import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.recedule.doctor.FragmentDoctorAppointmentReschedule
+import com.rootscare.utils.AppConstants
 import java.util.*
 
 class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBinding, FragmentTodaysAppointmentViewModel>(),
@@ -289,7 +290,8 @@ class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBi
 
             }
 
-            override fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem) {
+            override fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem,clickposation:String) {
+                AppConstants.DoctorrescheculeClickPosation=clickposation.toInt()
                 (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                     FragmentDoctorAppointmentReschedule.newInstance(modelDoctorAppointmentItem?.id!!,modelDoctorAppointmentItem?.doctorId!!,
                         modelDoctorAppointmentItem?.doctorName!!,
@@ -344,8 +346,8 @@ class FragmentTodaysAppointment : BaseFragment<FragmentUpcommingAppointmentNewBi
                 }, "Cancel Appointment", "Are you sure to cancel this appointment?")
             }
 
-            override fun onRescheduleBtnClick(nurseAppointmentItem: NurseAppointmentItem) {
-
+            override fun onRescheduleBtnClick(nurseAppointmentItem: NurseAppointmentItem,clickposation:String) {
+                AppConstants.NurserescheculeClickPosation=clickposation.toInt()
                 (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                     FragmentNurseAppointmentReschedule.newInstance(nurseAppointmentItem?.id!!,nurseAppointmentItem?.nurseId!!,
                         nurseAppointmentItem?.patientName!!,

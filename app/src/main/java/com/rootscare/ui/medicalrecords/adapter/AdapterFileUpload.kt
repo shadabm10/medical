@@ -110,7 +110,7 @@ class AdapterFileUpload (val uploadDocumentlist: ArrayList<UploadDocumentItem?>?
                     .into(itemView?.rootView?.imageview_files_type!!)
             }else{
                 Glide.with(context)
-                    .load(R.drawable.prescription)
+                    .load("http://166.62.54.122/rootscare/uploads/images/"+uploadDocumentlist?.get(local_position)?.file!!)
                     .into(itemView?.rootView?.imageview_files_type!!)
             }
 

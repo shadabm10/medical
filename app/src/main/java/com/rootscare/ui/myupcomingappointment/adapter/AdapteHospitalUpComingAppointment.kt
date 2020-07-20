@@ -67,6 +67,8 @@ class AdapteHospitalUpComingAppointment(val pathologyAppointmentList: ArrayList<
             local_position = pos
 
 
+
+
             if(pathologyAppointmentList?.get(pos)?.orderId!=null && !pathologyAppointmentList?.get(pos)?.orderId.equals("")){
                 itemView?.rootView?.txt_upcomming_appointment?.setText(pathologyAppointmentList?.get(pos)?.orderId)
             }else{
