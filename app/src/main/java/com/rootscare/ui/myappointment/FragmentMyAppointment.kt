@@ -289,6 +289,7 @@ class FragmentMyAppointment : BaseFragment<FragmentUpcommingAppointmentNewBindin
 
             override fun onRescheduleBtnClick(modelDoctorAppointmentItem: DoctorAppointmentItem,clickposation:String) {
                 AppConstants.DoctorrescheculeClickPosation=clickposation.toInt()
+                AppConstants.recsheduleFrom="My Appointment"
                 (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                     FragmentDoctorAppointmentReschedule.newInstance(modelDoctorAppointmentItem?.id!!,modelDoctorAppointmentItem?.doctorId!!,
                         modelDoctorAppointmentItem?.doctorName!!,
@@ -345,6 +346,7 @@ class FragmentMyAppointment : BaseFragment<FragmentUpcommingAppointmentNewBindin
 
             override fun onRescheduleBtnClick(nurseAppointmentItem: NurseAppointmentItem,clickposation:String) {
                 AppConstants.NurserescheculeClickPosation=clickposation.toInt()
+                AppConstants.recsheduleFrom="My Appointment"
                 (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                     FragmentNurseAppointmentReschedule.newInstance(nurseAppointmentItem?.id!!,nurseAppointmentItem?.nurseId!!,
                         nurseAppointmentItem?.patientName!!,

@@ -452,9 +452,12 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         try {
             mRecorder?.prepare()
             mRecorder?.start()
+
         } catch (e: IOException) {
             e.printStackTrace()
         }
+
+
         lastProgress = 0
         fragmentBookingBinding?.seekBar?.setProgress(0)
         stopPlaying()
@@ -472,6 +475,8 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         val recyclerView = fragmentBookingBinding!!.recyclerViewRootscareAddPatientList
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = gridLayoutManager
+        recyclerView.setNestedScrollingEnabled(false)
+//        recyclerView.setHasFixedSize(true)
         recyclerView.setHasFixedSize(true)
         val contactListAdapter = AdapterAddPatientListRecyclerview(patientfamilymemberList,context!!)
         recyclerView.adapter = contactListAdapter
@@ -803,7 +808,6 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
         val galleryIntent = Intent(
             Intent.ACTION_PICK,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-
         startActivityForResult(galleryIntent, GALLERY)
     }
 
@@ -1023,14 +1027,25 @@ class FragmentBookingAppointment : BaseFragment<FragmentBookingBinding, Fragment
 
     }
 
-//    fun onTouchEvent(event: MotionEvent?): Boolean {
-//        val imm =
-//            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.hideSoftInputFromWindow(
-//            activity?.getWindow()?.getDecorView()?.getRootView()?.getWindowToken(),
-//            0
-//        )
-//        return true
-//    }
+    override fun onPause() {
+        super.onPause()
+        if (mRecorder != null) {
+            mRecorder?.stop();
+            mRecorder?.reset();
+            mRecorder?.release();
+            mRecorder = null;
+        }
+        if(mPlayer!=null){
+            try {
+                mPlayer?.stop()
+                mPlayer?.reset()
+                mPlayer!!.release()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            mPlayer = null
+        }
 
+
+    }
 }

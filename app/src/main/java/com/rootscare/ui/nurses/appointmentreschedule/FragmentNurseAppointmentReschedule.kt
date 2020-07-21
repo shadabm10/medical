@@ -29,10 +29,12 @@ import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
+import com.rootscare.ui.myappointment.FragmentMyAppointment
 import com.rootscare.ui.myupcomingappointment.FragmentMyUpCommingAppointment
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseHourlySlotRecycllerview
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterNurseSlotTiimeRecyclerview
 import com.rootscare.ui.recedule.doctor.FragmentDoctorAppointmentReschedule
+import com.rootscare.ui.todaysappointment.FragmentTodaysAppointment
 import com.rootscare.utils.AppConstants
 import java.text.SimpleDateFormat
 import java.util.*
@@ -501,8 +503,27 @@ class FragmentNurseAppointmentReschedule: BaseFragment<FragmentNurseAppointmentR
         baseActivity?.hideLoading()
         if (doctorRescheduleResponse?.code.equals("200")){
             Toast.makeText(activity, doctorRescheduleResponse?.message, Toast.LENGTH_SHORT).show()
-            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentMyUpCommingAppointment.newInstance())
+            if(!AppConstants.recsheduleFrom.equals("")){
+                if(AppConstants.recsheduleFrom.equals("Todays Appointment")){
+                    (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                        FragmentTodaysAppointment.newInstance())
+                    AppConstants.recsheduleFrom=""
+                }else if(AppConstants.recsheduleFrom.equals("Upcoming Appointment")){
+                    (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                        FragmentMyUpCommingAppointment.newInstance())
+                    AppConstants.recsheduleFrom=""
+                }else if(AppConstants.recsheduleFrom.equals("My Appointment")){
+                    (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                        FragmentMyAppointment.newInstance())
+                    AppConstants.recsheduleFrom=""
+                }
+            }else{
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentMyAppointment.newInstance())
+                AppConstants.recsheduleFrom=""
+            }
+
+
         }else{
             Toast.makeText(activity, doctorRescheduleResponse?.message, Toast.LENGTH_SHORT).show()
         }

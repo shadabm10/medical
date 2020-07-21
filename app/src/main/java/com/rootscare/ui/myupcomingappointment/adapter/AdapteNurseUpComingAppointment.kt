@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.interfaces.OnNurseAppointmentCancel
@@ -78,10 +79,21 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
             local_position = pos
 
             if(pathologyAppointmentList?.get(pos)?.acceptanceStatus.equals("Pending")){
+                itemView?.rootView?.ll_mainlayout?.background=null
                 itemView?.rootView?.btn_appointment_cancel?.visibility=View.VISIBLE
                 itemView?.rootView?.btn_appointment_reschedule?.visibility=View.VISIBLE
                 itemView?.rootView?.btn_accepted?.visibility=View.GONE
-            }else{
+            }else if(pathologyAppointmentList?.get(pos)?.acceptanceStatus.equals("Rejected")){
+                itemView?.rootView?.ll_mainlayout?.background = ContextCompat.getDrawable(context, R.drawable.appointment_reject_background)
+//                itemView?.rootView?.setBackgroundColor(Color.parseColor("#70BE58"))
+                itemView?.rootView?.btn_appointment_cancel?.visibility=View.GONE
+                itemView?.rootView?.btn_appointment_reschedule?.visibility=View.GONE
+                itemView?.rootView?.btn_accepted?.visibility=View.VISIBLE
+                itemView?.rootView?.btn_accepted?.background = ContextCompat.getDrawable(context, R.drawable.rounded_reject_btn)
+                itemView?.rootView?.btn_accepted?.setEnabled(false);
+                itemView?.rootView?.btn_accepted?.setText(pathologyAppointmentList?.get(pos)?.acceptanceStatus)
+            } else{
+                itemView?.rootView?.ll_mainlayout?.background = ContextCompat.getDrawable(context, R.drawable.background_green_stroke_box)
                 itemView?.rootView?.btn_appointment_cancel?.visibility=View.GONE
                 itemView?.rootView?.btn_appointment_reschedule?.visibility=View.GONE
                 itemView?.rootView?.btn_accepted?.visibility=View.VISIBLE

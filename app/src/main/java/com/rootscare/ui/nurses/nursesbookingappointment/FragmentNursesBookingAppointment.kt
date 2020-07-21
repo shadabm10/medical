@@ -181,20 +181,11 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         apiHitForNurseDetails()
 //        setUpFromTimeListingRecyclerview()
         fragmentNursesBookingAppointmentBinding?.llMain?.setOnClickListener(View.OnClickListener {
-//            val inputMethodManager =
-//                activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-//            inputMethodManager.hideSoftInputFromWindow(
-//                activity!!.currentFocus!!.windowToken,
-//                0
-//            )
-
             baseActivity?.hideKeyboard()
         })
         fragmentNursesBookingAppointmentBinding?.btnAddPatient?.setOnClickListener(View.OnClickListener {
-//
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                 FragmentNurseAddPatient.newInstance(nurseId))
-
         })
 
         fragmentNursesBookingAppointmentBinding?.btnNurseBookNow?.setOnClickListener(View.OnClickListener {
@@ -637,6 +628,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         val recyclerView = fragmentNursesBookingAppointmentBinding!!.recyclerViewRootscareHourlyTimeRecyclerview
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = gridLayoutManager
+        recyclerView.setNestedScrollingEnabled(false)
         recyclerView.setHasFixedSize(true)
 //        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 //        val contactListAdapter = AdapterHospitalRecyclerviw(trainerList,context!!)
@@ -661,6 +653,7 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         val recyclerView = fragmentNursesBookingAppointmentBinding!!.recyclerViewRootscareAddPatientList
         val gridLayoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = gridLayoutManager
+        recyclerView.setNestedScrollingEnabled(false)
         recyclerView.setHasFixedSize(true)
         val contactListAdapter = AdapterForNursesAddPatientListRecyclerview(patientfamilymemberList,context!!)
         recyclerView.adapter = contactListAdapter
@@ -1180,5 +1173,23 @@ class FragmentNursesBookingAppointment: BaseFragment<FragmentNursesBookingAppoin
         fragmentNursesBookingAppointmentViewModel?. apibookcartnurse(patient_id,family_member_id,nurse_id,from_date,to_date,from_time,to_time,price,prescriptionimagemultipartBody,symptom_text, symptomsRecordingFilemultipartBody,appointment_type)
 
     }
-
+    override fun onPause() {
+        super.onPause()
+        if (mRecorder != null) {
+            mRecorder?.stop();
+            mRecorder?.reset();
+            mRecorder?.release();
+            mRecorder = null;
+        }
+        if(mPlayer!=null){
+            try {
+                mPlayer?.stop()
+                mPlayer?.reset()
+                mPlayer!!.release()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            mPlayer = null
+        }
+    }
 }

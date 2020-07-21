@@ -31,6 +31,7 @@ object AppConstants {
     var IS_NURSE_RESCHEDULE = false
     var DoctorrescheculeClickPosation=0
     var NurserescheculeClickPosation=0
+    var recsheduleFrom = ""
 
 }// This utility class is not publicly instantiable
 
