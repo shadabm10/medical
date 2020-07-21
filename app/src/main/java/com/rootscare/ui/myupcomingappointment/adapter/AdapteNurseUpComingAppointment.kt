@@ -36,6 +36,8 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
     internal lateinit var recyclerViewItemClickWithView: OnNurseAppointmentCancel
+    var fromtime=""
+    var totime=""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemMyUpcomingappointmentRecyclerviewBinding>(
@@ -137,6 +139,18 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
             }else{
                 itemView?.rootView?.txt_appointment_date?.setText("")
             }
+
+            if(pathologyAppointmentList?.get(pos)?.fromTime!=null && !pathologyAppointmentList?.get(pos)?.fromTime.equals("")){
+                fromtime=pathologyAppointmentList?.get(pos)?.fromTime!!
+            }else{
+                fromtime=""
+            }
+            if(pathologyAppointmentList?.get(pos)?.toTime!=null && !pathologyAppointmentList?.get(pos)?.toTime.equals("")){
+                totime=pathologyAppointmentList?.get(pos)?.toTime!!
+            }else{
+                totime=""
+            }
+            itemView?.rootView?.txt_appointment_time?.setText(fromtime+"-"+totime)
 
             if (pathologyAppointmentList?.get(pos)?.patientContact!=null && !pathologyAppointmentList?.get(pos)?.patientContact.equals("")){
                 itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText(pathologyAppointmentList?.get(pos)?.patientContact)

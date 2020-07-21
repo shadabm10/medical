@@ -28,7 +28,8 @@ class AdapterNursesAppointmentlistRecyclerview (val nurseAppointmentList: ArrayL
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
     internal lateinit var recyclerViewItemClick: OnClickWithTwoButton
-
+    var fromtime=""
+    var totime=""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemAppointmentlistRecyclerviewBinding>(
             LayoutInflater.from(context),
@@ -74,7 +75,17 @@ class AdapterNursesAppointmentlistRecyclerview (val nurseAppointmentList: ArrayL
 //            +" "+"-"+" "+formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",nurseAppointmentList?.get(pos)?.toDate)
             itemView?.rootView?.txt_appointment_status?.setText(nurseAppointmentList?.get(pos)?.appointmentStatus)
             itemView?.rootView?.txt_appointment_acceptance?.setText(nurseAppointmentList?.get(pos)?.acceptanceStatus)
-
+            if(nurseAppointmentList?.get(pos)?.fromTime!=null && !nurseAppointmentList?.get(pos)?.fromTime.equals("")){
+                fromtime=nurseAppointmentList?.get(pos)?.fromTime!!
+            }else{
+                fromtime=""
+            }
+            if(nurseAppointmentList?.get(pos)?.toTime!=null && !nurseAppointmentList?.get(pos)?.toTime.equals("")){
+                totime=nurseAppointmentList?.get(pos)?.toTime!!
+            }else{
+                totime=""
+            }
+            itemView?.rootView?.txt_appointmenthistory_time?.setText(fromtime+"-"+totime)
         }
 
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {

@@ -15,6 +15,11 @@ import com.rootscare.databinding.ItemHomeHospitalRecyclerviewBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
 import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.*
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.txt_appointment_date
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.txt_booking_date
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.txt_doctor_name
+import kotlinx.android.synthetic.main.item_appointmentlist_recyclerview.view.txt_patient_name
+import kotlinx.android.synthetic.main.item_my_upcomingappointment_recyclerview.view.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,7 +30,8 @@ class AdapterAppointmentListRecyclerView (val doctorAppointmentList: ArrayList<D
     companion object {
         val TAG: String = AdapterHospitalRecyclerviw::class.java.simpleName
     }
-
+    var fromtime=""
+    var totime=""
     internal lateinit var recyclerViewItemClick: OnClickWithTwoButton
 //
 //    internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
@@ -74,6 +80,17 @@ class AdapterAppointmentListRecyclerView (val doctorAppointmentList: ArrayList<D
             itemView?.rootView?.txt_appointment_date?.setText(formateDateFromstring("yyyy-MM-dd","dd MMM yyyy",doctorAppointmentList?.get(pos)?.appointmentDate))
             itemView?.rootView?.txt_appointment_status?.setText(doctorAppointmentList?.get(pos)?.appointmentStatus)
             itemView?.rootView?.txt_appointment_acceptance?.setText(doctorAppointmentList?.get(pos)?.acceptanceStatus)
+            if(doctorAppointmentList?.get(pos)?.fromTime!=null && !doctorAppointmentList?.get(pos)?.fromTime.equals("")){
+                fromtime=doctorAppointmentList?.get(pos)?.fromTime!!
+            }else{
+                fromtime=""
+            }
+            if(doctorAppointmentList?.get(pos)?.toTime!=null && !doctorAppointmentList?.get(pos)?.toTime.equals("")){
+                totime=doctorAppointmentList?.get(pos)?.toTime!!
+            }else{
+                totime=""
+            }
+            itemView?.rootView?.txt_appointmenthistory_time?.setText(fromtime+"-"+totime)
         }
 
         fun formateDateFromstring(inputFormat: String?, outputFormat: String?, inputDate: String?): String? {

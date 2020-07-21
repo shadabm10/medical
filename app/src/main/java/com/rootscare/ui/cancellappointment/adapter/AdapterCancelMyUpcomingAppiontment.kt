@@ -30,6 +30,8 @@ class AdapterCancelMyUpcomingAppiontment (val doctorAppointmentList: ArrayList<D
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
     internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
+    var fromtime=""
+    var totime=""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemCancellAppointmentBinding>(
@@ -104,7 +106,17 @@ class AdapterCancelMyUpcomingAppiontment (val doctorAppointmentList: ArrayList<D
             }
             itemView?.rootView?.txt_appointment_status?.setText(doctorAppointmentList?.get(pos)?.appointmentStatus)
             itemView?.rootView?.txt_appointment_acceptance?.setText(doctorAppointmentList?.get(pos)?.acceptanceStatus)
-
+            if(doctorAppointmentList?.get(pos)?.fromTime!=null && !doctorAppointmentList?.get(pos)?.fromTime.equals("")){
+                fromtime=doctorAppointmentList?.get(pos)?.fromTime!!
+            }else{
+                fromtime=""
+            }
+            if(doctorAppointmentList?.get(pos)?.toTime!=null && !doctorAppointmentList?.get(pos)?.toTime.equals("")){
+                totime=doctorAppointmentList?.get(pos)?.toTime!!
+            }else{
+                totime=""
+            }
+            itemView?.rootView?.txt_appointmentcancel_time?.setText(fromtime+"-"+totime)
 
         }
 
