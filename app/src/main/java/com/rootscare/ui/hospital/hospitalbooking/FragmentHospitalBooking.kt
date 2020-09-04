@@ -4,21 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import com.interfaces.OnAddPatientListClick
 import com.rootscare.BR
 import com.rootscare.R
-import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.ResultItem
 import com.rootscare.databinding.FragmentHospitalBookingBinding
-import com.rootscare.databinding.FragmentNursesBookingAppointmentBinding
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.adapter.AdapterAddPatientListRecyclerview
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.hospital.hospitalbookingdetails.FragmentHospitalBookingDetails
-import com.rootscare.ui.nurses.nursesappointmentbookingdetails.FragmentNursesAppointmentBookingDetails
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointmentNavigator
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointmentViewModel
-import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterForNursesAddPatientListRecyclerview
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterSelectHourytimeRecyclerView
 
 class FragmentHospitalBooking : BaseFragment<FragmentHospitalBookingBinding, FragmentHospitalBookingViewModel>(),

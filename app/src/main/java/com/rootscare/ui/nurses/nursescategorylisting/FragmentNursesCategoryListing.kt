@@ -3,14 +3,12 @@ package com.rootscare.ui.nurses.nursescategorylisting
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
@@ -25,16 +23,9 @@ import com.rootscare.data.model.api.response.doctorallapiresponse.doctordepartme
 import com.rootscare.data.model.api.response.nurses.nurselist.GetNurseListResponse
 import com.rootscare.data.model.api.response.nurses.nurselist.ResultItem
 import com.rootscare.databinding.FragmentNursesCategorylistingBinding
-import com.rootscare.databinding.FragmentSeeAllNursesListByGridBinding
 import com.rootscare.model.RowItem
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.FragmentBookingAppointment
-import com.rootscare.ui.doctorcategorieslisting.adapter.AdapterDoctorCategoriesLisingRecyclerview
-import com.rootscare.ui.doctorlistingdetails.FragmentDoctorListingDetails
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.nurses.FragmentNursesListByGrid
-import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
-import com.rootscare.ui.nurses.FragmentNursesListByGridViewModel
 import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
 import com.rootscare.ui.nurses.nursescategorylisting.adapter.AdapterNursesCtegoryListingRecyclerview
 import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
@@ -254,6 +245,7 @@ class FragmentNursesCategoryListing : BaseFragment<FragmentNursesCategorylisting
             Toast.makeText(activity, "Please check your network connection.", Toast.LENGTH_SHORT).show()
         }
     }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showFilterMenuWithCircularRevealAnimation() {
         with(fragmentNursesCategorylistingBinding!!) {

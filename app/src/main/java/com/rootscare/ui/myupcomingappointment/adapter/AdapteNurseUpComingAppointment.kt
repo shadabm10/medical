@@ -89,11 +89,13 @@ class AdapteNurseUpComingAppointment  (val pathologyAppointmentList: ArrayList<N
                 itemView?.rootView?.btn_appointment_cancel?.visibility=View.GONE
                 itemView?.rootView?.btn_appointment_reschedule?.visibility=View.GONE
                 itemView?.rootView?.btn_accepted?.visibility=View.VISIBLE
+//                itemView?.rootView?.ll_appontment_bg?.background=ContextCompat.getDrawable(context, R.color.reject_button)
                 itemView?.rootView?.btn_accepted?.background = ContextCompat.getDrawable(context, R.drawable.rounded_reject_btn)
                 itemView?.rootView?.btn_accepted?.setEnabled(false);
                 itemView?.rootView?.btn_accepted?.setText(pathologyAppointmentList?.get(pos)?.acceptanceStatus)
             } else{
                 itemView?.rootView?.ll_mainlayout?.background = ContextCompat.getDrawable(context, R.drawable.background_green_stroke_box)
+//                itemView?.rootView?.ll_appontment_bg?.background=ContextCompat.getDrawable(context, R.color.colorAccent)
                 itemView?.rootView?.btn_appointment_cancel?.visibility=View.GONE
                 itemView?.rootView?.btn_appointment_reschedule?.visibility=View.GONE
                 itemView?.rootView?.btn_accepted?.visibility=View.VISIBLE

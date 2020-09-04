@@ -7,18 +7,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.databinding.FragmentHospitalListDetailsBinding
-import com.rootscare.databinding.FragmentSeeAllHospitalListBinding
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.adapter.AdapterAddPatientListRecyclerview
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.hospital.FragmentSeeAllHospitalList
-import com.rootscare.ui.hospital.FragmentSeeAllHospitalListNavigator
-import com.rootscare.ui.hospital.FragmentSeeAllHospitalListViewModel
 import com.rootscare.ui.hospital.hospitalbooking.FragmentHospitalBooking
-import com.rootscare.ui.hospital.hospitalcategorylisting.FragmentHospitalCategoryList
 import com.rootscare.ui.hospital.hospitallistdetails.adapter.AdapterHospitalPhotoRecyclerView
 import com.rootscare.ui.hospital.hospitallistdetails.adapter.AdapterHospitalServiceListingRecyclerview
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
 import com.rootscare.ui.physiotherapy.submitreviewforservice.FragmentSubmitReview
 
 class FragmentHospitalListDetails: BaseFragment<FragmentHospitalListDetailsBinding, FragmentHospitalListDetailsViewModel>(),

@@ -4,27 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import com.interfaces.OnAddPatientListClick
-import com.interfaces.OnDoctorPrivateSlotClickListner
 import com.rootscare.BR
 import com.rootscare.R
-import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.ResultItem
-import com.rootscare.databinding.FragmentNursesBookingAppointmentBinding
 import com.rootscare.databinding.FragmentPhysiotherapyBookingAppiontmentBinding
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.adapter.AdapterDoctorSlotRecyclerview
 import com.rootscare.ui.bookingappointment.adapter.AdapterFromTimeRecyclerview
 import com.rootscare.ui.bookingappointment.adapter.AdapterToTimeRecyclerView
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.nurses.nursesappointmentbookingdetails.FragmentNursesAppointmentBookingDetails
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointmentNavigator
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointmentViewModel
-import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterForNursesAddPatientListRecyclerview
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterSelectHourytimeRecyclerView
 import com.rootscare.ui.physiotherapy.adapter.AdapterPhysiotherapySlotRecyclerview
 import com.rootscare.ui.physiotherapy.bookingdetails.FragmentPhysiotherapyBookingDetails
-import java.util.ArrayList
 
 class FragmentPhysiotherapyBookingAppointment : BaseFragment<FragmentPhysiotherapyBookingAppiontmentBinding, FragmentPhysiotherapyBookingAppointmentViewModel>(),
     FragmentPhysiotherapyBookingAppointmentNavigator {

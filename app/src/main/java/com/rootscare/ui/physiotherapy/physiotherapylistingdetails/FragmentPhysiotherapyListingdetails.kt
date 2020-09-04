@@ -6,15 +6,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rootscare.BR
 import com.rootscare.R
-import com.rootscare.databinding.FragmentNursesListingDetailsBinding
 import com.rootscare.databinding.FragmentPhysiotherapyListingDetailsBinding
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
-import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
-import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetailsNavigator
-import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetailsViewModel
-import com.rootscare.ui.nurses.nurseslistingdetails.adapter.AdapterNursesFeesListingRecyclerView
 import com.rootscare.ui.physiotherapy.submitreviewforservice.FragmentSubmitReview
 
 class FragmentPhysiotherapyListingdetails : BaseFragment<FragmentPhysiotherapyListingDetailsBinding, FragmentPhysiotherapyListingdetailsViewModel>(),

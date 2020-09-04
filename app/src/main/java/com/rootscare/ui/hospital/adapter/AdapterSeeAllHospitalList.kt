@@ -31,7 +31,7 @@ class AdapterSeeAllHospitalList ( internal var context: Context) : RecyclerView.
 
     override fun getItemCount(): Int {
 //        return trainerList!!.size
-        return 4
+        return 6
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

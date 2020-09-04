@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Roots Care Application</string>
-    <string name="api_base">http://166.62.54.122/rootscare/</string>
+    <string name="api_base">https://teq-dev-var19.co.in/rootscare/</string>
     <string name="roots_care">Roots Care</string>
     <string name="home">Home</string>
     <string name="no_data">No data found</string>
@@ -28,4 +28,8 @@
     <string name="pleaese_create_name_for_this_file">Please create name for selected file</string>
     <string name="review_more">More..</string>
     <string name="review_less">Less..</string>
+    <string name="care_giver">Caregiver</string>
+    <string name="select_time">Select Time ( Each slot mean to 30 min )</string>
+    <string name="select_time_sl">Select Time :</string>
+    <string name="search_for_care_giver_name">Search by caregiver name</string>
 </resources>

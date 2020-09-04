@@ -45,18 +45,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_20sdp">
-                        <ImageView
+                        <androidx.cardview.widget.CardView
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_80sdp"
-                            android:id="@+id/img_doctorbooking_doctorprofileimage"
-                            android:src="@drawable/no_image"/>
+                            android:id="@+id/crd_profile_image"
+                            android:gravity="center"
+                            android:padding="@dimen/_3sdp"
+                            app:cardCornerRadius="@dimen/_6sdp">
+                            <ImageView
+                                android:layout_width="@dimen/_80sdp"
+                                android:layout_height="@dimen/_80sdp"
+                                android:scaleType="centerCrop"
+                                android:id="@+id/img_doctorbooking_doctorprofileimage"
+                                android:src="@drawable/no_image"/>
+                        </androidx.cardview.widget.CardView>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_toEndOf="@+id/img_doctorbooking_doctorprofileimage"
+                            android:layout_toEndOf="@+id/crd_profile_image"
                             android:orientation="vertical">
                             <com.customview.MyTextView
                                 android:layout_width="match_parent"

@@ -17,7 +17,6 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -26,10 +25,6 @@ import com.rootscare.R
 import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.addpatientresponse.AddPatientResponse
 import com.rootscare.databinding.FragmentAddPatientForDoctorBookingBinding
 import com.rootscare.ui.base.BaseFragment
-import com.rootscare.ui.bookingappointment.FragmentBookingAppointment
-import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBooking
-import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBookingNavigator
-import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBookingViewModel
 import com.rootscare.ui.home.HomeActivity
 import com.rootscare.ui.home.subfragment.HomeFragment
 import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment

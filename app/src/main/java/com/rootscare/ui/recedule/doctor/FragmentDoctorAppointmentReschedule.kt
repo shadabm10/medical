@@ -280,7 +280,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
                     }
 
                     override fun onConfirm() {
-                        AppConstants.IS_DOCTORRESCHEDULE=true
+
                         if(isNetworkConnected){
                             baseActivity?.showLoading()
                             var doctorAppointmentRescheduleRequest= DoctorAppointmentRescheduleRequest()
@@ -455,6 +455,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
     override fun successDoctorRescheduleResponse(doctorRescheduleResponse: DoctorRescheduleResponse?) {
         baseActivity?.hideLoading()
         if (doctorRescheduleResponse?.code.equals("200")){
+            AppConstants.IS_DOCTORRESCHEDULE=true
             Toast.makeText(activity, doctorRescheduleResponse?.message, Toast.LENGTH_SHORT).show()
             if(!AppConstants.recsheduleFrom.equals("")){
                 if(AppConstants.recsheduleFrom.equals("Todays Appointment")){
@@ -471,6 +472,7 @@ class FragmentDoctorAppointmentReschedule : BaseFragment<FragmentDoctorAppointme
                     AppConstants.recsheduleFrom=""
                 }
             }else{
+                AppConstants.IS_DOCTORRESCHEDULE=false
                 (activity as HomeActivity).checkFragmentInBackstackAndOpen(
                     FragmentMyAppointment.newInstance())
                 AppConstants.recsheduleFrom=""

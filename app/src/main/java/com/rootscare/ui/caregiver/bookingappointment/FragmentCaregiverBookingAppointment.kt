@@ -4,22 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import com.interfaces.OnAddPatientListClick
 import com.rootscare.BR
 import com.rootscare.R
-import com.rootscare.data.model.api.response.doctorallapiresponse.doctorbooking.getpatientfamilymemberlistresponse.ResultItem
 import com.rootscare.databinding.FragmentCaregiverBookingAppointmentBinding
-import com.rootscare.databinding.FragmentNursesBookingAppointmentBinding
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.bookingappointment.adapter.AdapterFromTimeRecyclerview
 import com.rootscare.ui.bookingappointment.adapter.AdapterToTimeRecyclerView
 import com.rootscare.ui.caregiver.bookingdetails.FragmentCaregiverBookingDetails
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.nurses.nursesappointmentbookingdetails.FragmentNursesAppointmentBookingDetails
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointmentNavigator
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointmentViewModel
-import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterForNursesAddPatientListRecyclerview
 import com.rootscare.ui.nurses.nursesbookingappointment.adapter.AdapterSelectHourytimeRecyclerView
 
 class FragmentCaregiverBookingAppointment: BaseFragment<FragmentCaregiverBookingAppointmentBinding, FragmentCaregiverBookingAppointmentViewModel>(),
@@ -36,14 +28,18 @@ class FragmentCaregiverBookingAppointment: BaseFragment<FragmentCaregiverBooking
                 ViewModelProviders.of(this).get(FragmentCaregiverBookingAppointmentViewModel::class.java!!)
             return fragmentCaregiverBookingAppointmentViewModel as FragmentCaregiverBookingAppointmentViewModel
         }
+
     companion object {
-        fun newInstance(): FragmentCaregiverBookingAppointment {
+        private val IMAGE_DIRECTORY = "/demonuts"
+        fun newInstance(nurseid: String): FragmentCaregiverBookingAppointment {
             val args = Bundle()
+            args.putString("nurseid",nurseid)
             val fragment = FragmentCaregiverBookingAppointment()
             fragment.arguments = args
             return fragment
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentCaregiverBookingAppointmentViewModel!!.navigator = this

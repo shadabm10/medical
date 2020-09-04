@@ -7,24 +7,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.databinding.FragmentCaregiverListingDetailsBinding
-import com.rootscare.databinding.FragmentNursesListingDetailsBinding
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.caregiver.bookingappointment.FragmentCaregiverBookingAppointment
+import com.rootscare.ui.caregiver.caregiverbookingappointment.FragmentCaregiverUpdateBookingAppointment
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
-import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
-import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetailsNavigator
-import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetailsViewModel
-import com.rootscare.ui.nurses.nurseslistingdetails.adapter.AdapterNursesFeesListingRecyclerView
 import com.rootscare.ui.physiotherapy.submitreviewforservice.FragmentSubmitReview
 
 class FragmentCaregiverListingDetails : BaseFragment<FragmentCaregiverListingDetailsBinding, FragmentCaregiverListingDetailsViewModel>(),
     FragmentCaregiverListingDetailsnavigator {
     private var fragmentCaregiverListingDetailsBinding: FragmentCaregiverListingDetailsBinding? = null
     private var fragmentCaregiverListingDetailsViewModel: FragmentCaregiverListingDetailsViewModel? = null
+    var nurseId=""
+
     override val bindingVariable: Int
         get() = BR.viewModel
     override val layoutId: Int
+
         get() = R.layout.fragment_caregiver_listing_details
     override val viewModel: FragmentCaregiverListingDetailsViewModel
         get() {
@@ -33,8 +31,10 @@ class FragmentCaregiverListingDetails : BaseFragment<FragmentCaregiverListingDet
             return fragmentCaregiverListingDetailsViewModel as FragmentCaregiverListingDetailsViewModel
         }
     companion object {
-        fun newInstance(): FragmentCaregiverListingDetails {
+        private val IMAGE_DIRECTORY = "/demonuts"
+        fun newInstance(nurseid: String): FragmentCaregiverListingDetails {
             val args = Bundle()
+            args.putString("nurseid",nurseid)
             val fragment = FragmentCaregiverListingDetails()
             fragment.arguments = args
             return fragment
@@ -50,12 +50,12 @@ class FragmentCaregiverListingDetails : BaseFragment<FragmentCaregiverListingDet
 //        setUpViewSeeAllNursesCategorieslistingRecyclerview()
         setUpViewNursesFeeslistingRecyclerview()
         fragmentCaregiverListingDetailsBinding?.btnRootscareBookingNurses?.setOnClickListener(View.OnClickListener {
-            (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentCaregiverBookingAppointment.newInstance())
+         /*   (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                FragmentCaregiverBookingAppointment.newInstance(nurseId))*/
         })
         fragmentCaregiverListingDetailsBinding?.btnBookingAppointment?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentCaregiverBookingAppointment.newInstance())
+            FragmentCaregiverUpdateBookingAppointment.newInstance(nurseId))
         })
         fragmentCaregiverListingDetailsBinding?.txtWriteYourReview?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(

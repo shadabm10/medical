@@ -23,7 +23,6 @@ import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingApp
 import com.rootscare.ui.nurses.nurseslistingdetails.adapter.*
 import com.rootscare.ui.nurses.review.FragmentNurseReviewSubmit
 import com.rootscare.ui.profile.FragmentProfile
-import com.rootscare.ui.submitfeedback.FragmentSubmitReview
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

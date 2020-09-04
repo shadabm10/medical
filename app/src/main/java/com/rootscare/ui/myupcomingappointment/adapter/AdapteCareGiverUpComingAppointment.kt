@@ -32,6 +32,8 @@ class AdapteCareGiverUpComingAppointment (val caregiverAppointmentList: ArrayLis
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
 //
     internal lateinit var recyclerViewItemClickWithView: OnItemClikWithIdListener
+    var fromtime=""
+    var totime=""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val singleItemDashboardListingBinding = DataBindingUtil.inflate<ItemMyUpcomingappointmentRecyclerviewBinding>(
@@ -103,7 +105,17 @@ class AdapteCareGiverUpComingAppointment (val caregiverAppointmentList: ArrayLis
             }else{
                 itemView?.rootView?.txt_upcoming_appointmentphone_no?.setText("")
             }
-
+            if(caregiverAppointmentList?.get(pos)?.fromTime!=null && !caregiverAppointmentList?.get(pos)?.fromTime.equals("")){
+                fromtime=caregiverAppointmentList?.get(pos)?.fromTime!!
+            }else{
+                fromtime=""
+            }
+            if(caregiverAppointmentList?.get(pos)?.toTime!=null && !caregiverAppointmentList?.get(pos)?.toTime.equals("")){
+                totime=caregiverAppointmentList?.get(pos)?.toTime!!
+            }else{
+                totime=""
+            }
+            itemView?.rootView?.txt_appointment_time?.setText(fromtime+"-"+totime)
             itemView?.rootView?.txt_upappointment_status?.setText(caregiverAppointmentList?.get(pos)?.appointmentStatus)
             itemView?.rootView?.txt_upappointment_acceptance?.setText(caregiverAppointmentList?.get(pos)?.acceptanceStatus)
 

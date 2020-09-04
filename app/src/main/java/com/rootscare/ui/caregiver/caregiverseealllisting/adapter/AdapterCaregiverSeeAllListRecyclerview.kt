@@ -7,18 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.interfaces.OnClickWithTwoButton
 import com.rootscare.R
+import com.rootscare.data.model.api.response.caregiverallresponse.allcaregiverlistingresponse.ResultCareItem
+import com.rootscare.data.model.api.response.doctorallapiresponse.alldoctorlistingresponse.ResultItem
 import com.rootscare.databinding.ItemSeeAllCaregiverListRecyclerviewBinding
+import com.rootscare.databinding.ItemSeeAllDoctorByGridRecyclerviewBinding
 import com.rootscare.databinding.ItemSeeAllNursesByGridRecyclerviewBinding
 import com.rootscare.ui.home.subfragment.adapter.AdapterHospitalRecyclerviw
 import com.rootscare.ui.nurses.adapter.AdapterSeeAllNursesByGridRecyclerView
+import com.rootscare.ui.seealldoctorbygrid.adapter.AdapterSeeAllDoctorByGridRecyclerView
+import kotlinx.android.synthetic.main.item_see_all_caregiver_list_recyclerview.view.*
+import kotlinx.android.synthetic.main.item_see_all_doctor_by_grid_recyclerview.view.*
 import kotlinx.android.synthetic.main.item_see_all_nurses_by_grid_recyclerview.view.*
 
-class AdapterCaregiverSeeAllListRecyclerview  ( internal var context: Context) : RecyclerView.Adapter<AdapterCaregiverSeeAllListRecyclerview.ViewHolder>() {
+class AdapterCaregiverSeeAllListRecyclerview  (val allDoctorList: ArrayList<ResultCareItem?>?, internal var context: Context) : RecyclerView.Adapter<AdapterCaregiverSeeAllListRecyclerview.ViewHolder>() {
     //    val trainerList: ArrayList<TrainerListItem?>?,
     companion object {
-        val TAG: String = AdapterHospitalRecyclerviw::class.java.simpleName
+        val TAG: String = AdapterCaregiverSeeAllListRecyclerview::class.java.simpleName
     }
 
     //    internal lateinit var recyclerViewItemClick: ItemStudyMaterialRecyclerviewOnItemClick
@@ -33,8 +40,8 @@ class AdapterCaregiverSeeAllListRecyclerview  ( internal var context: Context) :
     }
 
     override fun getItemCount(): Int {
-//        return trainerList!!.size
-        return 4
+        return allDoctorList!!.size
+//        return 10
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,32 +53,12 @@ class AdapterCaregiverSeeAllListRecyclerview  ( internal var context: Context) :
 
         private var local_position:Int = 0
         init {
-//            itemView?.root?.crdview_seeall_doctorlisting?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onFirstItemClick(1)
-//            })
-            itemView?.root?.crdview_seeall_nurseslisting?.setOnClickListener(View.OnClickListener {
-                recyclerViewItemClickWithView?.onSecondItemClick(1)
+            itemView?.root?.crdview_seeall_caregiverlisting?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClickWithView?.onFirstItemClick(1)
             })
-//            itemView?.root?.crdview_appoitment_list?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(1)
-//            })
-//            itemView?.root?.btn_view_trainner_profile?.setOnClickListener(View.OnClickListener {
-//                recyclerViewItemClickWithView?.onItemClick(trainerList?.get(local_position)?.id?.toInt()!!)
-//            })
-
-//            itemView.root?.img_bid?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_bid,local_position)
-//                    //serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_bid,it1) }
-//                }
-//            }
-//
-//            itemView.root?.img_details?.setOnClickListener {
-//                run {
-//                    recyclerViewItemClick?.onClick(itemView.root?.img_details,local_position)
-//                    // serviceListItem?.get(local_position)?.requestid?.let { it1 -> recyclerViewItemClick.onClick(itemView.root?.img_details,it1) }
-//                }
-//            }
+            itemView?.root?.crdview_seeall_caregiverlisting?.setOnClickListener(View.OnClickListener {
+                recyclerViewItemClickWithView?.onSecondItemClick(allDoctorList?.get(local_position)?.userId?.toInt()!!)
+            })
 
 
         }
@@ -79,22 +66,13 @@ class AdapterCaregiverSeeAllListRecyclerview  ( internal var context: Context) :
         fun onBind(pos: Int) {
             Log.d(TAG, " true")
             local_position = pos
+            itemView?.rootView?.txt_caregiver_name?.setText(allDoctorList?.get(pos)?.firstName+" "+allDoctorList?.get(pos)?.lastName)
 
-//            itemView?.rootView?.txt_teacher_name?.text= trainerList?.get(pos)?.name
-//            itemView?.rootView?.txt_teacher_qualification?.text= "Qualification : "+" "+trainerList?.get(pos)?.qualification
-//            if(trainerList?.get(pos)?.avgRating!=null && !trainerList?.get(pos)?.avgRating.equals("")){
-//                itemView?.rootView?.ratingBarteacher?.rating= trainerList?.get(pos)?.avgRating?.toFloat()!!
-//            }
-
-
-
-
-
-//            itemView?.rootView?.txt_rating_count?.text="("+contactListItem?.get(pos)?.contactRating+")"
-//            (contactListItem?.get(pos)?.contactRating)?.toFloat()?.let { itemView?.rootView?.ratingBar?.setRating(it) }
-////            itemView?.rootView?.ratingBar?.rating=1.5f
-
-
+            itemView?.rootView?.txt_qualification?.setText(allDoctorList?.get(pos)?.qualification)
+            itemView?.rootView?.txt_description?.setText(allDoctorList?.get(pos)?.description)
+            Glide.with(context)
+                .load(context.getString(R.string.api_base)+"uploads/images/" + (allDoctorList?.get(pos)?.image))
+                .into(itemView?.rootView?.image_caragiver!!)
         }
     }
 

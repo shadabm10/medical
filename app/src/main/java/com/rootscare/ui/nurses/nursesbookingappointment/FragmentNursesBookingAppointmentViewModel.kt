@@ -8,7 +8,6 @@ import com.rootscare.data.model.api.request.nurse.hourlyslot.NurseHourlySlotRequ
 import com.rootscare.data.model.api.request.nurse.nursedetailsrequest.NurseDetailsRequest
 import com.rootscare.data.model.api.request.nurse.nurseslots.NurseSlotRequest
 import com.rootscare.ui.base.BaseViewModel
-import com.rootscare.ui.nurses.FragmentNursesListByGridNavigator
 import com.rootscare.ui.nurses.nursesappointmentbookingdetails.FragmentNursesAppointmentBookingDetailsNavigator
 import io.reactivex.disposables.Disposable
 import okhttp3.MultipartBody

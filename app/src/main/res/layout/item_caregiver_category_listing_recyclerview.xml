@@ -37,9 +37,10 @@
                         app:cardCornerRadius="@dimen/_6sdp">
 
                         <ImageView
-                            android:id="@+id/img_doctordetails_profilephoto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/img_caregiver_profilephoto"
+                            android:layout_width="@dimen/_70sdp"
+                            android:scaleType="centerCrop"
+                            android:layout_height="@dimen/_70sdp"
                             android:src="@drawable/caregiver" />
                     </androidx.cardview.widget.CardView>
 
@@ -50,7 +51,7 @@
                         android:orientation="vertical">
 
                         <RatingBar
-                            android:id="@+id/ratingBardoctordetailseview"
+                            android:id="@+id/ratingcaregiverdetailseview"
                             style="@style/customRatingBar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -64,7 +65,7 @@
                             android:stepSize="1.0" />
 
                         <com.customview.MyTextView
-                            android:id="@+id/txt_doctordetails_noofreview"
+                            android:id="@+id/txt_caregiverdetails_noofreview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"
@@ -86,11 +87,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Kristen Lewis"
+                        android:id="@+id/txt_caregiver_list_name"
                         android:textColor="@color/txt_color"
                         android:textStyle="bold"
                         android:textSize="@dimen/_13ssp"/>
                     <com.customview.MyTextView
                         android:layout_width="match_parent"
+                        android:id="@+id/txt_caregive_qualification"
                         android:layout_height="wrap_content"
                         android:text="MBBS General Physician"
                         android:layout_marginTop="@dimen/_3sdp"
@@ -100,6 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
+                        android:id="@+id/txt_caregiver_desc"
                         android:text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:textColor="@color/txt_color"

@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:id="@+id/rl_doctor_recyclerview"
         android:visibility="visible"
-
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView

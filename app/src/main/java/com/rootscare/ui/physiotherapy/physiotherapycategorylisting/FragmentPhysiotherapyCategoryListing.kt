@@ -7,15 +7,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.interfaces.OnClickWithTwoButton
 import com.rootscare.BR
 import com.rootscare.R
-import com.rootscare.databinding.FragmentNursesCategorylistingBinding
 import com.rootscare.databinding.FragmentPhysiotherapyCategoryListingBinding
 import com.rootscare.ui.base.BaseFragment
 import com.rootscare.ui.home.HomeActivity
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
-import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListing
-import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListingNavigator
-import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListingViewModel
-import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
 import com.rootscare.ui.physiotherapy.bookingappointment.FragmentPhysiotherapyBookingAppointment
 import com.rootscare.ui.physiotherapy.physiotherapycategorylisting.adapter.AdapterPhysiotherapyCategoryLisytingRecyclerview
 import com.rootscare.ui.physiotherapy.physiotherapylistingdetails.FragmentPhysiotherapyListingdetails

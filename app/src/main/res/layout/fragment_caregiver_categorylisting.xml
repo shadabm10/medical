@@ -48,7 +48,7 @@
                             android:paddingEnd="@dimen/_8sdp"
                             android:paddingTop="@dimen/_6sdp"
                             android:paddingBottom="@dimen/_6sdp"
-
+                            android:id="@+id/edt_search_caregiver_by_name"
                             android:singleLine="true"
                             android:textColorHint="@color/gray_light_dark"
                             android:textSize="@dimen/_10ssp" />
@@ -61,7 +61,7 @@
                         android:layout_marginStart="@dimen/_20sdp"
                         android:drawableStart="@drawable/filter"
                         android:drawablePadding="@dimen/_5sdp"
-
+                        android:id="@+id/txt_caregiver_filter_category"
                         android:text="Filter"
                         android:textColor="@color/txt_color"
                         android:textSize="@dimen/_12ssp" />
@@ -75,6 +75,162 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@color/common_bg"
                     android:layout_height="match_parent">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"
+                        android:background="@color/transparentBlack"
+                        android:id="@+id/transparent_black_view_for_content" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"
+                        android:background="@color/transparentBlack"
+                        android:id="@+id/transparent_black_view_for_search"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="gone"
+                        android:background="@color/transparentBlack"
+                        android:id="@+id/transparent_black_view_for_search_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/filter_menu_container_card_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="5dp"
+                        android:visibility="invisible">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_5sdp">
+
+                            <com.customview.MyTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginTop="5dp"
+                                android:text="Sort by name"
+                                android:textColor="@color/black"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_12ssp"
+                                android:visibility="gone"
+                                android:id="@+id/tv_distance_filter"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <Spinner
+                                android:id="@+id/spinnerDistance"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:minHeight="30dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@null"
+                                android:visibility="gone"
+                                android:overlapAnchor="false"
+                                android:spinnerMode="dropdown"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_distance_filter" />
+
+                            <com.customview.MyTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginTop="20dp"
+                                android:text="By Specility"
+                                android:textColor="@color/black"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_14ssp"
+                                android:id="@+id/tv_speciality_filter"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/spinnerDistance" />
+
+
+
+                            <Spinner
+                                android:id="@+id/spinnerSpeciality"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:minHeight="30dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginTop="5dp"
+                                android:overlapAnchor="false"
+                                android:spinnerMode="dropdown"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_speciality_filter" />
+
+
+
+                            <com.customview.MyTextView
+                                android:id="@+id/tv_filter_submit"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:background="@drawable/btn_sky_bg"
+                                android:gravity="center"
+                                android:padding="@dimen/_6sdp"
+                                android:text="Apply"
+                                android:textSize="@dimen/_12ssp"
+                                android:textColor="@color/white"
+                                app:layout_constraintHorizontal_chainStyle="packed"
+                                app:layout_constraintEnd_toStartOf="@+id/tv_filter_clear"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/spinnerSpeciality" />
+
+                            <com.customview.MyTextView
+                                android:id="@+id/tv_filter_clear"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:background="@drawable/blue_btn_rectangle"
+                                android:gravity="center"
+                                android:padding="@dimen/_5sdp"
+                                android:text="Clear"
+                                android:textSize="@dimen/_12ssp"
+                                android:textColor="@color/white"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/tv_filter_submit"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/tv_filter_submit" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

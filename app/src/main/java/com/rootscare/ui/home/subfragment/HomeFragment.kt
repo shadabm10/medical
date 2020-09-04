@@ -19,6 +19,7 @@ import com.rootscare.databinding.FragmentHomeBinding
 import com.rootscare.interfaces.OnItemClikWithIdListener
 import com.rootscare.ui.babysitter.babysitterseealllist.FragmentBabysitterSeeallListingByGrid
 import com.rootscare.ui.base.BaseFragment
+import com.rootscare.ui.caregiver.caregiverlistingdetails.FragmentCaregiverUpdateListingDetails
 import com.rootscare.ui.caregiver.caregiverseealllisting.FragmentCaregiverSeeAllListingByGrid
 import com.rootscare.ui.doctorlistingdetails.FragmentDoctorListingDetails
 import com.rootscare.ui.home.HomeActivity
@@ -28,6 +29,7 @@ import com.rootscare.ui.nurses.FragmentNursesListByGrid
 import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
 import com.rootscare.ui.physiotherapy.FragmentSeeAllPhysiotherapyListing
 import com.rootscare.ui.seealldoctorbygrid.FragmentSeeAllDoctorByGrid
+import com.rootscare.ui.seeallhospitalbygrid.FragmentSeeAllHospitalByGrid
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewmodel>(), HomeFragmentNavigator {
     private var fragmentHomeBinding: FragmentHomeBinding? = null
@@ -81,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewmodel>(),
         })
         fragmentHomeBinding?.llHomeHospitalSeeAll?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
-                FragmentSeeAllHospitalList.newInstance())
+                FragmentSeeAllHospitalByGrid.newInstance())
         })
         fragmentHomeBinding?.llHomePhsiotherapySeeAll?.setOnClickListener(View.OnClickListener {
             (activity as HomeActivity).checkFragmentInBackstackAndOpen(
@@ -226,6 +228,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeFragmentViewmodel>(),
         recyclerView.setHasFixedSize(true)
         val contactListAdapter = AdapterCaregiverRecyclerview(caregiverList,context!!)
         recyclerView.adapter = contactListAdapter
+        contactListAdapter?.recyclerViewRootCareCareGiverList= object : OnItemClikWithIdListener {
+            override fun onItemClick(id: Int) {
+                (activity as HomeActivity).checkFragmentInBackstackAndOpen(
+                    FragmentCaregiverUpdateListingDetails.newInstance(id.toString()))
+            }
+
+        }
 
 
     }

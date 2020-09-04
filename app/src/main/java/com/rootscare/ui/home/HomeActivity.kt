@@ -2,12 +2,12 @@ package com.rootscare.ui.home
 
 import android.Manifest
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -29,7 +29,6 @@ import com.rootscare.BR
 import com.rootscare.R
 import com.rootscare.adapter.DrawerAdapter
 import com.rootscare.databinding.ActivityHomeBinding
-import com.rootscare.databinding.FragmentSeeAllDoctorByGridBinding
 import com.rootscare.interfaces.DialogClickCallback
 import com.rootscare.interfaces.OnItemClickListener
 import com.rootscare.model.DrawerDatatype
@@ -39,8 +38,13 @@ import com.rootscare.ui.bookingappointment.FragmentBookingAppointment
 import com.rootscare.ui.bookingappointment.subfragment.FragmentAddPatientForDoctorBooking
 import com.rootscare.ui.bookingcart.FragmentBookingCart
 import com.rootscare.ui.cancellappointment.FragmentCancellMyUcomingAppointment
+import com.rootscare.ui.caregiver.bookingappointment.FragmentCaregiverBookingAppointment
+import com.rootscare.ui.caregiver.caregivercategorylisting.FragmentCaregiverCategoryListing
+import com.rootscare.ui.caregiver.caregiverlistingdetails.FragmentCaregiverUpdateListingDetails
+import com.rootscare.ui.caregiver.caregiverseealllisting.FragmentCaregiverSeeAllListingByGrid
 import com.rootscare.ui.doctorlistingdetails.FragmentDoctorListingDetails
 import com.rootscare.ui.home.subfragment.HomeFragment
+import com.rootscare.ui.hospital.FragmentSeeAllHospitalList
 import com.rootscare.ui.login.LoginActivity
 import com.rootscare.ui.medicalrecords.FragmentMedicalRecords
 import com.rootscare.ui.myappointment.FragmentMyAppointment
@@ -49,7 +53,6 @@ import com.rootscare.ui.notification.FragmentNotification
 import com.rootscare.ui.nurses.FragmentNursesListByGrid
 import com.rootscare.ui.nurses.addpatient.FragmentNurseAddPatient
 import com.rootscare.ui.nurses.editpatient.FragmentNurseEditPatient
-import com.rootscare.ui.nurses.nursesbookingappointment.FragmentNursesBookingAppointment
 import com.rootscare.ui.nurses.nursescategorylisting.FragmentNursesCategoryListing
 import com.rootscare.ui.nurses.nurseslistingdetails.FragmentNursesListingDetails
 import com.rootscare.ui.nurses.review.FragmentNurseReviewSubmit
@@ -59,10 +62,12 @@ import com.rootscare.ui.paymenthistory.FragmentPaymentHistory
 import com.rootscare.ui.profile.FragmentProfile
 import com.rootscare.ui.reviewandrating.FragmentReviewAndRating
 import com.rootscare.ui.seealldoctorbygrid.FragmentSeeAllDoctorByGrid
+import com.rootscare.ui.seeallhospitalbygrid.FragmentSeeAllHospitalByGrid
 import com.rootscare.ui.submitfeedback.FragmentSubmitReview
 import com.rootscare.ui.todaysappointment.FragmentTodaysAppointment
 import com.rootscare.ui.viewprescription.FragmnetViewPrespriction
 import com.rootscare.utils.BottomNavigationViewHelper
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.common_toolbar.*
 import java.util.*
 
@@ -483,7 +488,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
                 check_for_close = true
                 Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
                 Handler().postDelayed({ check_for_close = false }, 2000)
-            } else if(supportFragmentManager.findFragmentById(R.id.layout_container) is FragmentBookingAppointment){
+            }
+            else if(supportFragmentManager.findFragmentById(R.id.layout_container) is FragmentBookingAppointment){
 
 
                     CommonDialog.showDialog(this@HomeActivity, object :
@@ -502,7 +508,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
 
 
-            } else if(supportFragmentManager.findFragmentById(R.id.layout_container) is FragmentNursesBookingAppointment){
+            }
+            else if(supportFragmentManager.findFragmentById(R.id.layout_container) is FragmentCaregiverUpdateListingDetails){
                 CommonDialog.showDialog(this@HomeActivity, object :
                     DialogClickCallback {
                     override fun onDismiss() {
@@ -511,7 +518,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
                     override fun onConfirm() {
                         checkFragmentInBackstackAndOpen(HomeFragment.newInstance())
 
-                        //   getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                         //  getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
 
                 }, "Warning !!", "Once you back your all selected data will be disappear")
@@ -592,6 +599,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
         }
         // Check only desired item and select the item and unselect other items
         if (fragment is HomeFragment) {
+            Log.d(TAG, "Home Fragment: ")
             menu.findItem(R.id.navigation_home).isChecked = true
             /*menu.findItem(R.id.navigation_home).setIcon(R.drawable.specials_icon_selected);
             menu.findItem(R.id.navigation_collection).setIcon(R.drawable.collections_icon);
@@ -599,15 +607,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
             menu.findItem(R.id.navigation_events).setIcon(R.drawable.event_icon);
             menu.findItem(R.id.navigation_favourites).setIcon(R.drawable.favourites_icon);*/
         } else if (fragment is FragmentProfile) {
+            Log.d(TAG, "Profile Fragment: ")
             menu.findItem(R.id.navigation_profile).isChecked = true
 //            menu.findItem(R.id.navigation_home).setIcon(R.drawable.home_deselect);
 //            menu.findItem(R.id.navigation_booking).setIcon(R.drawable.booking_deselect);
 //            menu.findItem(R.id.navigation_cart).setIcon(R.drawable.cart_deselect);
 //            menu.findItem(R.id.navigation_profile).setIcon(R.drawable.profile_select);
         }else if (fragment is FragmentMyAppointment) {
+            Log.d(TAG, "appoint Fragment: ")
             menu.findItem(R.id.navigation_booking).isChecked = true
         }
         else if (fragment is FragmentBookingCart) {
+            Log.d(TAG, "Cart Fragment: ")
             menu.findItem(R.id.navigation_cart).isChecked = true
         }
 //        else if (fragment is FragmentPatientbookPayNow) {
@@ -1174,7 +1185,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
         }
 
-        else if (fragment is FragmentNursesBookingAppointment) {
+        else if (fragment is FragmentCaregiverBookingAppointment) {
             //   drawerAdapter!!.selectItem(3)
             tootbar_text.text ="Roots Care"
             tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
@@ -1251,6 +1262,124 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
         else if (fragment is FragmentNurseEditPatient) {
             //   drawerAdapter!!.selectItem(3)
             tootbar_text.text ="Edit Patient"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+        else if (fragment is FragmentSeeAllHospitalByGrid) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Hospital List"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+        else if (fragment is FragmentCaregiverSeeAllListingByGrid) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Caregiver List"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+
+
+        else if (fragment is FragmentCaregiverCategoryListing) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Caregiver List"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+
+        else if (fragment is FragmentCaregiverBookingAppointment) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Caregiver Details"
+            tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
+            toolbar_profile?.visibility=View.VISIBLE
+            tootlebar_notification?.visibility=View.VISIBLE
+            toolbar_back?.visibility=View.VISIBLE
+            toolbar_menu?.visibility=View.GONE
+            tootlebar_profile?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentProfile.newInstance())
+            })
+            tootlebar_notification?.setOnClickListener(View.OnClickListener {
+                checkFragmentInBackstackAndOpen(FragmentNotification.newInstance())
+            })
+            toolbar_logout?.setOnClickListener(View.OnClickListener {
+                logout()
+            })
+
+            toolbar_back?.setOnClickListener(View.OnClickListener {
+                onBackPressed()
+            })
+
+        }
+        else if (fragment is FragmentCaregiverUpdateListingDetails) {
+            //   drawerAdapter!!.selectItem(3)
+            tootbar_text.text ="Caregiver Details"
             tootbar_text.setTextColor(ContextCompat.getColor(this@HomeActivity, android.R.color.white))
             toolbar_profile?.visibility=View.VISIBLE
             tootlebar_notification?.visibility=View.VISIBLE
@@ -1368,5 +1497,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeActivityViewModel>(),
 
     private fun init() {
 
+    }
+    override fun onResume() {
+        super.onResume()
+        val menu: Menu = navigation.getMenu()
+               for (i in 0 until menu.size()) {
+                   val menuItem = menu.getItem(i)
+                   Log.d(TAG, "onResume: "+ menu.getItem(i))
+                  // navigation. menu.getItem(i).setChecked(true)
+               }
     }
 }

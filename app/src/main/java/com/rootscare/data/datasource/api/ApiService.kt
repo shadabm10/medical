@@ -40,6 +40,8 @@ import com.rootscare.data.model.api.request.reschedule.DoctorAppointmentReschedu
 import com.rootscare.data.model.api.response.appointcancelresponse.AppointmentCancelResponse
 import com.rootscare.data.model.api.response.appointmentdetails.DoctorAppointmentResponse
 import com.rootscare.data.model.api.response.appointmenthistoryresponse.AppointmentHistoryResponse
+import com.rootscare.data.model.api.response.caregiverallresponse.allcaregiverlistingresponse.AllCaregiverListingResponse
+import com.rootscare.data.model.api.response.caregiverallresponse.caregiverlist.GetCaregiverListResponse
 import com.rootscare.data.model.api.response.deactivateaccountresponse.DeactivateAccountResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.alldoctorlistingresponse.AllDoctorListingResponse
 import com.rootscare.data.model.api.response.doctorallapiresponse.checkoutdoctorbookingresponse.CheckoutDoctorBookingResponse
@@ -55,6 +57,7 @@ import com.rootscare.data.model.api.response.doctorallapiresponse.doctorreviewsu
 import com.rootscare.data.model.api.response.editpatientfamilymemberresponse.EditFamilyMemberResponse
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordchangepassword.ForgotPasswordChangePasswordResponse
 import com.rootscare.data.model.api.response.forgotpasswordresponse.forgotpasswordsendmailresponse.ForgotPasswordSendMailResponse
+import com.rootscare.data.model.api.response.hospitalallapiresponse.allhospitalistingresponse.AllHospitalListingResponse
 import com.rootscare.data.model.api.response.loginresponse.LoginResponse
 import com.rootscare.data.model.api.response.medicalfiledeleteresponse.MedicalFileDeleteResponse
 import com.rootscare.data.model.api.response.medicalrecordresponse.MedicalRecordListResponse
@@ -143,8 +146,26 @@ interface ApiService {
     @POST("api-doctor-list")
     fun apidoctorlist(): Single<AllDoctorListingResponse>
 
+
+
+    @POST("api-hospital-list")
+    fun apihospitallist(): Single<AllHospitalListingResponse>
+
+
+    @GET("api-caregiver-list")
+    fun apicaregivelist(): Single<AllCaregiverListingResponse>
+
+
+    @GET("api-caregiver-list")
+    fun apicaregivelist1(): Single<GetCaregiverListResponse>
+
     @POST("api-department-doctor-list")
     fun apidepartmentdoctorlist(@Body doctorListByDepartmentIdRequestBody: DoctorListByDepartmentIdRequest): Single<AllDoctorListingResponse>
+
+
+
+    @POST("api-department-hospital-list")
+    fun apidepartmenthospitallist(@Body doctorListByDepartmentIdRequestBody: DoctorListByDepartmentIdRequest): Single<AllHospitalListingResponse>
 
     @POST("api-doctor-details")
     fun apidoctordetails(@Body doctorDetailsRequestBody: DoctorDetailsRequest): Single<DoctorDetailsResponse>
@@ -204,6 +225,10 @@ interface ApiService {
 
     @POST("api-search-doctor")
     fun apisearchdoctor(@Body seeAllDoctorSearchRequestBody: SeeAllDoctorSearch): Single<AllDoctorListingResponse>
+
+
+    @POST("api-search-hospital")
+    fun apisearchhospital(@Body seeAllDoctorSearchRequestBody: SeeAllDoctorSearch): Single<AllHospitalListingResponse>
 
     @POST("api-appointment-details")
     fun apiappointmentdetails(@Body appointmentDetailsRequestBody: AppointmentDetailsRequest): Single<DoctorAppointmentResponse>
@@ -273,11 +298,23 @@ interface ApiService {
     @POST("api-search-nurse")
     fun apisearchnurse(@Body nurseSearchByNameRequestBody: NurseSearchByNameRequest): Single<GetNurseListResponse>
 
+
+    @POST("api-search-caregiver")
+    fun apisearchcaregiver(@Body nurseSearchByNameRequestBody: NurseSearchByNameRequest): Single<GetCaregiverListResponse>
+
+
+    @POST("api-search-caregiver")
+    fun apisearchcaregiverGrid(@Body nurseSearchByNameRequestBody: NurseSearchByNameRequest): Single<AllCaregiverListingResponse>
+
     @POST("api-department-nurse-list")
     fun apidepartmentnurselist(@Body departmentNurseListRequestBody: DepartmentNurseListRequest): Single<GetNurseListResponse>
 
     @POST("api-nurse-details")
     fun apinursedetails(@Body nurseDetailsRequestBody: NurseDetailsRequest): Single<NurseDetailsResponse>
+
+
+    @POST("api-caregiver-details")
+    fun apicaregiverdetails(@Body nurseDetailsRequestBody: NurseDetailsRequest): Single<NurseDetailsResponse>
 
     @POST("task-based-slots")
     fun taskbasedslots(@Body nurseSlotRequestBody: NurseSlotRequest): Single<NueseViewTimingsResponse>
@@ -293,6 +330,20 @@ interface ApiService {
     fun apibookcartnurse(@Part("patient_id") patient_id: RequestBody,
                                  @Part("family_member_id") family_member_id: RequestBody,
                                  @Part("nurse_id") nurse_id: RequestBody,
+                                 @Part("from_date") from_date: RequestBody,
+                                 @Part("to_date") to_date: RequestBody,
+                                 @Part("from_time") from_time: RequestBody,
+                                 @Part("to_time") to_time: RequestBody,
+                                 @Part("price") price: RequestBody,
+                                 @Part symptom_recording: MultipartBody.Part,
+                                 @Part("symptom_text") symptom_text: RequestBody,
+                                 @Part upload_prescription: MultipartBody.Part,
+                                 @Part("appointment_type") appointment_type: RequestBody): Single<NurseBookAppointmentResponse>
+ @Multipart
+    @POST("api-book-cart-caregiver")
+    fun apibookcartcaregiver(@Part("patient_id") patient_id: RequestBody,
+                                 @Part("family_member_id") family_member_id: RequestBody,
+                                 @Part("caregiver_id") nurse_id: RequestBody,
                                  @Part("from_date") from_date: RequestBody,
                                  @Part("to_date") to_date: RequestBody,
                                  @Part("from_time") from_time: RequestBody,
